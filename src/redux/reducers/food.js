@@ -19,8 +19,8 @@ const initialState = {
 const food = (state = initialState, action) => {
   switch (action.type) {
     case GET_ALL_FOODS:
-      // let data = action.payload;
-      // console.log("payload ===> ", data);
+      let data = action.payload;
+      console.log("payload ===> ", data[0]);
       return {
         ...state,
         burger: action.payload.burger,

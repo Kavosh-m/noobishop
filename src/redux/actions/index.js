@@ -69,7 +69,7 @@ export function fetchAllFoods() {
     // first, get all of foods title and put them into an array
     let categories = collection(db, "foods");
     const titles = [];
-    let ALL = {};
+    const ALL = [];
 
     const c = await getDocs(categories);
     c.docs.forEach((doc) => {
@@ -83,16 +83,18 @@ export function fetchAllFoods() {
       const temp = [];
       const d = await getDocs(foodsCol);
       d.docs.forEach((doc) => temp.push({ ...doc.data(), id: doc.id }));
-      ALL[title] = temp;
-      // ALL = { ...ALL, [title]: temp };
+      ALL.push({ category: title, data: temp });
+      // console.log("temp", temp);
     });
 
     console.log("All ===> ", ALL);
 
-    dispatch({
-      type: GET_ALL_FOODS,
-      payload: ALL,
-    });
+    if (ALL.length === titles.length) {
+      dispatch({
+        type: GET_ALL_FOODS,
+        payload: ALL,
+      });
+    }
   };
 }
 

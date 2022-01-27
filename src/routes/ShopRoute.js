@@ -1,7 +1,12 @@
 import React, { useEffect, useState } from "react";
 import MainWrapper from "../components/MainWrapper";
-import { useSelector, useDispatch } from "react-redux";
-import { fetchBurgers } from "../redux/actions";
+import { useSelector } from "react-redux";
+// import {
+//   fetchBurgers,
+//   fetchPizzas,
+//   fetchPastas,
+//   fetchDrinks,
+// } from "../redux/app/slices/foodSlice";
 import ShopCard from "../components/shop/ShopCard";
 import LoadingIndicator from "../components/LoadingIndicator";
 import { shopHeader } from "../constants";
@@ -12,27 +17,50 @@ import Select from "@mui/material/Select";
 import SearchIcon from "../components/icons/SearchIcon";
 
 const ShopRoute = () => {
-  const burgerss = useSelector((state) => state.foodState.burger);
-  // const burgerss = [...burgerss];
-  const dispatch = useDispatch();
+  const burgers = useSelector((state) => state.food.burger);
+  const pizzas = useSelector((state) => state.food.pizza);
+  const pastas = useSelector((state) => state.food.pasta);
+  const drinks = useSelector((state) => state.food.drink);
+
+  const [currentFood, setCurrentFood] = useState({
+    name: "burger",
+    data: burgers,
+  });
+  // const [burgerss, setBurgerss] = useState(null);
   const [gridLayout, setGridLayout] = useState({ grid: true, layout: false });
 
   const [sortType, setSortType] = useState("alphabetical");
   const [sortToggle, setSortToggle] = useState(false);
-  // const [sortData, setSortData] = useState(burgerss);
   const [search, setSearch] = useState("");
 
   const handleChange = (event) => {
     setSortType(event.target.value);
   };
 
-  // useEffect(() => {
+  const handleChangeCategory = () => {
+    if (currentFood.name === "burger") {
+      setCurrentFood({ ...currentFood, data: burgers });
+      setSortToggle(!sortToggle);
+    } else if (currentFood.name === "pizza") {
+      setCurrentFood({ ...currentFood, data: pizzas });
+      setSortToggle(!sortToggle);
+    } else if (currentFood.name === "pasta") {
+      setCurrentFood({ ...currentFood, data: pastas });
+      setSortToggle(!sortToggle);
+    } else {
+      setCurrentFood({ ...currentFood, data: drinks });
+      setSortToggle(!sortToggle);
+    }
+  };
 
-  // }, [burgerss]);
+  useEffect(() => {
+    handleChangeCategory();
+  }, [currentFood.name]);
 
   // sort by name
   const sort_by_product_name = () => {
-    burgerss?.sort((a, b) => {
+    const b = [...currentFood.data];
+    b?.sort((a, b) => {
       let x = a.name.toLowerCase();
       let y = b.name.toLowerCase();
       if (x < y) {
@@ -43,39 +71,45 @@ const ShopRoute = () => {
       }
       return 0;
     });
-    // setSortData(sorted);
+    setCurrentFood({ ...currentFood, data: b });
     setSortToggle(!sortToggle);
   };
 
   // sort by price (low to high)
   const sort_by_product_price_low_to_high = () => {
-    burgerss?.sort((a, b) => a.price - b.price);
+    const b = [...currentFood.data];
+    b?.sort((a, b) => a.price - b.price);
     // setSortData(sorted);
+    setCurrentFood({ ...currentFood, data: b });
     setSortToggle(!sortToggle);
   };
 
   // sort by price (high to low)
   const sort_by_product_price_high_to_low = () => {
-    burgerss?.sort((a, b) => b.price - a.price);
+    const b = [...currentFood.data];
+    b?.sort((a, b) => b.price - a.price);
     // setSortData(sorted);
+    setCurrentFood({ ...currentFood, data: b });
     setSortToggle(!sortToggle);
   };
 
   useEffect(() => {
-    if (sortType === "priceLowToHigh") {
-      sort_by_product_price_low_to_high();
-    } else if (sortType === "priceHighToLow") {
-      sort_by_product_price_high_to_low();
-    } else {
-      sort_by_product_name();
+    if (currentFood.data) {
+      if (sortType === "priceLowToHigh") {
+        sort_by_product_price_low_to_high();
+      } else if (sortType === "priceHighToLow") {
+        sort_by_product_price_high_to_low();
+      } else {
+        sort_by_product_name();
+      }
     }
-  }, [sortType, burgerss]);
+  }, [sortType]);
 
-  useEffect(() => {
-    dispatch(fetchBurgers());
-  }, []);
+  // useEffect(() => {
 
-  if (!burgerss) {
+  // }, [dispatch]);
+
+  if (!currentFood.data) {
     return (
       <div className="flex flex-col relative items-center justify-center w-screen h-screen">
         <LoadingIndicator />
@@ -116,6 +150,40 @@ const ShopRoute = () => {
             </div>
             <div className="w-36 border-b-[1px] border-black pb-[2px] mt-14">
               <p className="">Categories</p>
+            </div>
+            <div className="flex flex-col items-start space-y-2 mt-3">
+              <button
+                onClick={() =>
+                  setCurrentFood({ ...currentFood, name: "burger" })
+                }
+                className="py-1 hover:text-red-400 transition duration-300 ease-in-out"
+              >
+                Burger
+              </button>
+              <button
+                onClick={() =>
+                  setCurrentFood({ ...currentFood, name: "pizza" })
+                }
+                className="py-1 hover:text-red-400 transition duration-300 ease-in-out"
+              >
+                Pizza
+              </button>
+              <button
+                onClick={() =>
+                  setCurrentFood({ ...currentFood, name: "pasta" })
+                }
+                className="py-1 hover:text-red-400 transition duration-300 ease-in-out"
+              >
+                Pasta
+              </button>
+              <button
+                onClick={() =>
+                  setCurrentFood({ ...currentFood, name: "drink" })
+                }
+                className="py-1 hover:text-red-400 transition duration-300 ease-in-out"
+              >
+                Drink
+              </button>
             </div>
           </div>
 
@@ -173,7 +241,7 @@ const ShopRoute = () => {
                   </MenuItem>
                 </Select>
               </div>
-              {burgerss?.map((item) => (
+              {currentFood.data?.map((item) => (
                 <div className="flex items-center justify-center bg-gray-100">
                   <ShopCard key={item.id} data={item} />
                 </div>
