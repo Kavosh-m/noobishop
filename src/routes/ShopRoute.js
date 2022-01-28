@@ -111,7 +111,7 @@ const ShopRoute = () => {
 
   if (!currentFood.data) {
     return (
-      <div className="flex flex-col relative items-center justify-center w-screen h-screen">
+      <div className="relative flex h-screen w-screen flex-col items-center justify-center">
         <LoadingIndicator />
       </div>
     );
@@ -121,42 +121,42 @@ const ShopRoute = () => {
     <MainWrapper>
       <div>
         {/* Header image goes here */}
-        <div className="w-full h-[375px] bg-gray-300">
+        <div className="h-[375px] w-full bg-gray-300">
           <img
             src={shopHeader}
             alt=""
-            className="w-full h-full object-fill brightness-50"
+            className="h-full w-full object-fill brightness-50"
           />
         </div>
 
         {/* Main page content goes here */}
-        <div className="grid grid-cols-4 mx-10 mt-24">
-          <div className="flex flex-col flex-grow-0">
+        <div className="mx-10 mt-24 grid grid-cols-4">
+          <div className="flex flex-grow-0 flex-col">
             <div className="w-36 border-b-[1px] border-black pb-[2px]">
               <p className="">Search</p>
             </div>
-            <div className="flex items-center justify-start mt-8">
+            <div className="mt-8 flex items-center justify-start">
               <input
-                className="w-48 p-[0.83rem] border-[1px] text-sm rounded-tl-md rounded-bl-md border-gray-400 focus:border-red-400 outline-none"
+                className="w-48 rounded-tl-md rounded-bl-md border-[1px] border-gray-400 p-[0.83rem] text-sm outline-none focus:border-red-400"
                 type="text"
                 placeholder="Search..."
                 value={search}
                 onChange={(evt) => setSearch(evt.target.value)}
               />
 
-              <button className="rounded-tr-md rounded-br-md p-4 bg-black outline outline-1 outline-black">
+              <button className="rounded-tr-md rounded-br-md bg-black p-4 outline outline-1 outline-black">
                 <SearchIcon />
               </button>
             </div>
-            <div className="w-36 border-b-[1px] border-black pb-[2px] mt-14">
+            <div className="mt-14 w-36 border-b-[1px] border-black pb-[2px]">
               <p className="">Categories</p>
             </div>
-            <div className="flex flex-col items-start space-y-2 mt-3">
+            <div className="mt-3 flex flex-col items-start space-y-2">
               <button
                 onClick={() =>
                   setCurrentFood({ ...currentFood, name: "burger" })
                 }
-                className="py-1 hover:text-red-400 transition duration-300 ease-in-out"
+                className="py-1 transition duration-300 ease-in-out hover:text-red-400"
               >
                 Burger
               </button>
@@ -164,7 +164,7 @@ const ShopRoute = () => {
                 onClick={() =>
                   setCurrentFood({ ...currentFood, name: "pizza" })
                 }
-                className="py-1 hover:text-red-400 transition duration-300 ease-in-out"
+                className="py-1 transition duration-300 ease-in-out hover:text-red-400"
               >
                 Pizza
               </button>
@@ -172,7 +172,7 @@ const ShopRoute = () => {
                 onClick={() =>
                   setCurrentFood({ ...currentFood, name: "pasta" })
                 }
-                className="py-1 hover:text-red-400 transition duration-300 ease-in-out"
+                className="py-1 transition duration-300 ease-in-out hover:text-red-400"
               >
                 Pasta
               </button>
@@ -180,7 +180,7 @@ const ShopRoute = () => {
                 onClick={() =>
                   setCurrentFood({ ...currentFood, name: "drink" })
                 }
-                className="py-1 hover:text-red-400 transition duration-300 ease-in-out"
+                className="py-1 transition duration-300 ease-in-out hover:text-red-400"
               >
                 Drink
               </button>
@@ -188,8 +188,8 @@ const ShopRoute = () => {
           </div>
 
           <div className="col-span-3 flex items-center justify-center">
-            <div className="grid grid-cols-3 w-full gap-10">
-              <div className="col-span-3 border-2 py-3 px-9 flex items-center justify-between">
+            <div className="grid w-full grid-cols-3 gap-10">
+              <div className="col-span-3 flex items-center justify-between border-2 py-3 px-9">
                 <div className="flex items-center justify-center space-x-1">
                   <button
                     onClick={() =>

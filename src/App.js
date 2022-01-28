@@ -23,6 +23,7 @@ import RegisterRoute from "./routes/RegisterRoute";
 import AboutRoute from "./routes/AboutRoute";
 import ShopRoute from "./routes/ShopRoute";
 import ProductDetailsRoute from "./routes/ProductDetailsRoute";
+import CartRoute from "./routes/CartRoute";
 
 import LoadingIndicator from "./components/LoadingIndicator";
 
@@ -53,7 +54,7 @@ export default function App() {
 
   if (isLoggedIn === null) {
     return (
-      <div className="flex flex-col relative items-center justify-center w-screen h-screen">
+      <div className="relative flex h-screen w-screen flex-col items-center justify-center">
         <LoadingIndicator />
       </div>
     );
@@ -72,6 +73,7 @@ export default function App() {
         <Route path="/about" element={<AboutRoute />} />
         <Route path="/shop" element={<ShopRoute />} />
         <Route path="/products/:id" element={<ProductDetailsRoute />} />
+        <Route path="/cart" element={<CartRoute />} />
       </Routes>
     </BrowserRouter>
   );
