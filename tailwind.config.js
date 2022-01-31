@@ -8,7 +8,7 @@ module.exports = {
         spinbackforth3: "spinbackforth3 2s linear infinite",
         spinbackforth4: "spinbackforth4 2s linear infinite",
         spin_slow: "spin_slow 3s linear infinite",
-        leftToRight: "leftToRight 300ms linear",
+        leftToRight: "leftToRight 300ms linear forwards",
         fadeInTop2Bottom: "fadeInTop2Bottom 300ms linear",
         fadeInBottom2Top: "fadeInBottom2Top 300ms linear",
       },
@@ -80,6 +80,7 @@ module.exports = {
             transform: "translateX(-1.5rem)",
           },
           "100%": {
+            visibility: "visible",
             opacity: "1",
             transform: "translateX(0px)",
           },
@@ -96,6 +97,7 @@ module.exports = {
         },
         fadeInBottom2Top: {
           "0%": {
+            visibility: "var(--show)",
             opacity: "0",
             transform: "translateY(1.5rem)",
           },

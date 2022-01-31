@@ -24,9 +24,9 @@ const ProductDetailsRoute = () => {
 
   const handleAddToCart = () => {
     dispatch(saveOrders({ ...data, count: unit }));
-    setTimeout(() => {
-      navigate("/cart");
-    }, 200);
+    // setTimeout(() => {
+    //   navigate("/cart");
+    // }, 200);
   };
 
   useEffect(() => {

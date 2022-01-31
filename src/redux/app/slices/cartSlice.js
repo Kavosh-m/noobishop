@@ -4,6 +4,7 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   ordered: [],
+  totalPrice: 0,
 };
 
 export const cartSlice = createSlice({
@@ -11,7 +12,16 @@ export const cartSlice = createSlice({
   initialState,
   reducers: {
     saveOrders: (state, action) => {
+      let repetetive = state.ordered.filter(
+        (order) => order.id === action.payload.id
+      );
+      if (repetetive.length > 0) {
+        let index = state.ordered.indexOf(repetetive[0]);
+        state.ordered.splice(index, 1);
+      }
+
       state.ordered.push(action.payload);
+      state.totalPrice += action.payload.price * action.payload.count;
     },
     removeItem: (state, action) => {
       let id = action.payload.id;

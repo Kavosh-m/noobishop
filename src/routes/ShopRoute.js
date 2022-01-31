@@ -22,6 +22,7 @@ const ShopRoute = () => {
   const pastas = useSelector((state) => state.food.pasta);
   const drinks = useSelector((state) => state.food.drink);
 
+  // const [showType, setShowType] = useState("grid");
   const [currentFood, setCurrentFood] = useState({
     name: "burger",
     data: burgers,
@@ -242,8 +243,16 @@ const ShopRoute = () => {
                 </Select>
               </div>
               {currentFood.data?.map((item) => (
-                <div className="flex items-center justify-center bg-gray-100">
-                  <ShopCard key={item.id} data={item} />
+                <div
+                  className={`flex items-center ${
+                    gridLayout.layout && "col-span-3"
+                  } justify-center bg-gray-100`}
+                >
+                  <ShopCard
+                    showType={gridLayout.grid ? "grid" : "list"}
+                    key={item.id}
+                    data={item}
+                  />
                 </div>
               ))}
             </div>
