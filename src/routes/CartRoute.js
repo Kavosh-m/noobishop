@@ -33,10 +33,11 @@ const CartRoute = () => {
       url: "https://api.zarinpal.com/pg/v4/payment/request.json",
       method: "POST",
       data: params,
-      // headers: {
-      //   "Access-Control-Allow-Origin": "http://127.0.0.1:3000",
-      //   "Access-Control-Allow-Credentials": "true",
-      // },
+      headers: {
+        // "Access-Control-Allow-Origin": "*",
+        // "Access-Control-Allow-Credentials": "true",
+        // "Access-Control-Request-Method": "POST",
+      },
     })
       .then((response) => {
         const url = `https://www.zarinpal.com/pg/StartPay/Authority=${response.data.data.authority}`;

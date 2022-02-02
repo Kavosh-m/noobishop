@@ -1,6 +1,4 @@
 import { createSlice } from "@reduxjs/toolkit";
-// import { db } from "../../../firebase";
-// import { collection, getDocs } from "firebase/firestore";
 
 const initialState = {
   ordered: [],
@@ -32,7 +30,6 @@ export const cartSlice = createSlice({
     },
     changeNumberOfItem: (state, action) => {
       let id = action.payload.id;
-      //   let n = action.payload.count;
       let op = action.payload.operation;
 
       let temp = state.ordered.filter((item) => item.id === id);

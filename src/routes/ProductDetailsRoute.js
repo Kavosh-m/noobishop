@@ -3,6 +3,7 @@ import MainWrapper from "../components/MainWrapper";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { saveOrders } from "../redux/app/slices/cartSlice";
+import { saveToWishlist } from "../redux/app/slices/wishSlice";
 import { shopHeader } from "../constants";
 import Rating from "@mui/material/Rating";
 
@@ -105,7 +106,13 @@ const ProductDetailsRoute = () => {
                   </button>
                 </div>
                 <div>
-                  <button className="h-full w-full rounded-3xl border-[1px] border-gray-400 bg-white p-3 text-black transition duration-300 ease-in-out hover:border-red-300 hover:text-red-300">
+                  <button
+                    onClick={() => {
+                      dispatch(saveToWishlist(data));
+                      // navigate("/wish");
+                    }}
+                    className="h-full w-full rounded-3xl border-[1px] border-gray-400 bg-white p-3 text-black transition duration-300 ease-in-out hover:border-red-300 hover:text-red-300"
+                  >
                     Add to wishlist
                   </button>
                 </div>

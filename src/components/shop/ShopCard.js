@@ -2,13 +2,18 @@ import React, { useState } from "react";
 import Rating from "@mui/material/Rating";
 import BasketIcon from "../icons/BasketIcon";
 import HeartIconOutlined from "../icons/HeartIconOutlined";
+import HeartIcon from "../icons/HeartIcon";
 import EyeIcon from "../icons/EyeIcon";
 import { Link } from "react-router-dom";
 import { Dialog, Transition } from "@headlessui/react";
 import { useDispatch } from "react-redux";
 import { saveOrders } from "../../redux/app/slices/cartSlice";
+import { useSelector } from "react-redux";
+import { removeItemFromWishlist } from "../../redux/app/slices/wishSlice";
+import { saveToWishlist } from "../../redux/app/slices/wishSlice";
 
 const ShopCard = ({ data, showType }) => {
+  const wishlistIDs = useSelector((state) => state.wish.wishlistItemsID);
   const [entered, setEntered] = useState(false);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [num, setNum] = useState(0);
@@ -25,6 +30,14 @@ const ShopCard = ({ data, showType }) => {
   const handleAddToCart = () => {
     if (num > 0) {
       dispatch(saveOrders({ ...data, count: num }));
+    }
+  };
+
+  const handleWishlist = (data) => {
+    if (wishlistIDs.includes(data.id)) {
+      dispatch(removeItemFromWishlist({ id: data.id }));
+    } else {
+      dispatch(saveToWishlist(data));
     }
   };
 
@@ -116,10 +129,15 @@ const ShopCard = ({ data, showType }) => {
               <BasketIcon />
             </button>
             <button
+              onClick={() => handleWishlist(data)}
               title="Add to Wishlist"
               className="animate-leftToRight animation-delay-200 invisible hover:text-red-600"
             >
-              <HeartIconOutlined />
+              {wishlistIDs?.includes(data.id) ? (
+                <HeartIcon />
+              ) : (
+                <HeartIconOutlined />
+              )}
             </button>
             <button
               title="Quick View"

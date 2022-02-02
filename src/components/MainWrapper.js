@@ -56,6 +56,12 @@ export default function MainWrapper({ children }) {
             Shop
           </button>
           <button
+            onClick={() => navigate("/wish")}
+            className="transition duration-300 ease-in-out hover:text-red-400"
+          >
+            Wishlist
+          </button>
+          <button
             onClick={() => navigate("/about")}
             className="transition duration-300 ease-in-out hover:text-red-400"
           >

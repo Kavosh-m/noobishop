@@ -5,9 +5,9 @@ export default function HeartIcon() {
     <div>
       <svg
         xmlns="http://www.w3.org/2000/svg"
-        className="h-5 w-5"
+        className="h-6 w-6 text-red-600"
         viewBox="0 0 20 20"
-        fill="red"
+        fill="currentColor"
       >
         <path
           fillRule="evenodd"

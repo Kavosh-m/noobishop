@@ -24,6 +24,7 @@ import AboutRoute from "./routes/AboutRoute";
 import ShopRoute from "./routes/ShopRoute";
 import ProductDetailsRoute from "./routes/ProductDetailsRoute";
 import CartRoute from "./routes/CartRoute";
+import WishRoute from "./routes/WishRoute";
 
 import LoadingIndicator from "./components/LoadingIndicator";
 
@@ -74,6 +75,7 @@ export default function App() {
         <Route path="/shop" element={<ShopRoute />} />
         <Route path="/products/:id" element={<ProductDetailsRoute />} />
         <Route path="/cart" element={<CartRoute />} />
+        <Route path="/wish" element={<WishRoute />} />
       </Routes>
     </BrowserRouter>
   );
