@@ -5,11 +5,13 @@ import TrashIcon from "../components/icons/TrashIcon";
 import { changeNumberOfItem, removeItem } from "../redux/app/slices/cartSlice";
 import { shopHeader } from "../constants";
 import { Link } from "react-router-dom";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const CartRoute = () => {
   const orders = useSelector((state) => state.cart.ordered);
-  // const total = useSelector((state) => state.cart.totalPrice);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const handleIncrement = (id) => {
     dispatch(changeNumberOfItem({ id: id, operation: "addition" }));
@@ -17,6 +19,31 @@ const CartRoute = () => {
 
   const handleDecrement = (id) => {
     dispatch(changeNumberOfItem({ id: id, operation: "subtraction" }));
+  };
+
+  const params = {
+    merchant_id: process.env.REACT_APP_ZARINPAL_MERCHANT_CODE,
+    amount: 10000,
+    description: "Payment bill for Noobishop",
+    callback_url: "return://zarinpal",
+  };
+
+  const zarinpalGate = () => {
+    axios({
+      url: "https://api.zarinpal.com/pg/v4/payment/request.json",
+      method: "POST",
+      data: params,
+      // headers: {
+      //   "Access-Control-Allow-Origin": "http://127.0.0.1:3000",
+      //   "Access-Control-Allow-Credentials": "true",
+      // },
+    })
+      .then((response) => {
+        const url = `https://www.zarinpal.com/pg/StartPay/Authority=${response.data.data.authority}`;
+        // console.log("URL => ", url);
+        navigate(url);
+      })
+      .catch((error) => console.log("error happened ===> ", error));
   };
 
   return (
@@ -105,12 +132,12 @@ const CartRoute = () => {
         </div>
       </div>
       <div className="mx-auto flex w-3/4">
-        <Link
-          to="/checkout"
+        <button
+          onClick={zarinpalGate}
           className="basis-1/2 bg-red-400 p-3 text-center text-white transition duration-300 ease-in-out hover:bg-gray-300 hover:text-black"
         >
           PROCEED CHECKOUT
-        </Link>
+        </button>
       </div>
     </MainWrapper>
   );

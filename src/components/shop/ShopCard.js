@@ -5,16 +5,28 @@ import HeartIconOutlined from "../icons/HeartIconOutlined";
 import EyeIcon from "../icons/EyeIcon";
 import { Link } from "react-router-dom";
 import { Dialog, Transition } from "@headlessui/react";
+import { useDispatch } from "react-redux";
+import { saveOrders } from "../../redux/app/slices/cartSlice";
 
 const ShopCard = ({ data, showType }) => {
   const [entered, setEntered] = useState(false);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [num, setNum] = useState(0);
+  const dispatch = useDispatch();
 
-  // const navigate = useNavigate();
+  const handleIncrement = () => {
+    setNum(num + 1);
+  };
 
-  // const handleNavigateToProductDetailPage = () => {
-  //   navigate(`/products/${data.id}`, { state: data });
-  // };
+  const handleDecrement = () => {
+    setNum(num > 0 ? num - 1 : 0);
+  };
+
+  const handleAddToCart = () => {
+    if (num > 0) {
+      dispatch(saveOrders({ ...data, count: num }));
+    }
+  };
 
   if (showType === "list") {
     return (
@@ -96,13 +108,21 @@ const ShopCard = ({ data, showType }) => {
           </div>
         ) : (
           <div className="flex items-center justify-start space-x-3">
-            <button className="animate-leftToRight hover:text-red-600">
+            <button
+              title="Add to Cart"
+              onClick={() => dispatch(saveOrders({ ...data, count: 1 }))}
+              className="animate-leftToRight hover:text-red-600"
+            >
               <BasketIcon />
             </button>
-            <button className="animate-leftToRight animation-delay-200 invisible hover:text-red-600">
+            <button
+              title="Add to Wishlist"
+              className="animate-leftToRight animation-delay-200 invisible hover:text-red-600"
+            >
               <HeartIconOutlined />
             </button>
             <button
+              title="Quick View"
               onClick={() => setIsDialogOpen(true)}
               className="animate-leftToRight animation-delay-600 invisible"
             >
@@ -150,16 +170,16 @@ const ShopCard = ({ data, showType }) => {
                 <div className="grid grid-cols-3 gap-4">
                   <div className="flex flex-row items-center">
                     <button
-                      // onClick={handleDecrement}
+                      onClick={handleDecrement}
                       className="basis-1/4 border-[1px] border-gray-300 p-3 transition duration-300 ease-in-out hover:border-red-400 hover:bg-red-400 hover:text-white"
                     >
                       -
                     </button>
                     <div className="flex basis-1/2 items-center justify-center border-[1px] border-r-0 border-l-0 border-gray-300 p-3">
-                      <p>10</p>
+                      <p>{num}</p>
                     </div>
                     <button
-                      // onClick={handleIncrement}
+                      onClick={handleIncrement}
                       className="basis-1/4 border-[1px] border-gray-300 p-3 transition duration-300 ease-in-out hover:border-red-400 hover:bg-red-400 hover:text-white"
                     >
                       +
@@ -167,7 +187,7 @@ const ShopCard = ({ data, showType }) => {
                   </div>
                   <div>
                     <button
-                      // onClick={handleAddToCart}
+                      onClick={handleAddToCart}
                       className="h-full w-full rounded-3xl bg-red-400 p-3 text-white transition duration-300 ease-in-out hover:bg-gray-300 hover:text-black"
                     >
                       ADD TO CART

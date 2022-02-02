@@ -23,10 +23,9 @@ const ProductDetailsRoute = () => {
   };
 
   const handleAddToCart = () => {
-    dispatch(saveOrders({ ...data, count: unit }));
-    // setTimeout(() => {
-    //   navigate("/cart");
-    // }, 200);
+    if (unit > 0) {
+      dispatch(saveOrders({ ...data, count: unit }));
+    }
   };
 
   useEffect(() => {
@@ -98,6 +97,7 @@ const ProductDetailsRoute = () => {
                 </div>
                 <div>
                   <button
+                    disabled={unit > 0 ? false : true}
                     onClick={handleAddToCart}
                     className="h-full w-full rounded-3xl bg-red-400 p-3 text-white transition duration-300 ease-in-out hover:bg-gray-300 hover:text-black"
                   >
