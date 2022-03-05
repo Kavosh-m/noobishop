@@ -11,6 +11,7 @@ module.exports = {
         leftToRight: "leftToRight 300ms linear forwards",
         fadeInTop2Bottom: "fadeInTop2Bottom 300ms linear",
         fadeInBottom2Top: "fadeInBottom2Top 300ms linear",
+        dropDown: "dropDown 500ms linear forwards",
       },
       keyframes: {
         spinbackforth1: {
@@ -103,6 +104,14 @@ module.exports = {
           },
           "100%": {
             opacity: "1",
+            transform: "translateY(0px)",
+          },
+        },
+        dropDown: {
+          "0%": {
+            transform: "translateY(-100px)",
+          },
+          "100%": {
             transform: "translateY(0px)",
           },
         },
