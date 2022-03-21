@@ -2,6 +2,9 @@ module.exports = {
   content: ["./src/**/*.{js,jsx,ts,tsx}"],
   theme: {
     extend: {
+      screens: {
+        xsmall: "350px",
+      },
       animation: {
         spinbackforth1: "spinbackforth1 2s linear infinite",
         spinbackforth2: "spinbackforth2 2s linear infinite",
@@ -11,7 +14,12 @@ module.exports = {
         leftToRight: "leftToRight 300ms linear forwards",
         fadeInTop2Bottom: "fadeInTop2Bottom 300ms linear",
         fadeInBottom2Top: "fadeInBottom2Top 300ms linear",
-        dropDown: "dropDown 500ms linear forwards",
+        dropDown: "dropDown 600ms linear forwards",
+        scrollToTop: "scrollToTop 800ms linear forwards",
+        scrollToTopOut: "scrollToTopOut 800ms linear forwards",
+        fadeOutLeft: "fadeOutLeft 400ms linear forwards",
+        fadeInRight: "fadeInRight 100ms linear forwards",
+        fadeIn: "fadeIn 2000ms linear forwards",
       },
       keyframes: {
         spinbackforth1: {
@@ -109,10 +117,54 @@ module.exports = {
         },
         dropDown: {
           "0%": {
-            transform: "translateY(-100px)",
+            transform: "translateY(-100%)",
           },
           "100%": {
-            transform: "translateY(0px)",
+            transform: "translateY(0)",
+          },
+        },
+        scrollToTop: {
+          "0%": {
+            transform: "translateY(-100vh)",
+            opacity: 0,
+          },
+          "100%": {
+            transform: "translateY(0)",
+            opacity: 1,
+          },
+        },
+        scrollToTopOut: {
+          "0%": {
+            transform: "translateY(0)",
+            opacity: 1,
+          },
+          "100%": {
+            transform: "translateY(-100vh)",
+            opacity: 0,
+          },
+        },
+        fadeOutLeft: {
+          "0%": {
+            transform: "translateX(0)",
+          },
+          "100%": {
+            transform: "translateX(-100vw)",
+          },
+        },
+        fadeInRight: {
+          "0%": {
+            transform: "translateX(-100vw)",
+          },
+          "100%": {
+            transform: "translateX(0)",
+          },
+        },
+        fadeIn: {
+          "0%": {
+            opacity: 0,
+          },
+          "100%": {
+            opacity: 1,
           },
         },
       },

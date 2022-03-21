@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import Card from "../components/Card";
 import { useSelector } from "react-redux";
 import MainWrapper from "../components/MainWrapper";
+import Navbar from "../components/Navbar";
+import Footer from "../components/Footer";
 // import {
 //   fetchPizzas,
 //   fetchPastas,
@@ -34,15 +36,15 @@ const HomeRoute = () => {
   }, [pizzas, pastas, drinks, burgers]);
 
   return (
-    <MainWrapper>
-      <div className="my-16 py-20">
-        <div className="flex items-center space-x-6 overflow-x-auto py-6 px-4">
-          {all?.map((item) => (
-            <Card data={item} key={item.id} />
-          ))}
-        </div>
+    <div className="">
+      <Navbar />
+      <div className="flex items-center space-x-6 overflow-x-auto py-6 px-4">
+        {all?.map((item) => (
+          <Card data={item} key={item.id} />
+        ))}
       </div>
-    </MainWrapper>
+      <Footer />
+    </div>
   );
 };
 

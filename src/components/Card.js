@@ -1,32 +1,34 @@
-import React from "react";
+import React, { useState } from "react";
 import FireIcon from "./icons/FireIcon";
 import HeartIcon from "./icons/HeartIcon";
 
 export default function Card({ data }) {
+  const [isLoaded, setIsLoaded] = useState(false);
   return (
-    <div className="bg-gray-100 w-64 h-80 flex flex-col items-center justify-between flex-shrink-0 rounded-lg shadow-md shadow-gray-400 hover:shadow-lg hover:shadow-gray-600 transition-all duration-300 ease-in-out hover:scale-105">
-      <div className="w-full flex items-center justify-between px-3 py-3">
+    <div className="flex h-80 w-64 flex-shrink-0 flex-col items-center justify-between rounded-lg bg-gray-100 shadow-md shadow-gray-400 transition-all duration-300 ease-in-out hover:scale-105 hover:shadow-lg hover:shadow-gray-600">
+      <div className="flex w-full items-center justify-between px-3 py-3">
         <div className="flex items-center">
           <FireIcon />
-          <p className="text-xs ml-1">{data.calories} calories</p>
+          <p className="ml-1 text-xs">{data.calories} calories</p>
         </div>
         <HeartIcon />
       </div>
 
-      <div className="w-44 h-44 rounded-full shadow-lg shadow-gray-500">
+      <div className="h-44 w-44 rounded-full shadow-lg shadow-gray-500">
         <img
-          className="object-fill w-full h-full rounded-full"
+          // onLoad={() => setIsLoaded(true)}
+          className="h-full w-full rounded-full object-fill"
           src={data.picurl}
           alt=""
         />
       </div>
 
-      <div className="w-full flex flex-col px-3 pb-3">
-        <div className="w-full flex flex-col pb-4">
+      <div className="flex w-full flex-col px-3 pb-3">
+        <div className="flex w-full flex-col pb-4">
           <p className="text-base">{data.name}</p>
-          <p className="text-gray-400 text-sm">{data.extra}</p>
+          <p className="text-sm text-gray-400">{data.extra}</p>
         </div>
-        <p className="font-bold text-base">${data.price}</p>
+        <p className="text-base font-bold">${data.price}</p>
       </div>
     </div>
   );

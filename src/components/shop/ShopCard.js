@@ -43,22 +43,21 @@ const ShopCard = ({ data, showType }) => {
 
   if (showType === "list") {
     return (
-      <div className="flex w-full justify-between">
-        <div className="h-[18rem] basis-4/12 p-7">
-          <Link
-            to={{
-              pathname: `/products/${data.id}`,
-            }}
-            state={data}
-            // target="_blank"
-          >
-            <img
-              src={data.picurl}
-              alt=""
-              className="h-full w-full object-fill"
-            />
-          </Link>
-        </div>
+      <div className="flex w-full py-5">
+        <Link
+          className="h-[18rem] basis-4/12 px-7"
+          to={{
+            pathname: `/products/${data.id}`,
+          }}
+          state={data}
+          // target="_blank"
+        >
+          <img
+            src={data.picurl}
+            alt=""
+            className="h-full w-full object-contain"
+          />
+        </Link>
         <div className="basis-[60%] space-y-2 pt-10">
           <Rating name="four star" defaultValue={4.5} precision={0.5} />
           <div>
@@ -94,18 +93,21 @@ const ShopCard = ({ data, showType }) => {
       onMouseLeave={() => setEntered(false)}
       className="w-full transition duration-300 ease-in-out hover:shadow-lg hover:shadow-gray-400"
     >
-      <div className="h-[18rem] w-full">
-        <Link
-          to={{
-            pathname: `/products/${data.id}`,
-          }}
-          state={data}
-          // target="_blank"
-        >
-          <img src={data.picurl} className="h-full w-full object-fill" alt="" />
-        </Link>
-      </div>
-      <div className="space-y-2 py-3 pl-5">
+      <Link
+        className="h-[18rem] w-full"
+        to={{
+          pathname: `/products/${data.id}`,
+        }}
+        state={data}
+        // target="_blank"
+      >
+        <img
+          src={data.picurl}
+          className="aspect-square h-full object-fill"
+          alt=""
+        />
+      </Link>
+      <div className="space-y-2 py-5 pl-5">
         <Rating name="four star" defaultValue={4.5} precision={0.5} />
         <div>
           <button className="font-oswald text-lg font-semibold transition duration-300 ease-in-out hover:text-red-600">

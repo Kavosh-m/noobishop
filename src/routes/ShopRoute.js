@@ -1,12 +1,6 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import MainWrapper from "../components/MainWrapper";
 import { useSelector } from "react-redux";
-// import {
-//   fetchBurgers,
-//   fetchPizzas,
-//   fetchPastas,
-//   fetchDrinks,
-// } from "../redux/app/slices/foodSlice";
 import ShopCard from "../components/shop/ShopCard";
 import LoadingIndicator from "../components/LoadingIndicator";
 import { shopHeader } from "../constants";
@@ -15,6 +9,11 @@ import { CgLayoutList } from "react-icons/cg";
 import MenuItem from "@mui/material/MenuItem";
 import Select from "@mui/material/Select";
 import SearchIcon from "../components/icons/SearchIcon";
+import Navbar from "../components/Navbar";
+import Footer from "../components/Footer";
+import ShopLeftSidebar from "../components/ShopLeftSidebar";
+import ScrollToTopButton from "../components/ScrollToTopButton";
+import Sidebar from "../components/Sidebar";
 
 const ShopRoute = () => {
   const burgers = useSelector((state) => state.food.burger);
@@ -33,6 +32,18 @@ const ShopRoute = () => {
   const [sortType, setSortType] = useState("alphabetical");
   const [sortToggle, setSortToggle] = useState(false);
   const [search, setSearch] = useState("");
+
+  const [sidebar, setSidebar] = useState(false);
+
+  const handleSearch = () => {
+    let allFoods = burgers.concat(pizzas, pastas, drinks);
+    // console.log(allFoods);
+    let res = allFoods.filter((item) =>
+      item.name.toLowerCase().includes(search.toLowerCase())
+    );
+
+    setCurrentFood({ ...currentFood, data: res });
+  };
 
   const handleChange = (event) => {
     setSortType(event.target.value);
@@ -106,9 +117,7 @@ const ShopRoute = () => {
     }
   }, [sortType]);
 
-  // useEffect(() => {
-
-  // }, [dispatch]);
+  const mainView = useRef(null);
 
   if (!currentFood.data) {
     return (
@@ -119,147 +128,107 @@ const ShopRoute = () => {
   }
 
   return (
-    <MainWrapper>
-      <div>
+    <div ref={mainView} className="relative flex flex-col">
+      {sidebar && <Sidebar setSidebar={setSidebar} sidebar={sidebar} />}
+      <Navbar setSidebar={setSidebar} />
+      <div className="mx-0 flex w-full flex-col">
         {/* Header image goes here */}
         <div className="h-[375px] w-full bg-gray-300">
           <img
             src={shopHeader}
             alt=""
-            className="h-full w-full object-fill brightness-50"
+            className="h-full w-full object-cover brightness-50"
           />
         </div>
 
         {/* Main page content goes here */}
-        <div className="mx-10 mt-24 grid grid-cols-4">
-          <div className="flex flex-grow-0 flex-col">
-            <div className="w-36 border-b-[1px] border-black pb-[2px]">
-              <p className="">Search</p>
-            </div>
-            <div className="mt-8 flex items-center justify-start">
-              <input
-                className="w-48 rounded-tl-md rounded-bl-md border-[1px] border-gray-400 p-[0.83rem] text-sm outline-none focus:border-red-400"
-                type="text"
-                placeholder="Search..."
-                value={search}
-                onChange={(evt) => setSearch(evt.target.value)}
-              />
+        <div className="flex flex-col-reverse items-start py-4 lg:flex-row">
+          <ShopLeftSidebar
+            search={search}
+            setSearch={setSearch}
+            handleSearch={handleSearch}
+            currentFood={currentFood}
+            setCurrentFood={setCurrentFood}
+          />
 
-              <button className="rounded-tr-md rounded-br-md bg-black p-4 outline outline-1 outline-black">
-                <SearchIcon />
-              </button>
-            </div>
-            <div className="mt-14 w-36 border-b-[1px] border-black pb-[2px]">
-              <p className="">Categories</p>
-            </div>
-            <div className="mt-3 flex flex-col items-start space-y-2">
-              <button
-                onClick={() =>
-                  setCurrentFood({ ...currentFood, name: "burger" })
-                }
-                className="py-1 transition duration-300 ease-in-out hover:text-red-400"
-              >
-                Burger
-              </button>
-              <button
-                onClick={() =>
-                  setCurrentFood({ ...currentFood, name: "pizza" })
-                }
-                className="py-1 transition duration-300 ease-in-out hover:text-red-400"
-              >
-                Pizza
-              </button>
-              <button
-                onClick={() =>
-                  setCurrentFood({ ...currentFood, name: "pasta" })
-                }
-                className="py-1 transition duration-300 ease-in-out hover:text-red-400"
-              >
-                Pasta
-              </button>
-              <button
-                onClick={() =>
-                  setCurrentFood({ ...currentFood, name: "drink" })
-                }
-                className="py-1 transition duration-300 ease-in-out hover:text-red-400"
-              >
-                Drink
-              </button>
-            </div>
-          </div>
-
-          <div className="col-span-3 flex items-center justify-center">
-            <div className="grid w-full grid-cols-3 gap-10">
-              <div className="col-span-3 flex items-center justify-between border-2 py-3 px-9">
-                <div className="flex items-center justify-center space-x-1">
-                  <button
-                    onClick={() =>
-                      setGridLayout({
-                        ...gridLayout,
-                        grid: true,
-                        layout: false,
-                      })
-                    }
-                  >
-                    <CgLayoutGridSmall
-                      className={`${
-                        gridLayout.grid && "border-[1px] border-black"
-                      }`}
-                      size="3em"
-                    />
-                  </button>
-                  <button
-                    onClick={() =>
-                      setGridLayout({
-                        ...gridLayout,
-                        grid: false,
-                        layout: true,
-                      })
-                    }
-                  >
-                    <CgLayoutList
-                      className={`${
-                        gridLayout.layout && "border-[1px] border-black"
-                      }`}
-                      size="3em"
-                    />
-                  </button>
-                </div>
-                <Select
-                  value={sortType}
-                  onChange={handleChange}
-                  displayEmpty
-                  inputProps={{ "aria-label": "Without label" }}
+          {/* container of layout-sort bar and foods */}
+          <div className="grid w-full grid-cols-1 gap-10 bg-cyan-200 px-6 sm:grid-cols-2 sm:px-32 lg:mx-0 lg:grid-cols-3 lg:px-3">
+            {/* container of grid and sort stuff */}
+            <div className="xsmall:flex-row xsmall:space-y-0 col-span-1 flex flex-col items-center justify-between space-y-1 border-2 py-3 px-2 sm:col-span-2 sm:px-6 lg:col-span-3">
+              {/* container of two layout buttons (grid and list view) */}
+              <div className="flex items-center justify-center space-x-1">
+                <button
+                  onClick={() =>
+                    setGridLayout({
+                      ...gridLayout,
+                      grid: true,
+                      layout: false,
+                    })
+                  }
                 >
-                  <MenuItem value={"alphabetical"}>
-                    Alphabetically, A-Z
-                  </MenuItem>
-                  <MenuItem value={"priceLowToHigh"}>
-                    Sort by price: low to high
-                  </MenuItem>
-                  <MenuItem value={"priceHighToLow"}>
-                    Sort by price: high to low
-                  </MenuItem>
-                </Select>
-              </div>
-              {currentFood.data?.map((item) => (
-                <div
-                  className={`flex items-center ${
-                    gridLayout.layout && "col-span-3"
-                  } justify-center bg-gray-100`}
-                >
-                  <ShopCard
-                    showType={gridLayout.grid ? "grid" : "list"}
-                    key={item.id}
-                    data={item}
+                  <CgLayoutGridSmall
+                    className={`${
+                      gridLayout.grid && "border-[1px] border-black"
+                    }`}
+                    size="2em"
                   />
-                </div>
-              ))}
+                </button>
+                <button
+                  onClick={() =>
+                    setGridLayout({
+                      ...gridLayout,
+                      grid: false,
+                      layout: true,
+                    })
+                  }
+                >
+                  <CgLayoutList
+                    className={`${
+                      gridLayout.layout && "border-[1px] border-black"
+                    }`}
+                    size="2em"
+                  />
+                </button>
+              </div>
+
+              {/* sort items */}
+              <Select
+                size="small"
+                value={sortType}
+                onChange={handleChange}
+                displayEmpty
+                inputProps={{ "aria-label": "Without label" }}
+              >
+                <MenuItem value={"alphabetical"}>Alphabetically, A-Z</MenuItem>
+                <MenuItem value={"priceLowToHigh"}>
+                  Sort by price: low to high
+                </MenuItem>
+                <MenuItem value={"priceHighToLow"}>
+                  Sort by price: high to low
+                </MenuItem>
+              </Select>
             </div>
+
+            {/* products */}
+            {currentFood.data?.map((item) => (
+              <div
+                key={item.id}
+                className={`flex items-center ${
+                  gridLayout.layout && "col-span-1 sm:col-span-2 lg:col-span-3"
+                } justify-center bg-gray-100`}
+              >
+                <ShopCard
+                  showType={gridLayout.grid ? "grid" : "list"}
+                  data={item}
+                />
+              </div>
+            ))}
           </div>
         </div>
       </div>
-    </MainWrapper>
+      <Footer />
+      <ScrollToTopButton target={mainView} />
+    </div>
   );
 };
 
