@@ -25,6 +25,7 @@ import ShopRoute from "./routes/ShopRoute";
 import ProductDetailsRoute from "./routes/ProductDetailsRoute";
 import CartRoute from "./routes/CartRoute";
 import WishRoute from "./routes/WishRoute";
+import NotFoundRoute from "./routes/NotFoundRoute";
 
 import LoadingIndicator from "./components/LoadingIndicator";
 
@@ -34,6 +35,7 @@ export default function App() {
   const dispatch = useDispatch();
 
   const [isLoggedIn, setIsLoggedIn] = useState(null);
+
   const userExist = useState(auth.currentUser)[0];
 
   useEffect(() => {
@@ -64,18 +66,23 @@ export default function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<HomeRoute />} />
-        {!isLoggedIn && (
+        {!isLoggedIn ? (
           <>
-            <Route path="/login" element={<LoginRoute />} />
+            <Route path="/" element={<LoginRoute />} />
             <Route path="/register" element={<RegisterRoute />} />
+            <Route path="*" element={<NotFoundRoute />} />
+          </>
+        ) : (
+          <>
+            <Route path="/" element={<HomeRoute />} />
+            <Route path="/about" element={<AboutRoute />} />
+            <Route path="/shop" element={<ShopRoute />} />
+            <Route path="/products/:id" element={<ProductDetailsRoute />} />
+            <Route path="/cart" element={<CartRoute />} />
+            <Route path="/wish" element={<WishRoute />} />
+            <Route path="*" element={<NotFoundRoute />} />
           </>
         )}
-        <Route path="/about" element={<AboutRoute />} />
-        <Route path="/shop" element={<ShopRoute />} />
-        <Route path="/products/:id" element={<ProductDetailsRoute />} />
-        <Route path="/cart" element={<CartRoute />} />
-        <Route path="/wish" element={<WishRoute />} />
       </Routes>
     </BrowserRouter>
   );

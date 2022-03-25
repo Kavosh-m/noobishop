@@ -18,7 +18,8 @@ module.exports = {
         scrollToTop: "scrollToTop 800ms linear forwards",
         scrollToTopOut: "scrollToTopOut 800ms linear forwards",
         fadeOutLeft: "fadeOutLeft 400ms linear forwards",
-        fadeInRight: "fadeInRight 100ms linear forwards",
+        fadeInRight:
+          "fadeInRight 500ms cubic-bezier(0.1, 0.7, 1.0, 0.1) forwards",
         fadeIn: "fadeIn 2000ms linear forwards",
       },
       keyframes: {
@@ -154,9 +155,11 @@ module.exports = {
         fadeInRight: {
           "0%": {
             transform: "translateX(-100vw)",
+            opacity: 0,
           },
           "100%": {
             transform: "translateX(0)",
+            opacity: 1,
           },
         },
         fadeIn: {

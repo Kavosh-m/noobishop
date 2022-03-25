@@ -2,8 +2,8 @@ import React, { useState } from "react";
 // import { app } from "../firebase";
 import { auth } from "../firebase";
 import { RecaptchaVerifier, signInWithPhoneNumber } from "firebase/auth";
-import { useNavigate } from "react-router-dom";
-import MainWrapper from "../components/MainWrapper";
+import { Link, useNavigate } from "react-router-dom";
+import foodVideo from "../assets/videos/food.mp4";
 
 export default function LoginRoute() {
   // const auth = getAuth();
@@ -52,7 +52,7 @@ export default function LoginRoute() {
     final
       .confirm(otp)
       .then((result) => {
-        console.log("user loged-in succesfully");
+        // console.log("user loged-in succesfully ===> ", result);
         navigate("/");
       })
       .catch((err) => {
@@ -61,60 +61,66 @@ export default function LoginRoute() {
   };
 
   return (
-    <MainWrapper>
-      <div className="w-full flex items-center justify-center">
-        {!show ? (
-          <div className="w-[40vw] flex flex-col font-poppins text-sm items-center justify-between bg-gray-200 px-9 py-7 space-y-10 mx-0 my-24">
-            <div className="flex flex-col items-center justify-center space-y-2">
-              <p className="text-xl font-bold">Login</p>
-              <p>Please login using a valid phone number</p>
-            </div>
-            <input
-              type="text"
-              // pattern="[0-9]{3}[0-9]{3}[0-9]{4}"
-              placeholder="Phone (e.g. 9117778888)"
-              value={phonenumber}
-              onChange={(event) => setPhonenumber(event.target.value)}
-              className="w-full px-2 py-2 focus:outline focus:outline-red-400 focus:outline-1"
-            />
-            {/* <input
+    <div className="font-oswald relative flex min-h-screen w-screen items-center justify-center tracking-tight">
+      <video
+        className="absolute -z-10 h-full w-full object-fill opacity-30"
+        src={foodVideo}
+        autoPlay
+        muted
+        loop
+        controls={false}
+      />
+      {!show ? (
+        <div className="mx-0 my-24 flex w-[40vw] flex-col items-center justify-between space-y-10 bg-gray-200 px-9 py-7 text-base">
+          <div className="flex flex-col items-center justify-center space-y-2">
+            <p className="text-2xl font-bold">Login</p>
+            <p>Please login using a valid phone number</p>
+          </div>
+          <input
+            type="tel"
+            // pattern="[0-9]{3}[0-9]{3}[0-9]{4}"
+            placeholder="Phone (e.g. 9117778888)"
+            value={phonenumber}
+            onChange={(event) => setPhonenumber(event.target.value)}
+            className="w-full px-2 py-2 focus:outline focus:outline-1 focus:outline-red-400"
+          />
+          {/* <input
             type="password"
             placeholder="Enter your password..."
             className="w-full px-2 py-2 focus:outline focus:outline-red-400 focus:outline-1"
           /> */}
-            <div className="w-full">Remember Me</div>
-            <div className="w-full">
-              <button
-                onClick={handleSignIn}
-                className="w-24 rounded-3xl py-2 text-white bg-red-400 hover:text-black hover:bg-gray-300 transition duration-300 ease-in-out"
-              >
-                Send
-              </button>
-            </div>
-            <div className="w-full">
-              <button
-                onClick={() => navigate("/register")}
-                className="hover:text-red-400 transition duration-300 ease-in-out"
-              >
-                Create Account
-              </button>
-            </div>
-            <div id="recaptcha-container"></div>
-          </div>
-        ) : (
-          <div className="my-14 py-28">
-            <input
-              type="text"
-              placeholder="Enter code..."
-              value={otp}
-              onChange={(event) => setOtp(event.target.value)}
-            />
-            <button onClick={handleValidateOtp}>
-              <p>Confirm</p>
+
+          <div className="w-full">
+            <button
+              onClick={handleSignIn}
+              className="w-24 rounded-3xl bg-red-400 py-2 text-white transition duration-300 ease-in-out hover:bg-gray-300 hover:text-black"
+            >
+              Send
             </button>
           </div>
-        )}
-      </div>
-    </MainWrapper>
+          <div className="w-full">
+            <Link
+              to="/register"
+              className="transition duration-300 ease-in-out hover:text-red-400"
+            >
+              Create Account
+            </Link>
+          </div>
+          <div id="recaptcha-container"></div>
+        </div>
+      ) : (
+        <div className="my-14 py-28">
+          <input
+            type="text"
+            placeholder="Enter code..."
+            value={otp}
+            onChange={(event) => setOtp(event.target.value)}
+          />
+          <button onClick={handleValidateOtp}>
+            <p>Confirm</p>
+          </button>
+        </div>
+      )}
+    </div>
   );
 }

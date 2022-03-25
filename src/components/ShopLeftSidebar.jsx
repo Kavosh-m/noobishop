@@ -9,7 +9,7 @@ const ShopLeftSidebar = ({
   setCurrentFood,
 }) => {
   return (
-    <div className="flex w-full flex-col bg-red-200 px-6 sm:px-32 lg:mx-0 lg:w-fit lg:px-4">
+    <div className="flex w-full flex-col px-6 sm:px-32 lg:mx-0 lg:w-fit lg:px-4">
       <div className="w-2/3 border-b-[1px] border-black pb-[2px]">
         <p className="">Search</p>
       </div>

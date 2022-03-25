@@ -42,7 +42,7 @@ const ScrollToTopButton = ({ target }) => {
       onClick={() => scrollToRef(target)}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={() => setEnter(false)}
-      className={`animate-scrollToTop fixed right-10 bottom-5 grid aspect-square w-14 cursor-pointer place-items-center rounded-full bg-red-400 text-black transition-all duration-700 ease-in-out hover:bg-black`}
+      className={`animate-scrollToTop fixed right-5 bottom-5 grid aspect-square w-14 cursor-pointer place-items-center rounded-full bg-red-400 text-black transition-all duration-700 ease-in-out hover:bg-black`}
     >
       <svg
         xmlns="http://www.w3.org/2000/svg"

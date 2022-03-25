@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef } from "react";
 import MainWrapper from "../components/MainWrapper";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import ShopCard from "../components/shop/ShopCard";
 import LoadingIndicator from "../components/LoadingIndicator";
 import { shopHeader } from "../constants";
@@ -14,12 +14,18 @@ import Footer from "../components/Footer";
 import ShopLeftSidebar from "../components/ShopLeftSidebar";
 import ScrollToTopButton from "../components/ScrollToTopButton";
 import Sidebar from "../components/Sidebar";
+import Drawer from "@mui/material/Drawer";
+import { closeSidebar } from "../redux/app/slices/utilSlice";
 
 const ShopRoute = () => {
   const burgers = useSelector((state) => state.food.burger);
   const pizzas = useSelector((state) => state.food.pizza);
   const pastas = useSelector((state) => state.food.pasta);
   const drinks = useSelector((state) => state.food.drink);
+
+  const sidebarStatus = useSelector((state) => state.util.sidebar);
+
+  const dispatch = useDispatch();
 
   // const [showType, setShowType] = useState("grid");
   const [currentFood, setCurrentFood] = useState({
@@ -117,6 +123,10 @@ const ShopRoute = () => {
     }
   }, [sortType]);
 
+  useEffect(() => {
+    dispatch(closeSidebar());
+  }, []);
+
   const mainView = useRef(null);
 
   if (!currentFood.data) {
@@ -129,7 +139,16 @@ const ShopRoute = () => {
 
   return (
     <div ref={mainView} className="relative flex flex-col">
-      {sidebar && <Sidebar setSidebar={setSidebar} sidebar={sidebar} />}
+      {/* {sidebar && <Sidebar setSidebar={setSidebar} sidebar={sidebar} />} */}
+      {/* drawer */}
+      <Drawer
+        anchor="left"
+        open={sidebarStatus}
+        onClose={() => dispatch(closeSidebar())}
+      >
+        <Sidebar />
+      </Drawer>
+
       <Navbar setSidebar={setSidebar} />
       <div className="mx-0 flex w-full flex-col">
         {/* Header image goes here */}
@@ -152,7 +171,7 @@ const ShopRoute = () => {
           />
 
           {/* container of layout-sort bar and foods */}
-          <div className="grid w-full grid-cols-1 gap-10 bg-cyan-200 px-6 sm:grid-cols-2 sm:px-32 lg:mx-0 lg:grid-cols-3 lg:px-3">
+          <div className="grid w-full grid-cols-1 gap-10 px-6 sm:grid-cols-2 sm:px-32 lg:mx-0 lg:grid-cols-3 lg:px-3">
             {/* container of grid and sort stuff */}
             <div className="xsmall:flex-row xsmall:space-y-0 col-span-1 flex flex-col items-center justify-between space-y-1 border-2 py-3 px-2 sm:col-span-2 sm:px-6 lg:col-span-3">
               {/* container of two layout buttons (grid and list view) */}

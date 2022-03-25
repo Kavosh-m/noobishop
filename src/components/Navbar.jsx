@@ -1,15 +1,23 @@
 import React, { useLayoutEffect, useState } from "react";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate, Link, NavLink } from "react-router-dom";
 import { logo } from "../constants/index";
 import { auth } from "../firebase";
 import { signOut } from "firebase/auth";
 import BasketIcon from "../components/icons/BasketIcon";
 import { useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
+import { openSidebar } from "../redux/app/slices/utilSlice";
 
 const Navbar = ({ setSidebar }) => {
   const [scrollPosition, setPosition] = useState(0);
   const navigate = useNavigate();
   const orders = useSelector((state) => state.cart.ordered);
+
+  const dispatch = useDispatch();
+
+  const activeClassName = "text-red-300";
+  const inactiveClassName =
+    "hover:text-red-300 transition-colors duration-300 ease-in-out";
 
   useLayoutEffect(() => {
     function updatePosition() {
@@ -23,7 +31,7 @@ const Navbar = ({ setSidebar }) => {
 
   const handleSignOut = () => {
     signOut(auth)
-      .then(() => navigate("/login"))
+      .then(() => navigate("/"))
       .catch((err) => console.log(err));
   };
 
@@ -31,42 +39,65 @@ const Navbar = ({ setSidebar }) => {
     <div
       className={`${
         scrollPosition >= 350 ? "animate-dropDown sticky top-0" : "relative"
-      }  z-20 mx-0 flex w-full items-center justify-between bg-white px-12 py-6 text-base shadow-md lg:justify-around lg:px-4`}
+      }  font-poppins z-20 mx-0 flex w-full items-center justify-between bg-white px-12 py-6 text-base shadow-md lg:justify-around lg:px-4`}
     >
       <button onClick={() => navigate("/")}>
         <div className="flex h-14 w-36 items-center justify-center">
           <img src={logo} alt="" />
         </div>
       </button>
-      <div className="hidden items-center justify-center space-x-10 lg:flex">
-        <button
-          onClick={() => navigate("/")}
-          className="transition duration-300 ease-in-out hover:text-red-400"
-        >
-          Home
-        </button>
-        <button
-          onClick={() => navigate("/shop")}
-          className="transition duration-300 ease-in-out hover:text-red-400"
-        >
-          Shop
-        </button>
-        <button
-          onClick={() => navigate("/wish")}
-          className="transition duration-300 ease-in-out hover:text-red-400"
-        >
-          Wishlist
-        </button>
-        <button
-          onClick={() => navigate("/about")}
-          className="transition duration-300 ease-in-out hover:text-red-400"
-        >
-          About
-        </button>
-        <button className="transition duration-300 ease-in-out hover:text-red-400">
-          Contact
-        </button>
-      </div>
+      <ul className="hidden items-center justify-center space-x-10 lg:flex">
+        <li className="cursor-pointer">
+          <NavLink
+            to="/"
+            className={({ isActive }) =>
+              isActive ? activeClassName : inactiveClassName
+            }
+          >
+            Home
+          </NavLink>
+        </li>
+        <li className="cursor-pointer">
+          <NavLink
+            to="/shop"
+            className={({ isActive }) =>
+              isActive ? activeClassName : inactiveClassName
+            }
+          >
+            Shop
+          </NavLink>
+        </li>
+        <li className="cursor-pointer">
+          <NavLink
+            to="/wish"
+            className={({ isActive }) =>
+              isActive ? activeClassName : inactiveClassName
+            }
+          >
+            Wishlist
+          </NavLink>
+        </li>
+        <li className="cursor-pointer">
+          <NavLink
+            to="/about"
+            className={({ isActive }) =>
+              isActive ? activeClassName : inactiveClassName
+            }
+          >
+            About
+          </NavLink>
+        </li>
+        <li className="cursor-pointer">
+          <NavLink
+            to="/contact"
+            className={({ isActive }) =>
+              isActive ? activeClassName : inactiveClassName
+            }
+          >
+            Contact
+          </NavLink>
+        </li>
+      </ul>
       <div className="flex items-center justify-center space-x-6">
         <div className="flex items-center justify-center space-x-3">
           {!auth.currentUser ? (
@@ -106,7 +137,7 @@ const Navbar = ({ setSidebar }) => {
           <BasketIcon />
         </Link>
         <svg
-          onClick={() => setSidebar(true)}
+          onClick={() => dispatch(openSidebar())}
           xmlns="http://www.w3.org/2000/svg"
           className="h-6 w-6 cursor-pointer transition-colors duration-500 ease-in hover:text-red-300 lg:hidden"
           viewBox="0 0 20 20"

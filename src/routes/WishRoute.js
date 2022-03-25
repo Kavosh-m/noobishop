@@ -1,19 +1,36 @@
-import React from "react";
+import React, { useEffect } from "react";
 import MainWrapper from "../components/MainWrapper";
 import { shopHeader } from "../constants";
 import { useSelector, useDispatch } from "react-redux";
 import { saveOrders } from "../redux/app/slices/cartSlice";
 import { removeItemFromWishlist } from "../redux/app/slices/wishSlice";
 import TrashIcon from "../components/icons/TrashIcon";
+import Drawer from "@mui/material/Drawer";
+import Sidebar from "../components/Sidebar";
+import { closeSidebar } from "../redux/app/slices/utilSlice";
+import Footer from "../components/Footer";
+import Navbar from "../components/Navbar";
 
 const WishRoute = () => {
   const favorites = useSelector((state) => state.wish.wishlist);
   const dispatch = useDispatch();
 
-  //   console.log(wishlist);
+  const sidebarStatus = useSelector((state) => state.util.sidebar);
+
+  useEffect(() => {
+    dispatch(closeSidebar());
+  }, []);
 
   return (
-    <MainWrapper>
+    <div>
+      <Navbar />
+      <Drawer
+        anchor="left"
+        open={sidebarStatus}
+        onClose={() => dispatch(closeSidebar())}
+      >
+        <Sidebar />
+      </Drawer>
       <div className="h-[375px] w-full bg-gray-300">
         <img
           src={shopHeader}
@@ -70,7 +87,8 @@ const WishRoute = () => {
           ))}
         </tbody>
       </table>
-    </MainWrapper>
+      <Footer />
+    </div>
   );
 };
 
