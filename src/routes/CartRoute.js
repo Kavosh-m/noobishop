@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import MainWrapper from "../components/MainWrapper";
 import { useSelector, useDispatch } from "react-redux";
 import TrashIcon from "../components/icons/TrashIcon";
 import { changeNumberOfItem, removeItem } from "../redux/app/slices/cartSlice";
@@ -7,6 +6,8 @@ import { shopHeader } from "../constants";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import Navbar from "../components/Navbar";
+import Footer from "../components/Footer";
 
 const CartRoute = () => {
   const orders = useSelector((state) => state.cart.ordered);
@@ -48,7 +49,8 @@ const CartRoute = () => {
   };
 
   return (
-    <MainWrapper>
+    <div className="relative min-h-screen">
+      <Navbar />
       <div className="h-[375px] w-full bg-gray-300">
         <img
           src={shopHeader}
@@ -140,7 +142,8 @@ const CartRoute = () => {
           PROCEED CHECKOUT
         </button>
       </div>
-    </MainWrapper>
+      <Footer />
+    </div>
   );
 };
 

@@ -20,7 +20,7 @@ module.exports = {
         fadeOutLeft: "fadeOutLeft 400ms linear forwards",
         fadeInRight:
           "fadeInRight 500ms cubic-bezier(0.1, 0.7, 1.0, 0.1) forwards",
-        fadeIn: "fadeIn 2000ms linear forwards",
+        fadeIn: "fadeIn 400ms linear forwards",
       },
       keyframes: {
         spinbackforth1: {

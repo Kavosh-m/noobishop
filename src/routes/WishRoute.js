@@ -1,5 +1,4 @@
 import React, { useEffect } from "react";
-import MainWrapper from "../components/MainWrapper";
 import { shopHeader } from "../constants";
 import { useSelector, useDispatch } from "react-redux";
 import { saveOrders } from "../redux/app/slices/cartSlice";

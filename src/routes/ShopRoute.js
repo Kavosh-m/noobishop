@@ -1,5 +1,4 @@
 import React, { useEffect, useState, useRef } from "react";
-import MainWrapper from "../components/MainWrapper";
 import { useSelector, useDispatch } from "react-redux";
 import ShopCard from "../components/shop/ShopCard";
 import LoadingIndicator from "../components/LoadingIndicator";
@@ -8,7 +7,6 @@ import { CgLayoutGridSmall } from "react-icons/cg";
 import { CgLayoutList } from "react-icons/cg";
 import MenuItem from "@mui/material/MenuItem";
 import Select from "@mui/material/Select";
-import SearchIcon from "../components/icons/SearchIcon";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import ShopLeftSidebar from "../components/ShopLeftSidebar";
@@ -38,8 +36,6 @@ const ShopRoute = () => {
   const [sortType, setSortType] = useState("alphabetical");
   const [sortToggle, setSortToggle] = useState(false);
   const [search, setSearch] = useState("");
-
-  const [sidebar, setSidebar] = useState(false);
 
   const handleSearch = () => {
     let allFoods = burgers.concat(pizzas, pastas, drinks);
@@ -139,7 +135,6 @@ const ShopRoute = () => {
 
   return (
     <div ref={mainView} className="relative flex flex-col">
-      {/* {sidebar && <Sidebar setSidebar={setSidebar} sidebar={sidebar} />} */}
       {/* drawer */}
       <Drawer
         anchor="left"
@@ -149,7 +144,7 @@ const ShopRoute = () => {
         <Sidebar />
       </Drawer>
 
-      <Navbar setSidebar={setSidebar} />
+      <Navbar />
       <div className="mx-0 flex w-full flex-col">
         {/* Header image goes here */}
         <div className="h-[375px] w-full bg-gray-300">

@@ -1,4 +1,4 @@
-import React, { useLayoutEffect, useState } from "react";
+import React, { useLayoutEffect, useState, useEffect } from "react";
 import { useNavigate, Link, NavLink } from "react-router-dom";
 import { logo } from "../constants/index";
 import { auth } from "../firebase";
@@ -7,9 +7,16 @@ import BasketIcon from "../components/icons/BasketIcon";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import { openSidebar } from "../redux/app/slices/utilSlice";
+import SubmenuBasketProdectCard from "./SubmenuBasketProdectCard";
+import { Transition } from "@headlessui/react";
+import UserIcon from "./icons/UserIcon";
+import ProfileHoverCard from "./ProfileHoverCard";
 
-const Navbar = ({ setSidebar }) => {
+const Navbar = () => {
   const [scrollPosition, setPosition] = useState(0);
+  const [total, setTotal] = useState(0);
+  const [show, setShow] = useState(false);
+  const [showSetting, setShowSetting] = useState(false);
   const navigate = useNavigate();
   const orders = useSelector((state) => state.cart.ordered);
 
@@ -18,6 +25,18 @@ const Navbar = ({ setSidebar }) => {
   const activeClassName = "text-red-300";
   const inactiveClassName =
     "hover:text-red-300 transition-colors duration-300 ease-in-out";
+
+  useEffect(() => {
+    let t =
+      orders.length > 0
+        ? orders.reduce(
+            (previousValue, currentValue) =>
+              previousValue + currentValue.price * currentValue.count,
+            0
+          )
+        : 0;
+    setTotal(t);
+  }, [orders]);
 
   useLayoutEffect(() => {
     function updatePosition() {
@@ -39,7 +58,7 @@ const Navbar = ({ setSidebar }) => {
     <div
       className={`${
         scrollPosition >= 350 ? "animate-dropDown sticky top-0" : "relative"
-      }  font-poppins z-20 mx-0 flex w-full items-center justify-between bg-white px-12 py-6 text-base shadow-md lg:justify-around lg:px-4`}
+      }  font-poppins z-50 mx-0 flex w-full items-center justify-between bg-white px-12 py-6 text-base shadow-md lg:justify-around lg:px-4`}
     >
       <button onClick={() => navigate("/")}>
         <div className="flex h-14 w-36 items-center justify-center">
@@ -117,25 +136,93 @@ const Navbar = ({ setSidebar }) => {
               </button>
             </>
           ) : (
-            <div className="hidden items-center justify-center space-x-2 lg:flex">
-              <p>{auth.currentUser.phoneNumber}</p>
-              <button
-                className="rounded-lg bg-blue-500 p-3 py-2 text-sm text-white hover:bg-blue-300"
-                onClick={handleSignOut}
+            <div className="relative z-20 hidden lg:block">
+              <Link
+                onMouseEnter={() => setShowSetting(true)}
+                onMouseLeave={() => setShowSetting(false)}
+                to="/profile"
+                className="relative"
               >
-                Logout
-              </button>
+                <UserIcon />
+              </Link>
+
+              <Transition
+                show={showSetting}
+                enter="transition-all duration-1000"
+                enterFrom="opacity-0"
+                enterTo="opacity-100"
+                leave="transition-opacity duration-1000"
+                leaveFrom="opacity-100"
+                leaveTo="opacity-0"
+              >
+                <ProfileHoverCard
+                  auth={auth}
+                  signOut={handleSignOut}
+                  setShowSetting={setShowSetting}
+                />
+              </Transition>
             </div>
           )}
         </div>
-        <Link to="/cart" className="relative">
-          {orders?.length > 0 && (
-            <div className="absolute -top-2 -left-2 flex h-5 w-5 items-center justify-center rounded-full bg-black text-[10px] text-white">
-              {orders.length}
+
+        <div className="relative bg-white">
+          <Link
+            onMouseEnter={() => setShow(true)}
+            onMouseLeave={() => setShow(false)}
+            to="/cart"
+            className="relative"
+          >
+            {orders?.length > 0 && (
+              <div className="absolute -top-2 -left-2 flex h-5 w-5 items-center justify-center rounded-full bg-black text-[10px] text-white">
+                {orders.length}
+              </div>
+            )}
+            <BasketIcon />
+          </Link>
+          <Transition
+            show={show}
+            enter="transition-all duration-1000"
+            enterFrom="opacity-0"
+            enterTo="opacity-100"
+            leave="transition-opacity duration-1000"
+            leaveFrom="opacity-100"
+            leaveTo="opacity-0"
+          >
+            <div
+              onMouseEnter={() => setShow(true)}
+              onMouseLeave={() => setShow(false)}
+              className="absolute right-0 top-[64px] z-10 flex w-80 flex-col divide-y-2 bg-white px-6 shadow-lg"
+            >
+              {/*onhover content*/}
+
+              <div className="my-5 flex h-80 flex-col justify-start space-y-3 overflow-y-scroll pr-2">
+                {orders?.map((order) => (
+                  <SubmenuBasketProdectCard data={order} />
+                ))}
+              </div>
+
+              <div className="font-oswald flex items-center justify-between py-3 text-xl font-bold">
+                <p>total:</p>
+                <p>${total.toFixed(2)}</p>
+              </div>
+              <div className="font-oswald flex items-center justify-center space-x-2 px-5 py-3 text-xl font-bold">
+                <Link
+                  className="basis-1/2 rounded-3xl bg-gray-300 px-6 py-2 text-center text-sm text-black transition-all duration-300 ease-in-out hover:bg-red-300 hover:text-white"
+                  to="/cart"
+                >
+                  CART
+                </Link>
+                <Link
+                  className="basis-1/2 rounded-3xl bg-gray-300 px-6 py-2 text-center text-sm text-black transition-all duration-300 ease-in-out hover:bg-red-300 hover:text-white"
+                  to="/cart"
+                >
+                  CHECKOUT
+                </Link>
+              </div>
             </div>
-          )}
-          <BasketIcon />
-        </Link>
+          </Transition>
+        </div>
+
         <svg
           onClick={() => dispatch(openSidebar())}
           xmlns="http://www.w3.org/2000/svg"

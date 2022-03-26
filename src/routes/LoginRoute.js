@@ -78,9 +78,9 @@ export default function LoginRoute() {
           </div>
           <input
             type="tel"
-            // pattern="[0-9]{3}[0-9]{3}[0-9]{4}"
             placeholder="Phone (e.g. 9117778888)"
             value={phonenumber}
+            required
             onChange={(event) => setPhonenumber(event.target.value)}
             className="w-full px-2 py-2 focus:outline focus:outline-1 focus:outline-red-400"
           />
