@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { Fragment, useEffect, useState } from "react";
 import Rating from "@mui/material/Rating";
 import BasketIcon from "../icons/BasketIcon";
 import HeartIconOutlined from "../icons/HeartIconOutlined";
@@ -12,14 +12,11 @@ import { useSelector } from "react-redux";
 import { removeItemFromWishlist } from "../../redux/app/slices/wishSlice";
 import { saveToWishlist } from "../../redux/app/slices/wishSlice";
 import BasketIconSolid from "../icons/BasketIconSolid";
+import QuickViewItem from "../QuickViewItem";
 
 const ShopCard = ({ data, showType }) => {
   const wishlistIDs = useSelector((state) => state.wish.wishlistItemsID);
   const cartIDs = useSelector((state) => state.cart.cartItemsID);
-
-  // useEffect(() => {
-  //   console.log(cartIDs);
-  // }, [cartIDs]);
 
   const [entered, setEntered] = useState(false);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
@@ -58,28 +55,33 @@ const ShopCard = ({ data, showType }) => {
 
   if (showType === "list") {
     return (
-      <div className="flex w-full py-5">
+      <div className="flex w-full">
         <Link
-          className="h-[18rem] basis-4/12 px-7"
+          className="aspect-square h-full basis-5/12 p-10"
           to={{
             pathname: `/products/${data.id}`,
           }}
           state={data}
           // target="_blank"
         >
-          <img
-            src={data.picurl}
-            alt=""
-            className="h-full w-full object-contain"
-          />
+          <img src={data.picurl} alt="" className="h-full w-full object-fill" />
         </Link>
-        <div className="basis-[60%] space-y-2 pt-10">
-          <Rating name="four star" defaultValue={4.5} precision={0.5} />
-          <div>
-            <button className="font-oswald text-lg font-semibold transition duration-300 ease-in-out hover:text-red-600">
-              {data.name}
-            </button>
-          </div>
+        <div className="flex basis-7/12 flex-col space-y-2 py-10">
+          <Rating
+            name="four star"
+            className="w-0"
+            defaultValue={4.5}
+            precision={0.5}
+          />
+          <Link
+            to={{
+              pathname: `/products/${data.id}`,
+            }}
+            state={data}
+            className="font-oswald w-0 whitespace-nowrap text-lg font-semibold transition duration-300 ease-in-out hover:text-red-600"
+          >
+            {data.name}
+          </Link>
           <div className="flex items-center justify-start space-x-3">
             <p>${(data.price.toFixed(2) * 0.8).toFixed(2)}</p>
             <p className="text-gray-400 line-through">
@@ -87,17 +89,70 @@ const ShopCard = ({ data, showType }) => {
             </p>
           </div>
           <div className="flex items-center justify-start space-x-3">
-            <button className="hover:text-red-600">
-              <BasketIcon />
+            <button
+              title={
+                cartIDs?.includes(data.id) ? "Remove from cart" : "Add to cart"
+              }
+              onClick={() => handleCart(data)}
+              className="hover:text-red-600"
+            >
+              {cartIDs?.includes(data.id) ? (
+                <BasketIconSolid />
+              ) : (
+                <BasketIcon />
+              )}
             </button>
-            <button className="hover:text-red-600">
-              <HeartIconOutlined />
+            <button
+              onClick={() => handleWishlist(data)}
+              title={
+                wishlistIDs?.includes(data.id)
+                  ? "Remove from Wishlist"
+                  : "Add to wishlist"
+              }
+              className="hover:text-red-600"
+            >
+              {wishlistIDs?.includes(data.id) ? (
+                <HeartIcon />
+              ) : (
+                <HeartIconOutlined />
+              )}
             </button>
-            <button onClick={() => setIsDialogOpen(true)} className="">
+            <button
+              title="Quick View"
+              onClick={() => setIsDialogOpen(true)}
+              className=""
+            >
               <EyeIcon />
             </button>
           </div>
         </div>
+        <Transition show={isDialogOpen} as={Fragment}>
+          <Dialog
+            className="fixed inset-0 z-40 grid place-items-center"
+            onClose={() => setIsDialogOpen(false)}
+            as="div"
+          >
+            <Dialog.Overlay className="fixed inset-0 bg-black opacity-70" />
+            <Transition.Child
+              as="div"
+              className="grid h-full w-full place-items-center"
+              enter="ease-out duration-300"
+              enterFrom="opacity-0 -translate-y-12"
+              enterTo="opacity-100"
+              leave="ease-in duration-200"
+              leaveFrom="opacity-100"
+              leaveTo="opacity-0 translate-y-12"
+            >
+              <QuickViewItem
+                data={data}
+                handleIncrement={handleIncrement}
+                handleDecrement={handleDecrement}
+                handleAddToCart={handleAddToCart}
+                num={num}
+              />
+            </Transition.Child>
+          </Dialog>
+        </Transition>
       </div>
     );
   }
@@ -106,19 +161,18 @@ const ShopCard = ({ data, showType }) => {
     <div
       onMouseEnter={() => setEntered(true)}
       onMouseLeave={() => setEntered(false)}
-      className="w-full transition duration-300 ease-in-out hover:shadow-lg hover:shadow-gray-400"
+      className="relative w-full transition duration-300 ease-in-out hover:shadow-lg hover:shadow-gray-400"
     >
       <Link
-        className="h-[18rem] w-full"
+        className="aspect-square w-full"
         to={{
           pathname: `/products/${data.id}`,
         }}
         state={data}
-        // target="_blank"
       >
         <img
           src={data.picurl}
-          className="aspect-square h-full object-fill"
+          className="aspect-square w-full object-fill"
           alt=""
         />
       </Link>
@@ -176,72 +230,32 @@ const ShopCard = ({ data, showType }) => {
           </div>
         )}
       </div>
-      <Transition
-        show={isDialogOpen}
-        enter="transition duration-100 ease-out"
-        enterFrom="transform scale-95 opacity-0"
-        enterTo="transform scale-100 opacity-100"
-        leave="transition duration-75 ease-out"
-        leaveFrom="transform scale-100 opacity-100"
-        leaveTo="transform scale-95 opacity-0"
-      >
+      <Transition show={isDialogOpen} as={Fragment}>
         <Dialog
-          className="fixed inset-0 z-30 overflow-y-auto"
-          open={isDialogOpen}
+          className="fixed inset-0 z-40 grid place-items-center"
           onClose={() => setIsDialogOpen(false)}
+          as="div"
         >
-          <div className="flex min-h-screen flex-col items-center justify-center">
-            <Dialog.Overlay className="fixed inset-0 bg-black opacity-70" />
-
-            <div className="z-40 flex w-4/6 items-center justify-between space-x-10 rounded-lg bg-white p-3">
-              <div className="h-[450px] basis-1/2 bg-lime-300">
-                <img
-                  className="h-full w-full object-fill"
-                  src={data.picurl}
-                  alt=""
-                />
-              </div>
-              <div className="flex h-[450px] basis-1/2 flex-col justify-between bg-white pb-16">
-                <div className="flex flex-col space-y-1">
-                  <p className="text-2xl">{data.name}</p>
-                  <div className="flex items-center justify-start space-x-3">
-                    <p className="text-lg">${(data.price * 0.8).toFixed(2)}</p>
-                    <p className="text-gray-500 line-through">
-                      ${data.price.toFixed(2)}
-                    </p>
-                  </div>
-                  <Rating name="four star" defaultValue={4.5} precision={0.5} />
-                </div>
-                <div className="grid grid-cols-3 gap-4">
-                  <div className="flex flex-row items-center">
-                    <button
-                      onClick={handleDecrement}
-                      className="basis-1/4 border-[1px] border-gray-300 p-3 transition duration-300 ease-in-out hover:border-red-400 hover:bg-red-400 hover:text-white"
-                    >
-                      -
-                    </button>
-                    <div className="flex basis-1/2 items-center justify-center border-[1px] border-r-0 border-l-0 border-gray-300 p-3">
-                      <p>{num}</p>
-                    </div>
-                    <button
-                      onClick={handleIncrement}
-                      className="basis-1/4 border-[1px] border-gray-300 p-3 transition duration-300 ease-in-out hover:border-red-400 hover:bg-red-400 hover:text-white"
-                    >
-                      +
-                    </button>
-                  </div>
-                  <div>
-                    <button
-                      onClick={handleAddToCart}
-                      className="h-full w-full rounded-3xl bg-red-400 p-3 text-white transition duration-300 ease-in-out hover:bg-gray-300 hover:text-black"
-                    >
-                      ADD TO CART
-                    </button>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
+          <Dialog.Overlay className="fixed inset-0 bg-black opacity-70" />
+          <Transition.Child
+            as="div"
+            className="grid h-full w-full place-items-center"
+            enter="ease-out duration-300"
+            enterFrom="opacity-0 -translate-y-12"
+            enterTo="opacity-100"
+            leave="ease-in duration-200"
+            leaveFrom="opacity-100"
+            leaveTo="opacity-0 translate-y-12"
+          >
+            <QuickViewItem
+              data={data}
+              handleIncrement={handleIncrement}
+              handleDecrement={handleDecrement}
+              handleAddToCart={handleAddToCart}
+              num={num}
+              setIsDialogOpen={setIsDialogOpen}
+            />
+          </Transition.Child>
         </Dialog>
       </Transition>
     </div>
