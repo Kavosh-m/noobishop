@@ -51,7 +51,7 @@ const Sidebar = ({ sidebar, setSidebar }) => {
             Home
           </NavLink>
         </li>
-        <li className="cursor-pointer">
+        {/* <li className="cursor-pointer">
           <NavLink
             to="/shop"
             className={({ isActive }) =>
@@ -60,7 +60,7 @@ const Sidebar = ({ sidebar, setSidebar }) => {
           >
             Shop
           </NavLink>
-        </li>
+        </li> */}
         <li className="cursor-pointer">
           <NavLink
             to="/wish"

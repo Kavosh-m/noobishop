@@ -22,6 +22,7 @@ export const wishSlice = createSlice({
       state.wishlist.push(action.payload);
       if (!state.wishlistItemsID.includes(action.payload.id)) {
         state.wishlistItemsID.push(action.payload.id);
+        // console.log(state.wishlistItemsID);
       }
     },
     isInWishlist: (state, action) => {

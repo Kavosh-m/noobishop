@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Rating from "@mui/material/Rating";
 import BasketIcon from "../icons/BasketIcon";
 import HeartIconOutlined from "../icons/HeartIconOutlined";
@@ -7,13 +7,20 @@ import EyeIcon from "../icons/EyeIcon";
 import { Link } from "react-router-dom";
 import { Dialog, Transition } from "@headlessui/react";
 import { useDispatch } from "react-redux";
-import { saveOrders } from "../../redux/app/slices/cartSlice";
+import { removeItem, saveOrders } from "../../redux/app/slices/cartSlice";
 import { useSelector } from "react-redux";
 import { removeItemFromWishlist } from "../../redux/app/slices/wishSlice";
 import { saveToWishlist } from "../../redux/app/slices/wishSlice";
+import BasketIconSolid from "../icons/BasketIconSolid";
 
 const ShopCard = ({ data, showType }) => {
   const wishlistIDs = useSelector((state) => state.wish.wishlistItemsID);
+  const cartIDs = useSelector((state) => state.cart.cartItemsID);
+
+  // useEffect(() => {
+  //   console.log(cartIDs);
+  // }, [cartIDs]);
+
   const [entered, setEntered] = useState(false);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [num, setNum] = useState(0);
@@ -38,6 +45,14 @@ const ShopCard = ({ data, showType }) => {
       dispatch(removeItemFromWishlist({ id: data.id }));
     } else {
       dispatch(saveToWishlist(data));
+    }
+  };
+
+  const handleCart = (data) => {
+    if (cartIDs.includes(data.id)) {
+      dispatch(removeItem({ id: data.id }));
+    } else {
+      dispatch(saveOrders({ ...data, count: 1 }));
     }
   };
 
@@ -124,15 +139,25 @@ const ShopCard = ({ data, showType }) => {
         ) : (
           <div className="flex items-center justify-start space-x-3">
             <button
-              title="Add to Cart"
-              onClick={() => dispatch(saveOrders({ ...data, count: 1 }))}
+              title={
+                cartIDs?.includes(data.id) ? "Remove from cart" : "Add to cart"
+              }
+              onClick={() => handleCart(data)}
               className="animate-leftToRight hover:text-red-600"
             >
-              <BasketIcon />
+              {cartIDs?.includes(data.id) ? (
+                <BasketIconSolid />
+              ) : (
+                <BasketIcon />
+              )}
             </button>
             <button
               onClick={() => handleWishlist(data)}
-              title="Add to Wishlist"
+              title={
+                wishlistIDs?.includes(data.id)
+                  ? "Remove from Wishlist"
+                  : "Add to wishlist"
+              }
               className="animate-leftToRight animation-delay-200 invisible hover:text-red-600"
             >
               {wishlistIDs?.includes(data.id) ? (

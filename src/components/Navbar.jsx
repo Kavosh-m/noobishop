@@ -58,7 +58,7 @@ const Navbar = () => {
     <div
       className={`${
         scrollPosition >= 350 ? "animate-dropDown sticky top-0" : "relative"
-      }  font-poppins z-50 mx-0 flex w-full items-center justify-between bg-white px-12 py-6 text-base shadow-md lg:justify-around lg:px-4`}
+      }  font-poppins z-50 mx-0 flex w-full items-center justify-between bg-white px-12 py-6 text-base shadow-md lg:px-4`}
     >
       <button onClick={() => navigate("/")}>
         <div className="flex h-14 w-36 items-center justify-center">
@@ -76,7 +76,7 @@ const Navbar = () => {
             Home
           </NavLink>
         </li>
-        <li className="cursor-pointer">
+        {/* <li className="cursor-pointer">
           <NavLink
             to="/shop"
             className={({ isActive }) =>
@@ -85,7 +85,7 @@ const Navbar = () => {
           >
             Shop
           </NavLink>
-        </li>
+        </li> */}
         <li className="cursor-pointer">
           <NavLink
             to="/wish"
@@ -195,9 +195,9 @@ const Navbar = () => {
             >
               {/*onhover content*/}
 
-              <div className="my-5 flex h-80 flex-col justify-start space-y-3 overflow-y-scroll pr-2">
+              <div className="my-5 flex h-80 flex-col justify-start space-y-3 overflow-y-auto pr-2">
                 {orders?.map((order) => (
-                  <SubmenuBasketProdectCard data={order} />
+                  <SubmenuBasketProdectCard data={order} key={order.id} />
                 ))}
               </div>
 

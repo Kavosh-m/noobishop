@@ -30,6 +30,9 @@ const ShopRoute = () => {
     name: "burger",
     data: burgers,
   });
+
+  // useEffect(() => {}, [burgers]);
+
   // const [burgerss, setBurgerss] = useState(null);
   const [gridLayout, setGridLayout] = useState({ grid: true, layout: false });
 
@@ -128,6 +131,7 @@ const ShopRoute = () => {
   if (!currentFood.data) {
     return (
       <div className="relative flex h-screen w-screen flex-col items-center justify-center">
+        <p>Shop Route</p>
         <LoadingIndicator />
       </div>
     );

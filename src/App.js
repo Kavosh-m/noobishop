@@ -9,7 +9,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 // import thunk from "redux-thunk"; //in order to using dispatch in actions
 // import thunkMiddleware from "redux-thunk";
 
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import {
   fetchBurgers,
   fetchPizzas,
@@ -34,35 +34,42 @@ import LoadingIndicator from "./components/LoadingIndicator";
 export default function App() {
   const dispatch = useDispatch();
 
+  const burgers = useSelector((state) => state.food.burger);
+  const pizzas = useSelector((state) => state.food.pizza);
+  const pastas = useSelector((state) => state.food.pasta);
+  const drinks = useSelector((state) => state.food.drink);
+
   const [isLoggedIn, setIsLoggedIn] = useState(null);
 
-  const userExist = useState(auth.currentUser)[0];
+  // const userExist = useState(auth.currentUser)[0];
 
   useEffect(() => {
     dispatch(fetchBurgers());
     dispatch(fetchPizzas());
     dispatch(fetchPastas());
     dispatch(fetchDrinks());
-  }, [dispatch]);
+  }, []);
+
+  // console.log(isLoggedIn);
 
   useEffect(() => {
     onAuthStateChanged(auth, (user) => {
       if (user) {
         setIsLoggedIn(true);
+        // console.log(user);
       } else {
         setIsLoggedIn(false);
       }
     });
-  }, [userExist]);
+  }, [auth.currentUser]);
 
-  if (isLoggedIn === null) {
+  if (isLoggedIn === null || !burgers || !pizzas || !pastas || !drinks) {
     return (
       <div className="relative flex h-screen w-screen flex-col items-center justify-center">
         <LoadingIndicator />
       </div>
     );
   }
-
   return (
     <BrowserRouter>
       <Routes>
@@ -74,9 +81,9 @@ export default function App() {
           </>
         ) : (
           <>
-            <Route path="/" element={<HomeRoute />} />
+            {/* <Route path="/" element={<HomeRoute />} /> */}
+            <Route path="/" element={<ShopRoute />} />
             <Route path="/about" element={<AboutRoute />} />
-            <Route path="/shop" element={<ShopRoute />} />
             <Route path="/products/:id" element={<ProductDetailsRoute />} />
             <Route path="/cart" element={<CartRoute />} />
             <Route path="/wish" element={<WishRoute />} />
