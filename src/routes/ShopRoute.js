@@ -14,6 +14,9 @@ import ScrollToTopButton from "../components/ScrollToTopButton";
 import Sidebar from "../components/Sidebar";
 import Drawer from "@mui/material/Drawer";
 import { closeSidebar } from "../redux/app/slices/utilSlice";
+import ReactPaginate from "react-paginate";
+import ArrowNarrowLeft from "../components/icons/ArrowNarrowLeft";
+import ArrowNarrowRight from "../components/icons/ArrowNarrowRight";
 
 const ShopRoute = () => {
   const burgers = useSelector((state) => state.food.burger);
@@ -25,15 +28,20 @@ const ShopRoute = () => {
 
   const dispatch = useDispatch();
 
-  // const [showType, setShowType] = useState("grid");
   const [currentFood, setCurrentFood] = useState({
     name: "burger",
     data: burgers,
   });
 
-  // useEffect(() => {}, [burgers]);
+  // Pagination initials
 
-  // const [burgerss, setBurgerss] = useState(null);
+  const [pageNumber, setPageNumber] = useState(0);
+  const numOfItemsPerPage = 2;
+  const numOfItemsVisited = pageNumber * numOfItemsPerPage;
+  const numOfPages = Math.ceil(currentFood.data?.length / numOfItemsPerPage);
+
+  //////////////////////
+
   const [gridLayout, setGridLayout] = useState({ grid: true, layout: false });
 
   const [sortType, setSortType] = useState("alphabetical");
@@ -228,19 +236,39 @@ const ShopRoute = () => {
             </div>
 
             {/* products */}
-            {currentFood.data?.map((item) => (
-              <div
-                key={item.id}
-                className={`flex items-center ${
-                  gridLayout.layout && "col-span-1 sm:col-span-2 lg:col-span-3"
-                } justify-center bg-gray-100`}
-              >
-                <ShopCard
-                  showType={gridLayout.grid ? "grid" : "list"}
-                  data={item}
-                />
-              </div>
-            ))}
+            {currentFood.data
+              ?.slice(numOfItemsVisited, numOfItemsVisited + numOfItemsPerPage)
+              .map((item) => (
+                <div
+                  key={item.id}
+                  className={`flex items-center ${
+                    gridLayout.layout &&
+                    "col-span-1 sm:col-span-2 lg:col-span-3"
+                  } justify-center bg-gray-100`}
+                >
+                  <ShopCard
+                    showType={gridLayout.grid ? "grid" : "list"}
+                    data={item}
+                  />
+                </div>
+              ))}
+
+            <ReactPaginate
+              previousLabel={<ArrowNarrowLeft />}
+              previousClassName="px-4"
+              nextLabel={<ArrowNarrowRight />}
+              nextClassName="px-4"
+              pageCount={numOfPages}
+              onPageChange={({ selected }) => setPageNumber(selected)}
+              containerClassName="bg-white border-2 py-5 flex items-center lg:col-span-3"
+              pageClassName="px-4"
+              activeLinkClassName="text-black"
+              activeClassName=""
+              disabledClassName="text-gray-300"
+              disabledLinkClassName=""
+              pageLinkClassName="text-gray-300"
+              // className="lg:col-span-3"
+            />
           </div>
         </div>
       </div>
