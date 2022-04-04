@@ -24,7 +24,7 @@ const ShopLeftSidebar = ({
 
         <button
           onClick={handleSearch}
-          className="grid basis-1/12 place-items-center rounded-tr-md rounded-br-md bg-black p-4 outline outline-1 outline-black lg:basis-1/6"
+          className="group grid basis-1/12 place-items-center rounded-tr-md rounded-br-md bg-black p-4 outline outline-1 outline-black lg:basis-1/6"
         >
           <SearchIcon />
         </button>

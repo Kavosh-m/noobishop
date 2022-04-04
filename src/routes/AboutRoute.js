@@ -1,12 +1,7 @@
-import React from "react";
-import MainWrapper from "../components/MainWrapper";
+import React, { useEffect, useState, useRef } from "react";
 
 const AboutRoute = () => {
-  return (
-    <MainWrapper>
-      <div className="my-20 py-24">This is About page</div>
-    </MainWrapper>
-  );
+  return <div className="h-screen p-6">About</div>;
 };
 
 export default AboutRoute;

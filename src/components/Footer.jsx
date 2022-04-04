@@ -1,5 +1,5 @@
 import React from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { logo } from "../constants/index";
 
 const Footer = () => {
@@ -8,9 +8,9 @@ const Footer = () => {
     <footer className="mx-0 flex w-full flex-col bg-black">
       <div className="grid grid-cols-5 gap-1 bg-gray-900 px-24 py-24 text-gray-300">
         <div className=" flex flex-col">
-          <button onClick={() => navigate("/")} className="mb-4 w-9/12">
-            <img src={logo} alt="" />
-          </button>
+          <Link to="/" className="mb-4 aspect-auto w-9/12">
+            <img src={logo} alt="" className="h-full w-full object-fill" />
+          </Link>
           <p className="w-4/5 text-left">
             Noobishop is the best parts shop of your daily nutritions. What kind
             of nutrition do you need you can get here soluta nobis

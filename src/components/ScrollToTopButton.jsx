@@ -1,19 +1,36 @@
-import React, { useEffect, useLayoutEffect, useState } from "react";
+import React, { useEffect, useLayoutEffect, useRef, useState } from "react";
+import { gsap } from "gsap";
 
-const ScrollToTopButton = ({ target }) => {
+const ScrollToTopButton = ({ target, showBackToTopButton }) => {
   const [scrollPosition, setPosition] = useState(0);
-  const [goingDown, setGoingDown] = useState(null);
+
+  const compRef = useRef();
+
+  // console.log(target.current.clientHeight);
+
+  useLayoutEffect(() => {
+    if (compRef.current) {
+      if (showBackToTopButton) {
+        gsap.to(compRef.current, {
+          opacity: 1,
+          y: 0,
+          display: "grid",
+          duration: 1,
+        });
+      } else {
+        gsap.to(compRef.current, {
+          opacity: 0,
+          y: -target.current?.clientHeight / 2,
+          display: "none",
+          duration: 1,
+        });
+      }
+    }
+  }, [showBackToTopButton]);
 
   useLayoutEffect(() => {
     function updatePosition() {
       setPosition(window.scrollY);
-      //   console.log(window.scrollY - scrollPosition);
-      if (window.scrollY - scrollPosition > 0) {
-        setGoingDown(true);
-        // console.log(goingDown);
-      } else {
-        setGoingDown(false);
-      }
     }
     window.addEventListener("scroll", updatePosition);
     updatePosition();
@@ -27,26 +44,19 @@ const ScrollToTopButton = ({ target }) => {
     });
   };
 
-  const [enter, setEnter] = useState(false);
-
-  const handleMouseEnter = () => {
-    setTimeout(() => setEnter(true), 300);
-  };
-
   if (scrollPosition < 200) {
     return null;
   }
 
   return (
     <div
+      ref={compRef}
       onClick={() => scrollToRef(target)}
-      onMouseEnter={handleMouseEnter}
-      onMouseLeave={() => setEnter(false)}
-      className={`animate-scrollToTop fixed right-5 bottom-5 grid aspect-square w-14 cursor-pointer place-items-center rounded-full bg-red-400 text-black transition-all duration-700 ease-in-out hover:bg-black`}
+      className="group fixed right-5 bottom-5 grid aspect-square w-14 cursor-pointer place-items-center rounded-full bg-red-400 text-black transition-colors duration-700 ease-in-out hover:bg-black"
     >
       <svg
         xmlns="http://www.w3.org/2000/svg"
-        className={`${enter ? "text-red-400" : "text-white"} h-7 w-7`}
+        className="h-7 w-7 text-white transition-colors duration-700 ease-in-out group-hover:text-red-400"
         viewBox="0 0 20 20"
         fill="currentColor"
       >

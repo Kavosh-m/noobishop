@@ -1,9 +1,17 @@
-import React from "react";
+import React, { useEffect, useRef } from "react";
+import { gsap } from "gsap";
 
 export default function HeartIcon() {
+  const heartRef = useRef();
+
+  useEffect(() => {
+    gsap.from(heartRef.current, { duration: 0.6, scale: 1.5 });
+  }, []);
+
   return (
     <div>
       <svg
+        ref={heartRef}
         xmlns="http://www.w3.org/2000/svg"
         className="h-6 w-6 text-red-600"
         viewBox="0 0 20 20"

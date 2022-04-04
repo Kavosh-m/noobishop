@@ -60,11 +60,9 @@ const Navbar = () => {
         scrollPosition >= 350 ? "animate-dropDown sticky top-0" : "relative"
       }  font-poppins z-40 mx-0 flex w-full items-center justify-between bg-white px-12 py-6 text-base shadow-md lg:px-4`}
     >
-      <button onClick={() => navigate("/")}>
-        <div className="flex h-14 w-36 items-center justify-center">
-          <img src={logo} alt="" />
-        </div>
-      </button>
+      <Link className="aspect-auto w-32" to="/">
+        <img src={logo} alt="" className="h-full w-full object-fill" />
+      </Link>
       <ul className="hidden items-center justify-center space-x-10 lg:flex">
         <li className="cursor-pointer">
           <NavLink

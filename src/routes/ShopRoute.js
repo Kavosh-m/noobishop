@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState, useRef, useLayoutEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import ShopCard from "../components/shop/ShopCard";
 import LoadingIndicator from "../components/LoadingIndicator";
@@ -17,6 +17,7 @@ import { closeSidebar } from "../redux/app/slices/utilSlice";
 import ReactPaginate from "react-paginate";
 import ArrowNarrowLeft from "../components/icons/ArrowNarrowLeft";
 import ArrowNarrowRight from "../components/icons/ArrowNarrowRight";
+import { gsap } from "gsap";
 
 const ShopRoute = () => {
   const burgers = useSelector((state) => state.food.burger);
@@ -36,8 +37,8 @@ const ShopRoute = () => {
   // Pagination initials
 
   const [pageNumber, setPageNumber] = useState(0);
-  const numOfItemsPerPage = 2;
-  const numOfItemsVisited = pageNumber * numOfItemsPerPage;
+  const numOfItemsPerPage = 9;
+  let numOfItemsVisited = pageNumber * numOfItemsPerPage;
   const numOfPages = Math.ceil(currentFood.data?.length / numOfItemsPerPage);
 
   //////////////////////
@@ -47,6 +48,8 @@ const ShopRoute = () => {
   const [sortType, setSortType] = useState("alphabetical");
   const [sortToggle, setSortToggle] = useState(false);
   const [search, setSearch] = useState("");
+
+  const [showBackToTopButton, setShowBackToTopButton] = useState(false);
 
   const handleSearch = () => {
     let allFoods = burgers.concat(pizzas, pastas, drinks);
@@ -83,8 +86,8 @@ const ShopRoute = () => {
   }, [currentFood.name]);
 
   // sort by name
-  const sort_by_product_name = () => {
-    const b = [...currentFood.data];
+  const sort_by_product_name = (c) => {
+    const b = [...c];
     b?.sort((a, b) => {
       let x = a.name.toLowerCase();
       let y = b.name.toLowerCase();
@@ -101,8 +104,8 @@ const ShopRoute = () => {
   };
 
   // sort by price (low to high)
-  const sort_by_product_price_low_to_high = () => {
-    const b = [...currentFood.data];
+  const sort_by_product_price_low_to_high = (c) => {
+    const b = [...c];
     b?.sort((a, b) => a.price - b.price);
     // setSortData(sorted);
     setCurrentFood({ ...currentFood, data: b });
@@ -110,8 +113,8 @@ const ShopRoute = () => {
   };
 
   // sort by price (high to low)
-  const sort_by_product_price_high_to_low = () => {
-    const b = [...currentFood.data];
+  const sort_by_product_price_high_to_low = (c) => {
+    const b = [...c];
     b?.sort((a, b) => b.price - a.price);
     // setSortData(sorted);
     setCurrentFood({ ...currentFood, data: b });
@@ -121,11 +124,11 @@ const ShopRoute = () => {
   useEffect(() => {
     if (currentFood.data) {
       if (sortType === "priceLowToHigh") {
-        sort_by_product_price_low_to_high();
+        sort_by_product_price_low_to_high(currentFood.data);
       } else if (sortType === "priceHighToLow") {
-        sort_by_product_price_high_to_low();
+        sort_by_product_price_high_to_low(currentFood.data);
       } else {
-        sort_by_product_name();
+        sort_by_product_name(currentFood.data);
       }
     }
   }, [sortType]);
@@ -134,7 +137,16 @@ const ShopRoute = () => {
     dispatch(closeSidebar());
   }, []);
 
-  const mainView = useRef(null);
+  const mainView = useRef();
+  const sortBarRef = useRef();
+
+  const handleWheel = (e) => {
+    if (e.deltaY > 0) {
+      setShowBackToTopButton(false);
+    } else {
+      setShowBackToTopButton(true);
+    }
+  };
 
   if (!currentFood.data) {
     return (
@@ -146,7 +158,11 @@ const ShopRoute = () => {
   }
 
   return (
-    <div ref={mainView} className="relative flex flex-col">
+    <div
+      ref={mainView}
+      onWheel={handleWheel}
+      className="relative flex flex-col"
+    >
       {/* drawer */}
       <Drawer
         anchor="left"
@@ -178,7 +194,10 @@ const ShopRoute = () => {
           />
 
           {/* container of layout-sort bar and foods */}
-          <div className="grid w-full grid-cols-1 gap-10 px-6 sm:grid-cols-2 sm:px-32 lg:mx-0 lg:grid-cols-3 lg:px-3">
+          <div
+            ref={sortBarRef}
+            className="grid w-full grid-cols-1 gap-10 px-6 sm:grid-cols-2 sm:px-32 lg:mx-0 lg:grid-cols-3 lg:px-3"
+          >
             {/* container of grid and sort stuff */}
             <div className="xsmall:flex-row xsmall:space-y-0 col-span-1 flex flex-col items-center justify-between space-y-1 border-2 py-3 px-2 sm:col-span-2 sm:px-6 lg:col-span-3">
               {/* container of two layout buttons (grid and list view) */}
@@ -253,27 +272,42 @@ const ShopRoute = () => {
                 </div>
               ))}
 
-            <ReactPaginate
-              previousLabel={<ArrowNarrowLeft />}
-              previousClassName="px-4"
-              nextLabel={<ArrowNarrowRight />}
-              nextClassName="px-4"
-              pageCount={numOfPages}
-              onPageChange={({ selected }) => setPageNumber(selected)}
-              containerClassName="bg-white border-2 py-5 flex items-center lg:col-span-3"
-              pageClassName="px-4"
-              activeLinkClassName="text-black"
-              activeClassName=""
-              disabledClassName="text-gray-300"
-              disabledLinkClassName=""
-              pageLinkClassName="text-gray-300"
-              // className="lg:col-span-3"
-            />
+            <div className="flex items-center justify-between border-2 lg:col-span-3">
+              <ReactPaginate
+                previousLabel={<ArrowNarrowLeft />}
+                previousClassName="px-4 text-gray-600"
+                nextLabel={<ArrowNarrowRight />}
+                nextClassName="px-4  text-gray-600"
+                pageCount={numOfPages}
+                onPageChange={({ selected }) => {
+                  setPageNumber(selected);
+                  window.scrollTo({
+                    top: sortBarRef.current.offsetTop,
+                    behavior: "smooth",
+                  });
+                }}
+                containerClassName="bg-white  py-5 flex items-center"
+                pageClassName="px-4"
+                activeLinkClassName="text-black"
+                disabledClassName="text-gray-300"
+                disabledLinkClassName="text-gray-300"
+                pageLinkClassName="text-gray-300 hover:text-black transition-colors duration-300 ease-in-out"
+              />
+              {/* <p className="pr-4">{`Showing ${numOfItemsVisited + 1} - ${
+                numOfItemsVisited + numOfItemsPerPage
+              } of ${currentFood.data?.length} result`}</p> */}
+            </div>
           </div>
         </div>
       </div>
       <Footer />
-      <ScrollToTopButton target={mainView} />
+
+      {
+        <ScrollToTopButton
+          showBackToTopButton={showBackToTopButton}
+          target={mainView}
+        />
+      }
     </div>
   );
 };

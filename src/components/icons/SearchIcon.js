@@ -4,7 +4,7 @@ const SearchIcon = () => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
-      className="h-4 w-4 text-white hover:text-red-300 transition duration-300 ease-in-out"
+      className="h-4 w-4 text-white transition duration-300 ease-in-out group-hover:text-red-300"
       fill="none"
       viewBox="0 0 24 24"
       stroke="currentColor"

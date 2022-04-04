@@ -149,6 +149,7 @@ const ShopCard = ({ data, showType }) => {
                 handleDecrement={handleDecrement}
                 handleAddToCart={handleAddToCart}
                 num={num}
+                setIsDialogOpen={setIsDialogOpen}
               />
             </Transition.Child>
           </Dialog>
@@ -179,7 +180,7 @@ const ShopCard = ({ data, showType }) => {
       <div className="space-y-2 py-5 pl-5">
         <Rating name="four star" defaultValue={4.5} precision={0.5} />
         <div>
-          <button className="font-oswald text-lg font-semibold transition duration-300 ease-in-out hover:text-red-600">
+          <button className="font-oswald text-left text-lg font-semibold transition duration-300 ease-in-out hover:text-red-600">
             {data.name}
           </button>
         </div>
