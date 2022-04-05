@@ -10,7 +10,7 @@ const ProfileHoverCard = ({ auth, signOut, setShowSetting }) => {
     <div
       onMouseEnter={() => setShowSetting(true)}
       onMouseLeave={() => setShowSetting(false)}
-      className="absolute right-0 top-[66px] z-10 flex flex-col divide-y-2 bg-white px-5 py-3 shadow-lg"
+      className="absolute right-0 top-[54px] z-10 flex flex-col divide-y-2 bg-white px-5 py-3 shadow-lg"
     >
       <div className="flex items-center p-3">
         <ImPhone />

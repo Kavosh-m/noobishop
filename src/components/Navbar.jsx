@@ -1,4 +1,4 @@
-import React, { useLayoutEffect, useState, useEffect } from "react";
+import React, { useLayoutEffect, useState, useEffect, useRef } from "react";
 import { useNavigate, Link, NavLink } from "react-router-dom";
 import { logo } from "../constants/index";
 import { auth } from "../firebase";
@@ -11,6 +11,7 @@ import SubmenuBasketProdectCard from "./SubmenuBasketProdectCard";
 import { Transition } from "@headlessui/react";
 import UserIcon from "./icons/UserIcon";
 import ProfileHoverCard from "./ProfileHoverCard";
+import { gsap } from "gsap";
 
 const Navbar = () => {
   const [scrollPosition, setPosition] = useState(0);
@@ -53,6 +54,16 @@ const Navbar = () => {
       .then(() => navigate("/"))
       .catch((err) => console.log(err));
   };
+
+  const numberOfOrdersRef = useRef();
+
+  useEffect(() => {
+    gsap.from(numberOfOrdersRef.current, {
+      duration: 0.5,
+      yPercent: -100,
+      opacity: 0,
+    });
+  }, [orders?.length]);
 
   return (
     <div
@@ -172,7 +183,7 @@ const Navbar = () => {
           >
             {orders?.length > 0 && (
               <div className="absolute -top-2 -left-2 flex h-5 w-5 items-center justify-center rounded-full bg-black text-[10px] text-white">
-                {orders.length}
+                <p ref={numberOfOrdersRef}>{orders.length}</p>
               </div>
             )}
             <BasketIcon />
@@ -182,14 +193,14 @@ const Navbar = () => {
             enter="transition-all duration-1000"
             enterFrom="opacity-0"
             enterTo="opacity-100"
-            leave="transition-opacity duration-1000"
+            leave="transition-all duration-700"
             leaveFrom="opacity-100"
             leaveTo="opacity-0"
           >
             <div
               onMouseEnter={() => setShow(true)}
               onMouseLeave={() => setShow(false)}
-              className="absolute right-0 top-[64px] z-10 flex w-96 flex-col divide-y-2 bg-white px-6 shadow-lg"
+              className="absolute right-0 top-[52px] z-10 flex w-96 flex-col divide-y-2 bg-white px-6 shadow-lg"
             >
               {/*onhover content*/}
 
@@ -205,13 +216,13 @@ const Navbar = () => {
               </div>
               <div className="font-oswald flex items-center justify-center space-x-2 px-5 py-3 text-xl font-bold">
                 <Link
-                  className="basis-1/2 rounded-3xl bg-gray-300 px-6 py-2 text-center text-sm text-black transition-all duration-300 ease-in-out hover:bg-red-300 hover:text-white"
+                  className="basis-1/2 whitespace-nowrap rounded-3xl bg-gray-300 px-7 py-3 text-center text-xl text-black transition-all duration-300 ease-in-out hover:bg-red-300 hover:text-white"
                   to="/cart"
                 >
-                  CART
+                  VIEW CART
                 </Link>
                 <Link
-                  className="basis-1/2 rounded-3xl bg-gray-300 px-6 py-2 text-center text-sm text-black transition-all duration-300 ease-in-out hover:bg-red-300 hover:text-white"
+                  className="basis-1/2 rounded-3xl bg-gray-300 px-7 py-3 text-center text-xl text-black transition-all duration-300 ease-in-out hover:bg-red-300 hover:text-white"
                   to="/cart"
                 >
                   CHECKOUT
