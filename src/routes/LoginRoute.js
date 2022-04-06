@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { auth } from "../firebase";
 import { RecaptchaVerifier, signInWithPhoneNumber } from "firebase/auth";
 import { Link, useNavigate } from "react-router-dom";
-import foodVideo from "../assets/videos/food.mp4";
+import loginBg from "../assets/images/food.jpg";
 import { ImSpinner9 } from "react-icons/im";
 
 export default function LoginRoute() {
@@ -58,13 +58,13 @@ export default function LoginRoute() {
 
   return (
     <div className="font-oswald relative flex min-h-screen w-screen items-center justify-center tracking-tight">
-      <video
+      <img
         className="absolute -z-10 h-full w-full object-fill opacity-30"
-        src={foodVideo}
-        autoPlay
-        muted
-        loop
-        controls={false}
+        src={loginBg}
+        // autoPlay
+        // muted
+        // loop
+        // controls={false}
       />
       {!show ? (
         <div className="flex flex-col items-center space-y-14 bg-[#f3f3f3] px-10 py-9">

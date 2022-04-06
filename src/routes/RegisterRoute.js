@@ -4,7 +4,7 @@ import { RecaptchaVerifier, signInWithPhoneNumber } from "firebase/auth";
 import { doc, setDoc } from "firebase/firestore";
 import { useNavigate } from "react-router-dom";
 import Alert from "@mui/material/Alert";
-import foodReg from "../assets/videos/foodRegister.mp4";
+import registerBg from "../assets/images/foodRegister.jpg";
 
 const RegisterRoute = () => {
   const [Name, setName] = useState({ content: "", empty: false });
@@ -78,13 +78,13 @@ const RegisterRoute = () => {
 
   return (
     <div className="font-oswald relative grid min-h-screen w-screen place-items-center tracking-tight">
-      <video
+      <img
         className="absolute -z-10 h-full w-full object-fill opacity-30"
-        src={foodReg}
-        autoPlay
-        muted
-        loop
-        controls={false}
+        src={registerBg}
+        // autoPlay
+        // muted
+        // loop
+        // controls={false}
       />
       {!show ? (
         <div className="flex flex-col items-center space-y-14 bg-[#f3f3f3] px-10 py-9">
