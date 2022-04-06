@@ -277,7 +277,7 @@ const ShopRoute = () => {
                 previousLabel={<ArrowNarrowLeft />}
                 previousClassName="px-4 text-gray-600"
                 nextLabel={<ArrowNarrowRight />}
-                nextClassName="px-4  text-gray-600"
+                nextClassName="px-4 text-gray-600"
                 pageCount={numOfPages}
                 onPageChange={({ selected }) => {
                   setPageNumber(selected);
@@ -288,7 +288,7 @@ const ShopRoute = () => {
                 }}
                 containerClassName="bg-white  py-5 flex items-center"
                 pageClassName="px-4"
-                activeLinkClassName="text-black"
+                activeLinkClassName="text-black cursor-default"
                 disabledClassName="text-gray-300"
                 disabledLinkClassName="text-gray-300"
                 pageLinkClassName="text-gray-300 hover:text-black transition-colors duration-300 ease-in-out"

@@ -59,7 +59,7 @@ const CartRoute = () => {
           className="h-full w-full object-fill brightness-50"
         />
       </div>
-      <div className="mx-20 my-10 overflow-x-auto">
+      <div className="mx-4 my-10 overflow-x-auto sm:mx-20">
         <table className="font-poppins w-full border-collapse border font-medium">
           <thead>
             <tr className="">
@@ -111,7 +111,7 @@ const CartRoute = () => {
       </div>
 
       {/* total price card */}
-      <div className="font-oswald mx-20 w-5/12 bg-gray-100">
+      <div className="font-oswald mx-4 w-5/6 bg-gray-100 sm:mx-20 sm:w-5/12">
         <p className="p-4 text-lg font-medium text-[#333333]">Cart Totals</p>
         <div className="mt-32 flex items-center justify-between px-5 py-4">
           <p className="text-base font-medium text-[#333333]">Total</p>

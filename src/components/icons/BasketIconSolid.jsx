@@ -1,8 +1,19 @@
-import React from "react";
+import React, { useEffect, useRef } from "react";
+import { gsap } from "gsap";
 
 const BasketIconSolid = () => {
+  const basketRef = useRef();
+
+  useEffect(() => {
+    gsap.from(basketRef.current, {
+      duration: 0.6,
+      scale: 1.5,
+    });
+  }, []);
+
   return (
     <svg
+      ref={basketRef}
       xmlns="http://www.w3.org/2000/svg"
       className="h-6 w-6"
       viewBox="0 0 20 20"
