@@ -191,12 +191,13 @@ const ShopRoute = () => {
             handleSearch={handleSearch}
             currentFood={currentFood}
             setCurrentFood={setCurrentFood}
+            recentProducts={burgers?.slice(0, 4)}
           />
 
           {/* container of layout-sort bar and foods */}
           <div
             ref={sortBarRef}
-            className="grid w-full grid-cols-1 gap-10 px-6 sm:grid-cols-2 sm:px-32 lg:mx-0 lg:grid-cols-3 lg:px-3"
+            className="grid w-full basis-3/4 grid-cols-1 gap-6 px-6 sm:grid-cols-2 sm:px-20 lg:mx-0 lg:grid-cols-3 lg:px-3"
           >
             {/* container of grid and sort stuff */}
             <div className="xsmall:flex-row xsmall:space-y-0 col-span-1 flex flex-col items-center justify-between space-y-1 border-2 py-3 px-2 sm:col-span-2 sm:px-6 lg:col-span-3">
@@ -260,7 +261,7 @@ const ShopRoute = () => {
               .map((item) => (
                 <div
                   key={item.id}
-                  className={`flex items-center ${
+                  className={`flex ${
                     gridLayout.layout &&
                     "col-span-1 sm:col-span-2 lg:col-span-3"
                   } justify-center bg-gray-100`}
@@ -272,7 +273,7 @@ const ShopRoute = () => {
                 </div>
               ))}
 
-            <div className="flex items-center justify-between border-2 lg:col-span-3">
+            <div className="col-span-1 flex items-center justify-between border-2 sm:col-span-2 lg:col-span-3">
               <ReactPaginate
                 previousLabel={<ArrowNarrowLeft />}
                 previousClassName="px-4 text-gray-600"

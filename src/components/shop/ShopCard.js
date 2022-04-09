@@ -55,30 +55,30 @@ const ShopCard = ({ data, showType }) => {
 
   if (showType === "list") {
     return (
-      <div className="flex w-full">
+      <div className="flex w-full flex-col sm:flex-row">
         <Link
-          className="aspect-square h-full basis-5/12 p-10"
+          className="aspect-square w-full p-10 sm:basis-4/12"
           to={{
             pathname: `/products/${data.id}`,
           }}
           state={data}
-          // target="_blank"
         >
           <img src={data.picurl} alt="" className="h-full w-full object-fill" />
         </Link>
-        <div className="flex basis-7/12 flex-col space-y-2 py-10">
+        <div className="flex flex-col space-y-2 pb-5 pl-10 sm:basis-8/12 sm:py-10 sm:pb-0 sm:pl-0">
           <Rating
             name="four star"
             className="w-0"
             defaultValue={4.5}
             precision={0.5}
+            style={{ color: "#E98C81" }}
           />
           <Link
             to={{
               pathname: `/products/${data.id}`,
             }}
             state={data}
-            className="font-oswald w-0 whitespace-nowrap text-lg font-semibold transition duration-300 ease-in-out hover:text-red-600"
+            className="font-oswald w-fit whitespace-normal text-lg font-semibold transition duration-300 ease-in-out hover:text-red-600"
           >
             {data.name}
           </Link>
@@ -177,12 +177,23 @@ const ShopCard = ({ data, showType }) => {
           alt=""
         />
       </Link>
-      <div className="space-y-2 py-5 pl-5">
-        <Rating name="four star" defaultValue={4.5} precision={0.5} />
+      <div className="space-y-2 py-5 pl-5 pr-4">
+        <Rating
+          name="four star"
+          defaultValue={4.5}
+          precision={0.5}
+          style={{ color: "#E98C81" }}
+        />
         <div>
-          <button className="font-oswald text-left text-lg font-semibold transition duration-300 ease-in-out hover:text-red-600">
+          <Link
+            to={{
+              pathname: `/products/${data.id}`,
+            }}
+            state={data}
+            className="font-oswald text-left text-lg font-semibold transition duration-300 ease-in-out hover:text-red-600"
+          >
             {data.name}
-          </button>
+          </Link>
         </div>
         {!entered ? (
           <div className="flex items-center justify-start space-x-3">
