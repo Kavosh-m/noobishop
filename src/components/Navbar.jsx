@@ -56,12 +56,14 @@ const Navbar = () => {
 
   const numberOfOrdersRef = useRef();
 
-  useEffect(() => {
-    gsap.from(numberOfOrdersRef.current, {
-      duration: 0.5,
-      yPercent: -100,
-      opacity: 0,
-    });
+  useLayoutEffect(() => {
+    if (orders?.length > 0) {
+      gsap.from(numberOfOrdersRef.current, {
+        duration: 0.5,
+        yPercent: -100,
+        opacity: 0,
+      });
+    }
   }, [orders?.length]);
 
   return (

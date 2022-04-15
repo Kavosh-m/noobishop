@@ -5,9 +5,9 @@ import { logo } from "../constants/index";
 const Footer = () => {
   const navigate = useNavigate();
   return (
-    <footer className="mx-0 flex w-full flex-col bg-black">
-      <div className="grid grid-cols-5 gap-1 bg-gray-900 px-24 py-24 text-gray-300">
-        <div className=" flex flex-col">
+    <footer className="mx-0 bg-black">
+      <div className="grid grid-cols-1 gap-2 bg-gray-900 p-10 text-gray-300 sm:grid-cols-2 md:grid-cols-5 md:p-16">
+        <div className="flex flex-col sm:col-span-2 md:col-span-1">
           <Link to="/" className="mb-4 aspect-auto w-9/12">
             <img src={logo} alt="" className="h-full w-full object-fill" />
           </Link>
@@ -113,7 +113,7 @@ const Footer = () => {
           </ul>
         </div>
         <div className="flex flex-col">
-          <p className="mb-6 text-lg text-white underline decoration-2 underline-offset-2">
+          <p className="mb-6 whitespace-nowrap text-lg text-white underline decoration-2 underline-offset-2">
             See Information
           </p>
           <ul className="space-y-2">

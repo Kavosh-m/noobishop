@@ -1,16 +1,34 @@
 import React, { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { gsap } from "gsap";
 
-const ScrollToTopButton = ({ target, showBackToTopButton }) => {
+const ScrollToTopButton = ({
+  target,
+  showBackToTopButton,
+  wheelUpTimes,
+  setWheelUpTimes,
+}) => {
   const [scrollPosition, setPosition] = useState(0);
 
   const compRef = useRef();
 
   // console.log(target.current.clientHeight);
 
+  useEffect(() => {
+    if (scrollPosition < 200) {
+      setWheelUpTimes(0);
+    }
+  }, [scrollPosition]);
+
   useLayoutEffect(() => {
     if (compRef.current) {
-      if (showBackToTopButton) {
+      if (showBackToTopButton && wheelUpTimes === 1) {
+        gsap.from(compRef.current, {
+          opacity: 0,
+          y: -target.current?.clientHeight / 2,
+          display: "grid",
+          duration: 1,
+        });
+      } else if (showBackToTopButton && wheelUpTimes > 1) {
         gsap.to(compRef.current, {
           opacity: 1,
           y: 0,
@@ -44,7 +62,7 @@ const ScrollToTopButton = ({ target, showBackToTopButton }) => {
     });
   };
 
-  if (scrollPosition < 200) {
+  if (scrollPosition < 200 || wheelUpTimes === 0) {
     return null;
   }
 

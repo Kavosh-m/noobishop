@@ -24,6 +24,7 @@ import AboutRoute from "./routes/AboutRoute";
 import ShopRoute from "./routes/ShopRoute";
 import ProductDetailsRoute from "./routes/ProductDetailsRoute";
 import CartRoute from "./routes/CartRoute";
+import Contact from "./routes/Contact";
 import WishRoute from "./routes/WishRoute";
 import NotFoundRoute from "./routes/NotFoundRoute";
 
@@ -84,6 +85,7 @@ export default function App() {
             {/* <Route path="/" element={<HomeRoute />} /> */}
             <Route path="/" element={<ShopRoute />} />
             <Route path="/about" element={<AboutRoute />} />
+            <Route path="/contact" element={<Contact />} />
             <Route path="/products/:id" element={<ProductDetailsRoute />} />
             <Route path="/cart" element={<CartRoute />} />
             <Route path="/wish" element={<WishRoute />} />

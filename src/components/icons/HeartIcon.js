@@ -1,10 +1,10 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useLayoutEffect, useRef } from "react";
 import { gsap } from "gsap";
 
 export default function HeartIcon() {
   const heartRef = useRef();
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     gsap.from(heartRef.current, { duration: 0.6, scale: 1.5 });
   }, []);
 

@@ -76,7 +76,7 @@ const ShopLeftSidebar = ({
       </div>
       <div className="mt-3 space-y-3">
         {recentProducts?.map((item) => (
-          <div className="flex items-center gap-3">
+          <div key={item.id} className="flex items-center gap-3">
             <Link
               to={{
                 pathname: `/products/${item.id}`,

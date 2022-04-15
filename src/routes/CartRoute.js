@@ -35,11 +35,11 @@ const CartRoute = () => {
       url: "https://api.zarinpal.com/pg/v4/payment/request.json",
       method: "POST",
       data: params,
-      headers: {
-        // "Access-Control-Allow-Origin": "*",
-        // "Access-Control-Allow-Credentials": "true",
-        // "Access-Control-Request-Method": "POST",
-      },
+      // headers: {
+      //   // "Access-Control-Allow-Origin": "*",
+      //   // "Access-Control-Allow-Credentials": "true",
+      //   // "Access-Control-Request-Method": "POST",
+      // },
     })
       .then((response) => {
         const url = `https://www.zarinpal.com/pg/StartPay/Authority=${response.data.data.authority}`;
@@ -94,7 +94,7 @@ const CartRoute = () => {
                   />
                 </td>
                 <td className="h-36 min-w-[144px] border border-gray-400 px-5 text-center">
-                  ${order.count * order.price}
+                  <p className="text-center">${order.count * order.price}</p>
                 </td>
                 <td className="h-36 min-w-[144px] border border-gray-400 px-5 text-center">
                   <button

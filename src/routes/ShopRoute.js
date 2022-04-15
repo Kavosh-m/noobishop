@@ -39,14 +39,33 @@ const ShopRoute = () => {
   const [pageNumber, setPageNumber] = useState(0);
   const numOfItemsPerPage = 9;
   let numOfItemsVisited = pageNumber * numOfItemsPerPage;
-  const numOfPages = Math.ceil(currentFood.data?.length / numOfItemsPerPage);
+  let numOfPages = Math.ceil(currentFood.data?.length / numOfItemsPerPage);
 
   //////////////////////
+
+  const [tempFood, setTempFood] = useState(
+    currentFood.data?.slice(
+      numOfItemsVisited,
+      numOfItemsVisited + numOfItemsPerPage
+    )
+  );
+
+  useEffect(() => {
+    setTempFood(
+      switchSort(
+        sortType,
+        currentFood.data?.slice(
+          numOfItemsVisited,
+          numOfItemsVisited + numOfItemsPerPage
+        )
+      )
+    );
+  }, [pageNumber, currentFood.data]);
 
   const [gridLayout, setGridLayout] = useState({ grid: true, layout: false });
 
   const [sortType, setSortType] = useState("alphabetical");
-  const [sortToggle, setSortToggle] = useState(false);
+  // const [sortToggle, setSortToggle] = useState(false);
   const [search, setSearch] = useState("");
 
   const [showBackToTopButton, setShowBackToTopButton] = useState(false);
@@ -61,28 +80,40 @@ const ShopRoute = () => {
     setCurrentFood({ ...currentFood, data: res });
   };
 
-  const handleChange = (event) => {
+  const handleChangeFilter = (event) => {
     setSortType(event.target.value);
   };
 
   const handleChangeCategory = () => {
     if (currentFood.name === "burger") {
       setCurrentFood({ ...currentFood, data: burgers });
-      setSortToggle(!sortToggle);
+      console.log("burger");
     } else if (currentFood.name === "pizza") {
       setCurrentFood({ ...currentFood, data: pizzas });
-      setSortToggle(!sortToggle);
+      console.log("pizza");
     } else if (currentFood.name === "pasta") {
       setCurrentFood({ ...currentFood, data: pastas });
-      setSortToggle(!sortToggle);
+      console.log("pasta");
     } else {
       setCurrentFood({ ...currentFood, data: drinks });
-      setSortToggle(!sortToggle);
+      console.log("drinks");
     }
+  };
+
+  const onPageChange = ({ selected }) => {
+    setPageNumber(selected);
+    window.scrollTo({
+      top: sortBarRef.current.offsetTop,
+      behavior: "smooth",
+    });
   };
 
   useEffect(() => {
     handleChangeCategory();
+    setPageNumber(0);
+    numOfItemsVisited = 0;
+    numOfPages = Math.ceil(currentFood.data?.length / numOfItemsPerPage);
+    // onPageChange();
   }, [currentFood.name]);
 
   // sort by name
@@ -99,36 +130,43 @@ const ShopRoute = () => {
       }
       return 0;
     });
-    setCurrentFood({ ...currentFood, data: b });
-    setSortToggle(!sortToggle);
+    return b;
   };
 
   // sort by price (low to high)
   const sort_by_product_price_low_to_high = (c) => {
     const b = [...c];
     b?.sort((a, b) => a.price - b.price);
-    // setSortData(sorted);
-    setCurrentFood({ ...currentFood, data: b });
-    setSortToggle(!sortToggle);
+    return b;
   };
 
   // sort by price (high to low)
   const sort_by_product_price_high_to_low = (c) => {
     const b = [...c];
     b?.sort((a, b) => b.price - a.price);
-    // setSortData(sorted);
-    setCurrentFood({ ...currentFood, data: b });
-    setSortToggle(!sortToggle);
+    return b;
+  };
+
+  // Sort switch case
+  const switchSort = (st, li) => {
+    switch (st) {
+      case "priceLowToHigh":
+        return sort_by_product_price_low_to_high(li);
+      case "priceHighToLow":
+        return sort_by_product_price_high_to_low(li);
+      default:
+        return sort_by_product_name(li);
+    }
   };
 
   useEffect(() => {
-    if (currentFood.data) {
+    if (tempFood) {
       if (sortType === "priceLowToHigh") {
-        sort_by_product_price_low_to_high(currentFood.data);
+        setTempFood(sort_by_product_price_low_to_high(tempFood));
       } else if (sortType === "priceHighToLow") {
-        sort_by_product_price_high_to_low(currentFood.data);
+        setTempFood(sort_by_product_price_high_to_low(tempFood));
       } else {
-        sort_by_product_name(currentFood.data);
+        setTempFood(sort_by_product_name(tempFood));
       }
     }
   }, [sortType]);
@@ -140,13 +178,18 @@ const ShopRoute = () => {
   const mainView = useRef();
   const sortBarRef = useRef();
 
+  const [wheelUpTimes, setWheelUpTimes] = useState(0);
   const handleWheel = (e) => {
     if (e.deltaY > 0) {
       setShowBackToTopButton(false);
     } else {
       setShowBackToTopButton(true);
+      setWheelUpTimes((prevState) => prevState + 1);
+      // console.log(wheelUpTimes);
     }
   };
+
+  // useEffect(() => {},[])
 
   if (!currentFood.data) {
     return (
@@ -241,7 +284,7 @@ const ShopRoute = () => {
               <Select
                 size="small"
                 value={sortType}
-                onChange={handleChange}
+                onChange={handleChangeFilter}
                 displayEmpty
                 inputProps={{ "aria-label": "Without label" }}
               >
@@ -256,22 +299,19 @@ const ShopRoute = () => {
             </div>
 
             {/* products */}
-            {currentFood.data
-              ?.slice(numOfItemsVisited, numOfItemsVisited + numOfItemsPerPage)
-              .map((item) => (
-                <div
-                  key={item.id}
-                  className={`flex ${
-                    gridLayout.layout &&
-                    "col-span-1 sm:col-span-2 lg:col-span-3"
-                  } justify-center bg-gray-100`}
-                >
-                  <ShopCard
-                    showType={gridLayout.grid ? "grid" : "list"}
-                    data={item}
-                  />
-                </div>
-              ))}
+            {tempFood?.map((item) => (
+              <div
+                key={item.id}
+                className={`flex ${
+                  gridLayout.layout && "col-span-1 sm:col-span-2 lg:col-span-3"
+                } justify-center bg-gray-100`}
+              >
+                <ShopCard
+                  showType={gridLayout.grid ? "grid" : "list"}
+                  data={item}
+                />
+              </div>
+            ))}
 
             <div className="col-span-1 flex items-center justify-between border-2 sm:col-span-2 lg:col-span-3">
               <ReactPaginate
@@ -279,14 +319,10 @@ const ShopRoute = () => {
                 previousClassName="px-4 text-gray-600"
                 nextLabel={<ArrowNarrowRight />}
                 nextClassName="px-4 text-gray-600"
+                pageRangeDisplayed={1}
+                marginPagesDisplayed={1}
                 pageCount={numOfPages}
-                onPageChange={({ selected }) => {
-                  setPageNumber(selected);
-                  window.scrollTo({
-                    top: sortBarRef.current.offsetTop,
-                    behavior: "smooth",
-                  });
-                }}
+                onPageChange={onPageChange}
                 containerClassName="bg-white  py-5 flex items-center"
                 pageClassName="px-4"
                 activeLinkClassName="text-black cursor-default"
@@ -306,6 +342,8 @@ const ShopRoute = () => {
       {
         <ScrollToTopButton
           showBackToTopButton={showBackToTopButton}
+          wheelUpTimes={wheelUpTimes}
+          setWheelUpTimes={setWheelUpTimes}
           target={mainView}
         />
       }
