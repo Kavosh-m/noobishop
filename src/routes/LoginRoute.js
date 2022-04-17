@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { auth } from "../firebase";
 import { RecaptchaVerifier, signInWithPhoneNumber } from "firebase/auth";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import loginBg from "../assets/images/food.jpg";
 import { ImSpinner9 } from "react-icons/im";
 
@@ -15,7 +15,7 @@ export default function LoginRoute() {
   const [loading, setLoading] = useState(false);
   const [confirmloading, setConfirmLoading] = useState(false);
 
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
 
   // Sent OTP
   const handleSignIn = (e) => {

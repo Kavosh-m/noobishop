@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { useSelector, useDispatch } from "react-redux";
 import TrashIcon from "../components/icons/TrashIcon";
 import { changeNumberOfItem, removeItem } from "../redux/app/slices/cartSlice";
 import { shopHeader } from "../constants";
-import { Link } from "react-router-dom";
+// import { Link } from "react-router-dom";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import Navbar from "../components/Navbar";

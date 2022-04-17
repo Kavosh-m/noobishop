@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef, useLayoutEffect } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import ShopCard from "../components/shop/ShopCard";
 import LoadingIndicator from "../components/LoadingIndicator";
@@ -17,7 +17,7 @@ import { closeSidebar } from "../redux/app/slices/utilSlice";
 import ReactPaginate from "react-paginate";
 import ArrowNarrowLeft from "../components/icons/ArrowNarrowLeft";
 import ArrowNarrowRight from "../components/icons/ArrowNarrowRight";
-import { gsap } from "gsap";
+// import { gsap } from "gsap";
 
 const ShopRoute = () => {
   const burgers = useSelector((state) => state.food.burger);
@@ -87,16 +87,16 @@ const ShopRoute = () => {
   const handleChangeCategory = () => {
     if (currentFood.name === "burger") {
       setCurrentFood({ ...currentFood, data: burgers });
-      console.log("burger");
+      // console.log("burger");
     } else if (currentFood.name === "pizza") {
       setCurrentFood({ ...currentFood, data: pizzas });
-      console.log("pizza");
+      // console.log("pizza");
     } else if (currentFood.name === "pasta") {
       setCurrentFood({ ...currentFood, data: pastas });
-      console.log("pasta");
+      // console.log("pasta");
     } else {
       setCurrentFood({ ...currentFood, data: drinks });
-      console.log("drinks");
+      // console.log("drinks");
     }
   };
 

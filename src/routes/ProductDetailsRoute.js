@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import MainWrapper from "../components/MainWrapper";
-import { useLocation, useNavigate } from "react-router-dom";
+// import MainWrapper from "../components/MainWrapper";
+import { useLocation } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { saveOrders } from "../redux/app/slices/cartSlice";
 import { saveToWishlist } from "../redux/app/slices/wishSlice";
@@ -12,7 +12,7 @@ import Footer from "../components/Footer";
 // import {  } from 'react-router-dom'
 
 const ProductDetailsRoute = () => {
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   const location = useLocation();
   const dispatch = useDispatch();
 

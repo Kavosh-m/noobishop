@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { auth, db } from "../firebase";
 import { RecaptchaVerifier, signInWithPhoneNumber } from "firebase/auth";
 import { doc, setDoc } from "firebase/firestore";
 import { useNavigate } from "react-router-dom";
-import Alert from "@mui/material/Alert";
+// import Alert from "@mui/material/Alert";
 import registerBg from "../assets/images/foodRegister.jpg";
 
 const RegisterRoute = () => {
@@ -17,7 +17,7 @@ const RegisterRoute = () => {
   const [final, setFinal] = useState();
   const [show, setShow] = useState(false);
   const [otp, setOtp] = useState("");
-  const [error, setError] = useState();
+  // const [error, setError] = useState();
 
   const navigate = useNavigate();
 

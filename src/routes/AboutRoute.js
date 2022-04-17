@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from "react";
+import React from "react";
 import { collectionGroup, query, getDocs } from "firebase/firestore";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
