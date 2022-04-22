@@ -25,7 +25,7 @@ const ProfileHoverCard = ({ auth, signOut, setShowSetting }) => {
           to="/profile"
           className="ml-3 cursor-pointer transition-colors duration-300 ease-in-out hover:text-red-300"
         >
-          Setting
+          My Account
         </Link>
       </div>
 

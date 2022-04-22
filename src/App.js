@@ -27,6 +27,7 @@ import CartRoute from "./routes/CartRoute";
 import Contact from "./routes/Contact";
 import WishRoute from "./routes/WishRoute";
 import NotFoundRoute from "./routes/NotFoundRoute";
+import MyAccountRoute from "./routes/MyAccountRoute";
 
 import LoadingIndicator from "./components/LoadingIndicator";
 
@@ -89,6 +90,7 @@ export default function App() {
             <Route path="/products/:id" element={<ProductDetailsRoute />} />
             <Route path="/cart" element={<CartRoute />} />
             <Route path="/wish" element={<WishRoute />} />
+            <Route path="/profile" element={<MyAccountRoute />} />
             <Route path="*" element={<NotFoundRoute />} />
           </>
         )}
