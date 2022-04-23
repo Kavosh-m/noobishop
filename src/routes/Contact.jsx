@@ -3,8 +3,77 @@ import Footer from "../components/Footer";
 import Navbar from "../components/Navbar";
 import { shopHeader } from "../constants";
 import mapboxgl from "mapbox-gl";
+import ContactCard from "../components/ContactCard";
 
 mapboxgl.accessToken = process.env.REACT_APP_MAPBOX_TOKEN;
+
+const data = [
+  {
+    title: "Our Location",
+    info: "(800) 123 456 789",
+    icon: (
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        className="h-9 w-9 text-red-300 transition-colors delay-200 duration-300 ease-in-out group-hover:text-white"
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke="currentColor"
+        strokeWidth={2}
+      >
+        <path
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"
+        />
+        <path
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"
+        />
+      </svg>
+    ),
+  },
+  {
+    title: "Contact us Anytime",
+    info: "Mobile: 012 345 678",
+    icon: (
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        className="h-9 w-9 text-red-300 transition-colors delay-200 duration-300 ease-in-out group-hover:text-white"
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke="currentColor"
+        strokeWidth={2}
+      >
+        <path
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z"
+        />
+      </svg>
+    ),
+  },
+  {
+    title: "Support Overall",
+    info: "Support24/7@example.com",
+    icon: (
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        className="h-9 w-9 text-red-300 transition-colors delay-200 duration-300 ease-in-out group-hover:text-white"
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke="currentColor"
+        strokeWidth={2}
+      >
+        <path
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
+        />
+      </svg>
+    ),
+  },
+];
 
 const Contact = () => {
   const mapContainer = useRef(null);
@@ -61,93 +130,21 @@ const Contact = () => {
       </div>
       <div className="flex-1 basis-auto bg-white">
         {/* Three square */}
-        <ul className="font-poppins mx-auto grid w-fit grid-cols-1 gap-8 py-10 text-sm sm:grid-cols-2 sm:grid-rows-2 lg:grid-cols-3 lg:grid-rows-1">
-          <li className="group grid place-items-center border border-gray-300 bg-white p-10">
-            <div>
-              <section className="mx-auto w-fit rounded-full border border-red-300 p-3 transition-colors duration-300 ease-in-out group-hover:bg-red-300">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="h-9 w-9 text-red-300 transition-colors delay-200 duration-300 ease-in-out group-hover:text-white"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                  strokeWidth={2}
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"
-                  />
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"
-                  />
-                </svg>
-              </section>
-              <p className="font-oswald py-4 text-center text-lg font-bold">
-                Our Location
-              </p>
-              <p className="text-center">
-                (800) 123 456 789 / (800) 123 456 789
-              </p>
-              <p className="text-center">info@example.com</p>
-            </div>
-          </li>
-          <li className="group grid place-items-center border border-gray-300 bg-white p-10">
-            <div>
-              <section className="mx-auto w-fit rounded-full border border-red-300 p-3 transition-colors duration-300 ease-in-out group-hover:bg-red-300">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="h-9 w-9 text-red-300 transition-colors delay-200 duration-300 ease-in-out group-hover:text-white"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                  strokeWidth={2}
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z"
-                  />
-                </svg>
-              </section>
-              <p className="font-oswald py-4 text-center text-lg font-bold">
-                Contact us Anytime
-              </p>
-              <p className="text-center">Mobile: 012 345 678</p>
-              <p className="text-center">Fax: 123 456 789</p>
-            </div>
-          </li>
-          <li className="group grid place-items-center border border-gray-300 bg-white p-10 sm:col-span-2 lg:col-span-1">
-            <div>
-              <section className="mx-auto w-fit rounded-full border border-red-300 p-3 transition-colors duration-300 ease-in-out group-hover:bg-red-300">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="h-9 w-9 text-red-300 transition-colors delay-200 duration-300 ease-in-out group-hover:text-white"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                  strokeWidth={2}
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
-                  />
-                </svg>
-              </section>
-              <p className="font-oswald py-4 text-center text-lg font-bold">
-                Support Overall
-              </p>
-              <p className="text-center">Support24/7@example.com</p>
-              <p className="text-center">info@example.com</p>
-            </div>
-          </li>
-        </ul>
+        <div className="mx-24 mt-20 grid grid-cols-2 bg-cyan-200">
+          <ul className="col-span-full grid grid-cols-3 gap-6">
+            {data.map((item) => (
+              <li
+                key={item.title}
+                className="group grid place-items-center border border-gray-300 bg-white p-10"
+              >
+                <ContactCard data={item} />
+              </li>
+            ))}
+          </ul>
+        </div>
 
         {/* Form */}
-        <div className="font-poppins mx-52 grid grid-cols-2 grid-rows-6 gap-6">
+        <div className="font-poppins mx-24 grid grid-cols-2 grid-rows-6 gap-6">
           <p className="font-oswald col-span-full flex items-end justify-start text-xl font-bold">
             GET IN TOUCH
           </p>

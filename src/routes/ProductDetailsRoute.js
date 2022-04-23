@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-// import MainWrapper from "../components/MainWrapper";
 import { useLocation } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { saveOrders } from "../redux/app/slices/cartSlice";
@@ -9,10 +8,8 @@ import Rating from "@mui/material/Rating";
 import NotFoundRoute from "./NotFoundRoute";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
-// import {  } from 'react-router-dom'
 
 const ProductDetailsRoute = () => {
-  // const navigate = useNavigate();
   const location = useLocation();
   const dispatch = useDispatch();
 
@@ -36,10 +33,6 @@ const ProductDetailsRoute = () => {
   useEffect(() => {
     setData(location.state);
   }, [location]);
-
-  // useEffect(() => {
-  //   saveOrders()
-  // }, [dispatch]);
 
   if (data === null) {
     return (
