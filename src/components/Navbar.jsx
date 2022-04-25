@@ -3,7 +3,7 @@ import { useNavigate, Link, NavLink } from "react-router-dom";
 import { logo } from "../constants/index";
 import { auth } from "../firebase";
 import { signOut } from "firebase/auth";
-import BasketIcon from "../components/icons/BasketIcon";
+import BasketIcon from "./icons/BasketIcon";
 import { useSelector, useDispatch } from "react-redux";
 import { openSidebar } from "../redux/app/slices/utilSlice";
 import SubmenuBasketProdectCard from "./SubmenuBasketProdectCard";

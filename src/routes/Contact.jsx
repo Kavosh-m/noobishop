@@ -130,12 +130,12 @@ const Contact = () => {
       </div>
       <div className="flex-1 basis-auto bg-white">
         {/* Three square */}
-        <div className="mx-24 mt-20 grid grid-cols-2 bg-cyan-200">
-          <ul className="col-span-full grid grid-cols-3 gap-6">
+        <div className="small:mx-24 mx-4 mt-20 grid grid-cols-2 bg-white">
+          <ul className="col-span-full grid gap-6 md:grid-cols-2 lg:grid-cols-3 lg:grid-rows-1">
             {data.map((item) => (
               <li
                 key={item.title}
-                className="group grid place-items-center border border-gray-300 bg-white p-10"
+                className="group grid place-items-center border border-gray-300 bg-white py-10 md:aspect-square md:py-0 last:md:col-span-2 last:md:aspect-auto last:md:py-10 last:lg:col-span-1"
               >
                 <ContactCard data={item} />
               </li>
@@ -144,7 +144,7 @@ const Contact = () => {
         </div>
 
         {/* Form */}
-        <div className="font-poppins mx-24 grid grid-cols-2 grid-rows-6 gap-6">
+        <div className="font-poppins small:mx-24 mx-4 grid grid-cols-1 grid-rows-6 gap-6 md:grid-cols-2">
           <p className="font-oswald col-span-full flex items-end justify-start text-xl font-bold">
             GET IN TOUCH
           </p>
@@ -168,7 +168,7 @@ const Contact = () => {
             placeholder="Message"
           />
         </div>
-        <button className="font-oswald ml-52 mt-10 w-fit whitespace-nowrap bg-red-400 px-7 py-3 text-center text-lg font-semibold text-white transition-colors duration-300 ease-in-out hover:bg-gray-300 hover:text-black">
+        <button className="font-oswald small:ml-24 ml-4 mt-10 w-fit whitespace-nowrap bg-red-400 px-7 py-3 text-center text-lg font-semibold text-white transition-colors duration-300 ease-in-out hover:bg-gray-300 hover:text-black">
           SEND A MESSAGE
         </button>
 

@@ -1,11 +1,16 @@
+const defaultTheme = require("tailwindcss/defaultTheme");
+
 module.exports = {
   content: ["./src/**/*.{js,jsx,ts,tsx}"],
   theme: {
+    screens: {
+      xsmall: "350px",
+      small: "576px",
+      ...defaultTheme.screens,
+    },
     extend: {
       screens: {
-        xsmall: "350px",
         large: "992px",
-        small: "576px",
       },
       animation: {
         spinbackforth1: "spinbackforth1 2s linear infinite",

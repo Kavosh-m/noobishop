@@ -2,7 +2,7 @@ import React, { useLayoutEffect, useState } from "react";
 import { auth } from "../firebase";
 import { signOut } from "firebase/auth";
 import { logo } from "../constants/index";
-import BasketIcon from "../components/icons/BasketIcon";
+import BasketIcon from "./icons/BasketIcon";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
