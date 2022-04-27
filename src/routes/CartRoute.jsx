@@ -1,14 +1,14 @@
-import React from "react";
+import React, { useRef, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import TrashIcon from "../components/icons/TrashIcon";
 import { changeNumberOfItem, removeItem } from "../redux/app/slices/cartSlice";
 import { shopHeader } from "../constants";
-// import { Link } from "react-router-dom";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import Counter from "../components/Counter";
+import ScrollToTopButton from "../components/ScrollToTopButton";
 
 const CartRoute = () => {
   const orders = useSelector((state) => state.cart.ordered);
@@ -42,15 +42,29 @@ const CartRoute = () => {
       // },
     })
       .then((response) => {
+        console.log("Zarinpal response ===> ", response.data);
         const url = `https://www.zarinpal.com/pg/StartPay/Authority=${response.data.data.authority}`;
         // console.log("URL => ", url);
         navigate(url);
       })
-      .catch((error) => console.log("error happened ===> ", error));
+      .catch((error) => console.log("zarinpal. error happened ===> ", error));
+  };
+
+  const mainView = useRef();
+  const [showBackToTopButton, setShowBackToTopButton] = useState(false);
+  const [wheelUpTimes, setWheelUpTimes] = useState(0);
+  const handleWheel = (e) => {
+    if (e.deltaY > 0) {
+      setShowBackToTopButton(false);
+    } else {
+      setShowBackToTopButton(true);
+      setWheelUpTimes((prevState) => prevState + 1);
+      // console.log(wheelUpTimes);
+    }
   };
 
   return (
-    <div className="relative min-h-screen">
+    <div ref={mainView} onWheel={handleWheel} className="relative min-h-screen">
       <Navbar />
       <div className="h-[375px] w-full bg-gray-300">
         <img
@@ -63,12 +77,12 @@ const CartRoute = () => {
         <table className="font-poppins w-full border-collapse border font-medium">
           <thead>
             <tr className="">
-              <th className="border border-gray-400 py-4">Image</th>
-              <th className="border border-gray-400 py-4">Product</th>
-              <th className="border border-gray-400 py-4">Price</th>
-              <th className="border border-gray-400 py-4">Quantity</th>
-              <th className="border border-gray-400 py-4">Total</th>
-              <th className="border border-gray-400 py-4">Remove</th>
+              <th className="border border-gray-400 px-5 py-4">Image</th>
+              <th className="border border-gray-400 px-5 py-4">Product</th>
+              <th className="border border-gray-400 px-5 py-4">Price</th>
+              <th className="border border-gray-400 px-5 py-4">Quantity</th>
+              <th className="border border-gray-400 px-5 py-4">Total</th>
+              <th className="border border-gray-400 px-5 py-4">Remove</th>
             </tr>
           </thead>
           <tbody className="">
@@ -86,7 +100,7 @@ const CartRoute = () => {
                 <td className="h-36 min-w-[144px] border border-gray-400 px-5 text-center">
                   <p>${order.price}</p>
                 </td>
-                <td className="h-36 min-w-[144px] border border-gray-400 px-5">
+                <td className="h-36 min-w-[200px] border border-gray-400 px-5">
                   <Counter
                     order={order}
                     handleIncrement={handleIncrement}
@@ -127,11 +141,20 @@ const CartRoute = () => {
             }`}
           </p>
         </div>
-        <button className="w-full bg-red-400 p-3 text-center text-xl font-bold text-white transition duration-300 ease-in-out hover:bg-gray-300 hover:text-black">
+        <button
+          onClick={zarinpalGate}
+          className="w-full bg-red-400 p-3 text-center text-xl font-bold text-white transition duration-300 ease-in-out hover:bg-gray-300 hover:text-black"
+        >
           PROCEED CHECKOUT
         </button>
       </div>
       <Footer />
+      <ScrollToTopButton
+        showBackToTopButton={showBackToTopButton}
+        wheelUpTimes={wheelUpTimes}
+        setWheelUpTimes={setWheelUpTimes}
+        target={mainView}
+      />
     </div>
   );
 };

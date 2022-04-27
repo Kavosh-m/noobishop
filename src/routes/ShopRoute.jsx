@@ -71,13 +71,17 @@ const ShopRoute = () => {
   const [showBackToTopButton, setShowBackToTopButton] = useState(false);
 
   const handleSearch = () => {
-    let allFoods = burgers.concat(pizzas, pastas, drinks);
-    // console.log(allFoods);
-    let res = allFoods.filter((item) =>
-      item.name.toLowerCase().includes(search.toLowerCase())
-    );
+    if (search.length > 0) {
+      let allFoods = burgers.concat(pizzas, pastas, drinks);
 
-    setCurrentFood({ ...currentFood, data: res });
+      let res = allFoods.filter((item) =>
+        item.name.toLowerCase().includes(search.toLowerCase())
+      );
+
+      setCurrentFood({ ...currentFood, data: res });
+    } else {
+      setCurrentFood({ ...currentFood, data: burgers, name: "burger" });
+    }
   };
 
   const handleChangeFilter = (event) => {
@@ -338,15 +342,12 @@ const ShopRoute = () => {
         </div>
       </div>
       <Footer />
-
-      {
-        <ScrollToTopButton
-          showBackToTopButton={showBackToTopButton}
-          wheelUpTimes={wheelUpTimes}
-          setWheelUpTimes={setWheelUpTimes}
-          target={mainView}
-        />
-      }
+      <ScrollToTopButton
+        showBackToTopButton={showBackToTopButton}
+        wheelUpTimes={wheelUpTimes}
+        setWheelUpTimes={setWheelUpTimes}
+        target={mainView}
+      />
     </div>
   );
 };

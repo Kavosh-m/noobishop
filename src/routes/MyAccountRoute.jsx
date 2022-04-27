@@ -2,6 +2,7 @@ import React, { useState, useRef, useEffect } from "react";
 import { shopHeader } from "../constants";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
+import ScrollToTopButton from "../components/ScrollToTopButton";
 import AccountDetails from "../components/AccountDetails";
 import { gsap } from "gsap";
 
@@ -96,8 +97,25 @@ const MyAccountRoute = () => {
     gsap.from(contentRef.current, { opacity: 0, duration: 0.6 });
   }, [lever]);
 
+  const mainView = useRef();
+  const [showBackToTopButton, setShowBackToTopButton] = useState(false);
+  const [wheelUpTimes, setWheelUpTimes] = useState(0);
+  const handleWheel = (e) => {
+    if (e.deltaY > 0) {
+      setShowBackToTopButton(false);
+    } else {
+      setShowBackToTopButton(true);
+      setWheelUpTimes((prevState) => prevState + 1);
+      // console.log(wheelUpTimes);
+    }
+  };
+
   return (
-    <div className="relative flex min-h-screen flex-col justify-between">
+    <div
+      ref={mainView}
+      onWheel={handleWheel}
+      className="relative flex min-h-screen flex-col justify-between"
+    >
       <Navbar />
       <div className="h-[375px] w-full bg-gray-300">
         <img
@@ -107,8 +125,9 @@ const MyAccountRoute = () => {
         />
       </div>
       <div className="my-20 block flex-1 basis-auto bg-white">
-        <div className="mx-auto grid w-full grid-cols-12 gap-x-8 px-[15px] xl:max-w-[90%] 2xl:max-w-[90%]">
-          <div className="col-span-3 flex w-full flex-col items-start">
+        <div className="mdADetail:px-[15px] mx-auto grid w-full grid-cols-12 gap-x-8 px-20 xl:max-w-[90%] 2xl:max-w-[90%]">
+          {/* Item section */}
+          <div className="mdADetail:col-span-3 col-span-full flex w-full flex-col items-start">
             {data.map((item) => (
               <button
                 key={item.title}
@@ -124,13 +143,26 @@ const MyAccountRoute = () => {
               </button>
             ))}
           </div>
-          <div ref={contentRef} className="col-span-9 border p-6">
-            <p className="border-b pb-2 capitalize">{lever.toLowerCase()}</p>
+
+          {/* Content section */}
+          <div
+            ref={contentRef}
+            className="mdADetail:mt-0 mdADetail:col-span-9 col-span-full mt-8 border p-6"
+          >
+            <p className="font-oswald border-b pb-2 text-xl font-bold capitalize">
+              {lever.toLowerCase()}
+            </p>
             {data.filter((item) => item.title === lever)[0].content}
           </div>
         </div>
       </div>
       <Footer />
+      <ScrollToTopButton
+        showBackToTopButton={showBackToTopButton}
+        wheelUpTimes={wheelUpTimes}
+        setWheelUpTimes={setWheelUpTimes}
+        target={mainView}
+      />
     </div>
   );
 };

@@ -10,6 +10,7 @@ module.exports = {
     },
     extend: {
       screens: {
+        mdADetail: "881px",
         large: "992px",
       },
       animation: {

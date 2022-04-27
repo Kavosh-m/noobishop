@@ -3,15 +3,15 @@ import React from "react";
 const AccountDetails = () => {
   return (
     <div className="w-full">
-      <div className="flex justify-between">
-        <div className="basis-[48%]">
+      <div className="flex flex-col justify-between lg:flex-row">
+        <div className="lg:basis-[48%]">
           <p className="py-2">First Name</p>
           <input
             className="w-full border p-3 outline-0 focus:border-red-300"
             placeholder="First Name..."
           />
         </div>
-        <div className="basis-[48%]">
+        <div className="lg:basis-[48%]">
           <p className="py-2">Last Name</p>
           <input
             className="w-full border p-3 outline-0 focus:border-red-300"

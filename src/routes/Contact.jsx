@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import Footer from "../components/Footer";
 import Navbar from "../components/Navbar";
+import ScrollToTopButton from "../components/ScrollToTopButton";
 import { shopHeader } from "../constants";
 import mapboxgl from "mapbox-gl";
 import ContactCard from "../components/ContactCard";
@@ -118,8 +119,25 @@ const Contact = () => {
     marker.togglePopup(); // toggle popup open or closed
   });
 
+  const mainView = useRef();
+  const [showBackToTopButton, setShowBackToTopButton] = useState(false);
+  const [wheelUpTimes, setWheelUpTimes] = useState(0);
+  const handleWheel = (e) => {
+    if (e.deltaY > 0) {
+      setShowBackToTopButton(false);
+    } else {
+      setShowBackToTopButton(true);
+      setWheelUpTimes((prevState) => prevState + 1);
+      // console.log(wheelUpTimes);
+    }
+  };
+
   return (
-    <div className="relative flex min-h-screen flex-col justify-between">
+    <div
+      ref={mainView}
+      onWheel={handleWheel}
+      className="relative flex min-h-screen flex-col justify-between"
+    >
       <Navbar />
       <div className="h-[375px] w-full bg-gray-300">
         <img
@@ -179,6 +197,12 @@ const Contact = () => {
         ></div>
       </div>
       <Footer />
+      <ScrollToTopButton
+        showBackToTopButton={showBackToTopButton}
+        wheelUpTimes={wheelUpTimes}
+        setWheelUpTimes={setWheelUpTimes}
+        target={mainView}
+      />
     </div>
   );
 };

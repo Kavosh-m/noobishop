@@ -1,7 +1,8 @@
-import React from "react";
+import React, { useRef, useState } from "react";
 import { collectionGroup, query, getDocs } from "firebase/firestore";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
+import ScrollToTopButton from "../components/ScrollToTopButton";
 import { db } from "../firebase";
 
 const AboutRoute = () => {
@@ -14,28 +15,38 @@ const AboutRoute = () => {
     });
   };
 
+  const mainView = useRef();
+  const [showBackToTopButton, setShowBackToTopButton] = useState(false);
+  const [wheelUpTimes, setWheelUpTimes] = useState(0);
+  const handleWheel = (e) => {
+    if (e.deltaY > 0) {
+      setShowBackToTopButton(false);
+    } else {
+      setShowBackToTopButton(true);
+      setWheelUpTimes((prevState) => prevState + 1);
+      // console.log(wheelUpTimes);
+    }
+  };
+
   return (
-    <div className="relative flex min-h-screen flex-col justify-between">
+    <div
+      ref={mainView}
+      onWheel={handleWheel}
+      className="relative flex min-h-screen flex-col justify-between"
+    >
       <Navbar />
-      <div className="flex-1 basis-auto bg-red-200">
-        <p className="bg-cyan-300 p-6">About</p>
-        <p className="bg-cyan-300 p-6">About</p>
-        <p className="bg-cyan-300 p-6">About</p>
-        <p className="bg-cyan-300 p-6">About</p>
-        <p className="bg-cyan-300 p-6">About</p>
-        <p className="bg-cyan-300 p-6">About</p>
-        <p className="bg-cyan-300 p-6">About</p>
-        <p className="bg-cyan-300 p-6">About</p>
-        <p className="bg-cyan-300 p-6">About</p>
-        <p className="bg-cyan-300 p-6">About</p>
-        <button
-          onClick={onclick}
-          className="rounded-3xl bg-indigo-300 p-6 py-3"
-        >
-          Get
-        </button>
+      <div className="flex-1 basis-auto bg-white">
+        <p className="font-poppins mt-10 text-xl">
+          This page is under development
+        </p>
       </div>
       <Footer />
+      <ScrollToTopButton
+        showBackToTopButton={showBackToTopButton}
+        wheelUpTimes={wheelUpTimes}
+        setWheelUpTimes={setWheelUpTimes}
+        target={mainView}
+      />
     </div>
   );
 };

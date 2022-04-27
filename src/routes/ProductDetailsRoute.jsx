@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useLocation } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { saveOrders } from "../redux/app/slices/cartSlice";
@@ -8,6 +8,7 @@ import Rating from "@mui/material/Rating";
 import NotFoundRoute from "./NotFoundRoute";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
+import ScrollToTopButton from "../components/ScrollToTopButton";
 
 const ProductDetailsRoute = () => {
   const location = useLocation();
@@ -34,6 +35,19 @@ const ProductDetailsRoute = () => {
     setData(location.state);
   }, [location]);
 
+  const mainView = useRef();
+  const [showBackToTopButton, setShowBackToTopButton] = useState(false);
+  const [wheelUpTimes, setWheelUpTimes] = useState(0);
+  const handleWheel = (e) => {
+    if (e.deltaY > 0) {
+      setShowBackToTopButton(false);
+    } else {
+      setShowBackToTopButton(true);
+      setWheelUpTimes((prevState) => prevState + 1);
+      // console.log(wheelUpTimes);
+    }
+  };
+
   if (data === null) {
     return (
       <>
@@ -43,7 +57,7 @@ const ProductDetailsRoute = () => {
   }
 
   return (
-    <div className="relative min-h-screen">
+    <div ref={mainView} onWheel={handleWheel} className="relative min-h-screen">
       <Navbar />
 
       {/* Header image goes here */}
@@ -118,8 +132,13 @@ const ProductDetailsRoute = () => {
           </div>
         </div>
       </div>
-
       <Footer />
+      <ScrollToTopButton
+        showBackToTopButton={showBackToTopButton}
+        wheelUpTimes={wheelUpTimes}
+        setWheelUpTimes={setWheelUpTimes}
+        target={mainView}
+      />
     </div>
   );
 };

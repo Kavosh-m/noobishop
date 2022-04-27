@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { FaPlus } from "react-icons/fa";
 import { ImPhone } from "react-icons/im";
 import { HiMail } from "react-icons/hi";
 import { GrFacebookOption } from "react-icons/gr";
@@ -9,8 +8,9 @@ import { ImYoutube2 } from "react-icons/im";
 import { FaVimeoV } from "react-icons/fa";
 import { NavLink } from "react-router-dom";
 
-const Sidebar = ({ sidebar, setSidebar }) => {
+const Sidebar = () => {
   //   const [sidebarr, setSidebarr] = useState(sidebar);
+  const [search, setSearch] = useState("");
 
   const activeClassName = "text-red-300";
   const inactiveClassName =
@@ -24,6 +24,8 @@ const Sidebar = ({ sidebar, setSidebar }) => {
       <div className="flex w-full items-center justify-between bg-gray-200 py-2 px-3">
         <input
           placeholder="Search products..."
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
           className="basis-5/6 bg-transparent text-sm outline-0"
         />
         <svg
