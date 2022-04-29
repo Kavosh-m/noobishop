@@ -17,6 +17,8 @@ import { closeSidebar } from "../redux/app/slices/utilSlice";
 import ReactPaginate from "react-paginate";
 import ArrowNarrowLeft from "../components/icons/ArrowNarrowLeft";
 import ArrowNarrowRight from "../components/icons/ArrowNarrowRight";
+import { db } from "../firebase";
+import { doc, setDoc } from "firebase/firestore";
 // import { gsap } from "gsap";
 
 const ShopRoute = () => {
@@ -193,7 +195,27 @@ const ShopRoute = () => {
     }
   };
 
-  // useEffect(() => {},[])
+  // Save user credentials in firestore
+  const saveInFirestore = async () => {
+    const saved = localStorage.getItem("userCredentials");
+    const initialValue = JSON.parse(saved);
+    // console.log("USER credentials ====> ", initialValue);
+
+    if (initialValue) {
+      await setDoc(doc(db, "users", initialValue.uid), {
+        name: initialValue.name,
+        email: initialValue.email,
+        phonenumber: initialValue.phonenumber,
+      });
+
+      //Now we remove item from local storage
+      localStorage.removeItem("userCredentials");
+    }
+  };
+
+  useEffect(() => {
+    saveInFirestore();
+  }, []);
 
   if (!currentFood.data) {
     return (

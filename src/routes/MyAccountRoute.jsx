@@ -125,7 +125,7 @@ const MyAccountRoute = () => {
         />
       </div>
       <div className="my-20 block flex-1 basis-auto bg-white">
-        <div className="mdADetail:px-[15px] mx-auto grid w-full grid-cols-12 gap-x-8 px-20 xl:max-w-[90%] 2xl:max-w-[90%]">
+        <div className="mdADetail:px-4 mx-auto grid w-full grid-cols-12 gap-x-8 bg-white px-3 sm:px-20 xl:max-w-[90%] 2xl:max-w-[90%]">
           {/* Item section */}
           <div className="mdADetail:col-span-3 col-span-full flex w-full flex-col items-start">
             {data.map((item) => (
