@@ -4,6 +4,9 @@ import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import ScrollToTopButton from "../components/ScrollToTopButton";
 import AccountDetails from "../components/AccountDetails";
+import { signOut } from "firebase/auth";
+import { useNavigate } from "react-router-dom";
+import { auth } from "../firebase";
 import { gsap } from "gsap";
 
 const data = [
@@ -82,13 +85,21 @@ const data = [
 const MyAccountRoute = () => {
   const [lever, setLever] = useState(data[0].title);
 
+  const navigate = useNavigate();
+
   const activeClass =
     "group flex w-full items-center pr-2 space-x-2 border border-red-400 bg-red-400 text-white py-3 pl-3 transition-colors duration-300 ease-in-out hover:border-red-400 hover:bg-red-400 hover:text-white";
   const inactiveClass =
     "group flex w-full items-center pr-2 space-x-2 border bg-white py-3 pl-3 transition-colors duration-300 ease-in-out hover:border-red-400 hover:bg-red-400 hover:text-white";
 
   const changeLever = (p) => {
-    setLever(p);
+    if (p === "LOGOUT") {
+      signOut(auth)
+        .then(() => navigate("/"))
+        .catch((err) => console.log(err));
+    } else {
+      setLever(p);
+    }
   };
 
   const contentRef = useRef(null);

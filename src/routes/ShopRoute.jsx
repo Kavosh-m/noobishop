@@ -215,6 +215,7 @@ const ShopRoute = () => {
 
   useEffect(() => {
     saveInFirestore();
+    // console.log("user object ====> ", user);
   }, []);
 
   if (!currentFood.data) {

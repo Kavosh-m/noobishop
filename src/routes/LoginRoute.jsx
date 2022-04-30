@@ -1,9 +1,18 @@
-import React, { useState } from "react";
-import { auth } from "../firebase";
+import React, { forwardRef, useState } from "react";
+import { auth, db } from "../firebase";
+import { collection, query, where, getDocs } from "firebase/firestore";
 import { RecaptchaVerifier, signInWithPhoneNumber } from "firebase/auth";
 import { Link } from "react-router-dom";
 import loginBg from "../assets/images/food.jpg";
 import { ImSpinner9 } from "react-icons/im";
+import { Snackbar } from "@mui/material";
+import MuiAlert from "@mui/material/Alert";
+
+const usersRef = collection(db, "users");
+
+const Alert = forwardRef(function Alert(props, ref) {
+  return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+});
 
 export default function LoginRoute() {
   auth.languageCode = "en";
@@ -17,11 +26,13 @@ export default function LoginRoute() {
   const [googleVerifier, setGoogleVerifier] = useState("hidden");
   const [error, setError] = useState({ state: false, message: "" });
   const [networkError, setNetworkError] = useState(false);
+  const [openToast, setOpenToast] = useState(false);
+  const [openToast2, setOpenToast2] = useState(false);
 
   // const navigate = useNavigate();
 
   // Sent OTP
-  const handleSignIn = (e) => {
+  const handleSignIn = async (e) => {
     e.preventDefault();
     if (phonenumber.length !== 10) {
       phonenumber.length === 0
@@ -34,20 +45,31 @@ export default function LoginRoute() {
     setError({ ...error, state: false, message: "" });
 
     setLoading(true);
-    setGoogleVerifier("block");
-    let verify = new RecaptchaVerifier("recaptcha-container", {}, auth);
-    signInWithPhoneNumber(auth, "+98" + phonenumber, verify)
-      .then((result) => {
-        setFinal(result);
-        console.log("code sent successfully");
-        setLoading(false);
-        setShow(true);
-      })
-      .catch((err) => {
-        console.log(err);
-        setLoading(false);
-        // window.location.reload();
-      });
+
+    const q = query(usersRef, where("phonenumber", "==", phonenumber));
+    const querySnapshot = await getDocs(q);
+
+    if (!querySnapshot.empty) {
+      setGoogleVerifier("block");
+      let verify = new RecaptchaVerifier("recaptcha-container", {}, auth);
+      signInWithPhoneNumber(auth, "+98" + phonenumber, verify)
+        .then((result) => {
+          setFinal(result);
+          // console.log("code sent successfully");
+          setLoading(false);
+          setShow(true);
+          setOpenToast(true);
+        })
+        .catch((err) => {
+          console.log(err);
+          setLoading(false);
+          // window.location.reload();
+        });
+    } else {
+      // console.log("User not found! please register");
+      setOpenToast2(true);
+      setLoading(false);
+    }
   };
 
   // Validate OTP
@@ -146,6 +168,20 @@ export default function LoginRoute() {
           </form>
 
           <div className={googleVerifier} id="recaptcha-container"></div>
+          <Snackbar
+            open={openToast2}
+            anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
+            autoHideDuration={6000}
+            onClose={() => setOpenToast2(false)}
+          >
+            <Alert
+              onClose={() => setOpenToast2(false)}
+              severity="info"
+              sx={{ width: "100%" }}
+            >
+              User not found! please register
+            </Alert>
+          </Snackbar>
         </div>
       ) : (
         <div className="flex flex-col space-y-14 bg-[#f3f3f3] px-10 py-9">
@@ -185,6 +221,28 @@ export default function LoginRoute() {
               Confirm
             </button>
           </form>
+
+          <Snackbar
+            open={openToast}
+            anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
+            autoHideDuration={6000}
+            onClose={() => setOpenToast(false)}
+            // message="Successfully updated"
+            // sx={{
+            //   "& .MuiPaper-root.MuiPaper-elevation.MuiPaper-elevation6.MuiSnackbarContent-root":
+            //     {
+            //       backgroundColor: "green",
+            //     },
+            // }}
+          >
+            <Alert
+              onClose={() => setOpenToast(false)}
+              severity="success"
+              sx={{ width: "100%" }}
+            >
+              Verification code has been sent
+            </Alert>
+          </Snackbar>
         </div>
       )}
     </div>

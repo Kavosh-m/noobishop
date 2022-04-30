@@ -1,19 +1,18 @@
-import React, { useEffect, useState } from "react";
+import React, { forwardRef, useEffect, useState } from "react";
 import { auth, db } from "../firebase";
 import { RecaptchaVerifier, signInWithPhoneNumber } from "firebase/auth";
-import {
-  doc,
-  setDoc,
-  collection,
-  query,
-  where,
-  getDocs,
-} from "firebase/firestore";
+import { collection, query, where, getDocs } from "firebase/firestore";
 import { useNavigate } from "react-router-dom";
 import registerBg from "../assets/images/foodRegister.jpg";
 import { ImSpinner9 } from "react-icons/im";
+import { Snackbar } from "@mui/material";
+import MuiAlert from "@mui/material/Alert";
 
 const usersRef = collection(db, "users");
+
+const Alert = forwardRef(function Alert(props, ref) {
+  return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+});
 
 const RegisterRoute = () => {
   const [Name, setName] = useState({ content: "", empty: false });
@@ -31,6 +30,7 @@ const RegisterRoute = () => {
   const [confirmloading, setConfirmLoading] = useState(false);
   const [error, setError] = useState({ state: false, message: "" });
   const [networkError, setNetworkError] = useState(false);
+  const [openToast2, setOpenToast2] = useState(false);
 
   const navigate = useNavigate();
 
@@ -81,7 +81,8 @@ const RegisterRoute = () => {
           // window.location.reload();
         });
     } else {
-      console.log("User exists. please login");
+      // console.log("User exists. please login");
+      setOpenToast2(true);
       setLoading(false);
     }
 
@@ -105,8 +106,6 @@ const RegisterRoute = () => {
     final
       .confirm(otp)
       .then((result) => {
-        // console.log("user loged-in succesfully ===> ", result.user.uid);
-
         let cred = {
           name: Name.content,
           email: email,
@@ -115,12 +114,6 @@ const RegisterRoute = () => {
         };
 
         localStorage.setItem("userCredentials", JSON.stringify(cred));
-
-        // await setDoc(doc(db, "users", result.user.uid), {
-        //   name: Name.content,
-        //   email: email,
-        //   phonenumber: phone.content,
-        // });
 
         setConfirmLoading(false);
         navigate("/");
@@ -235,6 +228,21 @@ const RegisterRoute = () => {
             </div>
           </form>
           <div className={googleVerifier} id="recaptcha-container"></div>
+
+          <Snackbar
+            open={openToast2}
+            anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
+            autoHideDuration={6000}
+            onClose={() => setOpenToast2(false)}
+          >
+            <Alert
+              onClose={() => setOpenToast2(false)}
+              severity="info"
+              sx={{ width: "100%" }}
+            >
+              User exists. please login
+            </Alert>
+          </Snackbar>
         </div>
       ) : (
         <div className="flex flex-col items-center space-y-14 bg-[#f3f3f3] px-10 py-9">
