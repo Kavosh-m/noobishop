@@ -70,7 +70,7 @@ const Navbar = () => {
     <div
       className={`${
         scrollPosition >= 350 ? "animate-dropDown sticky top-0" : "relative"
-      }  font-poppins z-40 mx-0 flex w-full items-center justify-between bg-white px-12 py-6 text-base shadow-md lg:px-4`}
+      }  font-poppins z-40 mx-0 flex w-full items-center justify-between bg-white px-4 py-6 text-base shadow-md`}
     >
       <Link className="aspect-auto w-32" to="/">
         <img src={logo} alt="" className="h-full w-full object-fill" />
@@ -201,7 +201,7 @@ const Navbar = () => {
             <div
               onMouseEnter={() => setShow(true)}
               onMouseLeave={() => setShow(false)}
-              className="absolute right-0 top-[52px] z-10 flex w-96 flex-col divide-y-2 bg-white px-6 shadow-lg"
+              className="absolute -right-12 top-[52px] z-10 flex w-96 flex-col divide-y-2 bg-white px-6 shadow-lg lg:right-0"
             >
               {/*onhover content*/}
 

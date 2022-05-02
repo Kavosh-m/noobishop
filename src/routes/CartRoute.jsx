@@ -87,7 +87,7 @@ const CartRoute = () => {
         <img
           src={shopHeader}
           alt=""
-          className="h-full w-full object-fill brightness-50"
+          className="h-full w-full object-cover brightness-50"
         />
       </div>
       <div className="mx-4 my-10 overflow-x-auto sm:mx-20">
