@@ -8,6 +8,10 @@ import { signOut } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
 import { auth } from "../firebase";
 import { gsap } from "gsap";
+import { useSelector, useDispatch } from "react-redux";
+import Sidebar from "../components/Sidebar";
+import Drawer from "@mui/material/Drawer";
+import { closeSidebar } from "../redux/app/slices/utilSlice";
 
 const data = [
   {
@@ -87,6 +91,14 @@ const MyAccountRoute = () => {
 
   const navigate = useNavigate();
 
+  const sidebarStatus = useSelector((state) => state.util.sidebar);
+
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(closeSidebar());
+  }, []);
+
   const activeClass =
     "group flex w-full items-center pr-2 space-x-2 border border-red-400 bg-red-400 text-white py-3 pl-3 transition-colors duration-300 ease-in-out hover:border-red-400 hover:bg-red-400 hover:text-white";
   const inactiveClass =
@@ -127,6 +139,14 @@ const MyAccountRoute = () => {
       onWheel={handleWheel}
       className="relative flex min-h-screen flex-col justify-between"
     >
+      {/* drawer */}
+      <Drawer
+        anchor="left"
+        open={sidebarStatus}
+        onClose={() => dispatch(closeSidebar())}
+      >
+        <Sidebar />
+      </Drawer>
       <Navbar />
       <div className="h-[375px] w-full bg-gray-300">
         <img

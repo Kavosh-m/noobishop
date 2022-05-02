@@ -10,6 +10,7 @@ import { closeSidebar } from "../redux/app/slices/utilSlice";
 import Footer from "../components/Footer";
 import Navbar from "../components/Navbar";
 import ScrollToTopButton from "../components/ScrollToTopButton";
+import CustomAlert from "../components/CustomAlert";
 
 const WishRoute = () => {
   const favorites = useSelector((state) => state.wish.wishlist);
@@ -24,6 +25,8 @@ const WishRoute = () => {
   const mainView = useRef();
   const [showBackToTopButton, setShowBackToTopButton] = useState(false);
   const [wheelUpTimes, setWheelUpTimes] = useState(0);
+  const [openToast, setOpenToast] = useState(false);
+
   const handleWheel = (e) => {
     if (e.deltaY > 0) {
       setShowBackToTopButton(false);
@@ -88,7 +91,10 @@ const WishRoute = () => {
                 <td className="h-36 min-w-[202px] border border-gray-400 px-5 text-center">
                   <button
                     // disabled={unit > 0 ? false : true}
-                    onClick={() => dispatch(saveOrders({ ...order, count: 1 }))}
+                    onClick={() => {
+                      dispatch(saveOrders({ ...order, count: 1 }));
+                      setOpenToast(true);
+                    }}
                     className="rounded-3xl bg-red-400 p-3 px-7 text-base text-white transition duration-300 ease-in-out hover:bg-gray-300 hover:text-black"
                   >
                     ADD TO CART
@@ -115,6 +121,12 @@ const WishRoute = () => {
         wheelUpTimes={wheelUpTimes}
         setWheelUpTimes={setWheelUpTimes}
         target={mainView}
+      />
+      <CustomAlert
+        alertType="success"
+        message="Added to cart"
+        isOpen={openToast}
+        onClose={() => setOpenToast(false)}
       />
     </div>
   );

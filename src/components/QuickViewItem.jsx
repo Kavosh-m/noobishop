@@ -1,5 +1,6 @@
 import React from "react";
 import Rating from "@mui/material/Rating";
+import CustomAlert from "../components/CustomAlert";
 
 const QuickViewItem = ({
   data,
@@ -8,6 +9,8 @@ const QuickViewItem = ({
   handleAddToCart,
   num,
   setIsDialogOpen,
+  openToast,
+  setOpenToast,
 }) => {
   return (
     <div className="relative z-10 flex w-4/6 items-center justify-between space-x-10 rounded-lg bg-white p-3">
@@ -50,8 +53,9 @@ const QuickViewItem = ({
           </div>
           <div>
             <button
+              disabled={num === 0 ? true : false}
               onClick={handleAddToCart}
-              className="h-full w-full rounded-3xl bg-red-400 p-3 text-white transition duration-300 ease-in-out hover:bg-gray-300 hover:text-black"
+              className="h-full w-full rounded-3xl bg-red-400 p-3 text-white transition duration-300 ease-in-out hover:bg-gray-300 hover:text-black disabled:bg-gray-300 disabled:text-black/30"
             >
               ADD TO CART
             </button>
@@ -65,6 +69,12 @@ const QuickViewItem = ({
       >
         X
       </button>
+      <CustomAlert
+        alertType="success"
+        message="Added to cart"
+        isOpen={openToast}
+        onClose={() => setOpenToast(false)}
+      />
     </div>
   );
 };

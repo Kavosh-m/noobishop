@@ -1,11 +1,23 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { collectionGroup, query, getDocs } from "firebase/firestore";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import ScrollToTopButton from "../components/ScrollToTopButton";
 import { db } from "../firebase";
+import Sidebar from "../components/Sidebar";
+import Drawer from "@mui/material/Drawer";
+import { closeSidebar } from "../redux/app/slices/utilSlice";
+import { useSelector, useDispatch } from "react-redux";
 
 const AboutRoute = () => {
+  const sidebarStatus = useSelector((state) => state.util.sidebar);
+
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(closeSidebar());
+  }, []);
+
   const onclick = async () => {
     const foods = query(collectionGroup(db, "items"));
     const querySnapshot = await getDocs(foods);
@@ -34,6 +46,14 @@ const AboutRoute = () => {
       onWheel={handleWheel}
       className="relative flex min-h-screen flex-col justify-between"
     >
+      {/* drawer */}
+      <Drawer
+        anchor="left"
+        open={sidebarStatus}
+        onClose={() => dispatch(closeSidebar())}
+      >
+        <Sidebar />
+      </Drawer>
       <Navbar />
       <div className="flex-1 basis-auto bg-white">
         <p className="font-poppins mt-10 text-xl">

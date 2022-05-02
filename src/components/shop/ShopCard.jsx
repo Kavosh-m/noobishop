@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect, useState } from "react";
+import React, { Fragment, useState } from "react";
 import Rating from "@mui/material/Rating";
 import BasketIcon from "../icons/BasketIcon";
 import HeartIconOutlined from "../icons/HeartIconOutlined";
@@ -21,6 +21,8 @@ const ShopCard = ({ data, showType }) => {
   const [entered, setEntered] = useState(false);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [num, setNum] = useState(0);
+  const [openToast, setOpenToast] = useState(false);
+
   const dispatch = useDispatch();
 
   const handleIncrement = () => {
@@ -34,6 +36,7 @@ const ShopCard = ({ data, showType }) => {
   const handleAddToCart = () => {
     if (num > 0) {
       dispatch(saveOrders({ ...data, count: num }));
+      setOpenToast(true);
     }
   };
 
@@ -150,6 +153,8 @@ const ShopCard = ({ data, showType }) => {
                 handleAddToCart={handleAddToCart}
                 num={num}
                 setIsDialogOpen={setIsDialogOpen}
+                openToast={openToast}
+                setOpenToast={setOpenToast}
               />
             </Transition.Child>
           </Dialog>
@@ -266,6 +271,8 @@ const ShopCard = ({ data, showType }) => {
               handleAddToCart={handleAddToCart}
               num={num}
               setIsDialogOpen={setIsDialogOpen}
+              openToast={openToast}
+              setOpenToast={setOpenToast}
             />
           </Transition.Child>
         </Dialog>

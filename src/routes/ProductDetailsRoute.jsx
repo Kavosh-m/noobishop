@@ -1,21 +1,29 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useLocation } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { saveOrders } from "../redux/app/slices/cartSlice";
 import { saveToWishlist } from "../redux/app/slices/wishSlice";
 import { shopHeader } from "../constants";
 import Rating from "@mui/material/Rating";
 import NotFoundRoute from "./NotFoundRoute";
 import Navbar from "../components/Navbar";
+import Sidebar from "../components/Sidebar";
+import Drawer from "@mui/material/Drawer";
+import { closeSidebar } from "../redux/app/slices/utilSlice";
 import Footer from "../components/Footer";
 import ScrollToTopButton from "../components/ScrollToTopButton";
+import CustomAlert from "../components/CustomAlert";
 
 const ProductDetailsRoute = () => {
   const location = useLocation();
   const dispatch = useDispatch();
 
+  const sidebarStatus = useSelector((state) => state.util.sidebar);
+
   const [data, setData] = useState(null);
   const [unit, setUnit] = useState(0);
+  const [openToast, setOpenToast] = useState(false);
+  const [openToastWishlist, setOpenToastWishlist] = useState(false);
 
   const handleIncrement = () => {
     setUnit(unit + 1);
@@ -28,6 +36,7 @@ const ProductDetailsRoute = () => {
   const handleAddToCart = () => {
     if (unit > 0) {
       dispatch(saveOrders({ ...data, count: unit }));
+      setOpenToast(true);
     }
   };
 
@@ -58,6 +67,15 @@ const ProductDetailsRoute = () => {
 
   return (
     <div ref={mainView} onWheel={handleWheel} className="relative min-h-screen">
+      {/* drawer */}
+      <Drawer
+        anchor="left"
+        open={sidebarStatus}
+        onClose={() => dispatch(closeSidebar())}
+      >
+        <Sidebar />
+      </Drawer>
+
       <Navbar />
 
       {/* Header image goes here */}
@@ -113,7 +131,7 @@ const ProductDetailsRoute = () => {
                 <button
                   disabled={unit > 0 ? false : true}
                   onClick={handleAddToCart}
-                  className="whitespace-nowrap rounded-3xl bg-red-400 p-3 px-4 text-white transition duration-300 ease-in-out hover:bg-gray-300 hover:text-black"
+                  className="whitespace-nowrap rounded-3xl bg-red-400 p-3 px-4 text-white transition duration-300 ease-in-out hover:bg-gray-300 hover:text-black disabled:bg-gray-300 disabled:text-black/30"
                 >
                   ADD TO CART
                 </button>
@@ -121,6 +139,7 @@ const ProductDetailsRoute = () => {
                 <button
                   onClick={() => {
                     dispatch(saveToWishlist(data));
+                    setOpenToastWishlist(true);
                     // navigate("/wish");
                   }}
                   className="whitespace-nowrap rounded-3xl border-[1px] border-gray-400 bg-white p-3 px-4 text-black transition duration-300 ease-in-out hover:border-red-300 hover:text-red-300"
@@ -138,6 +157,18 @@ const ProductDetailsRoute = () => {
         wheelUpTimes={wheelUpTimes}
         setWheelUpTimes={setWheelUpTimes}
         target={mainView}
+      />
+      <CustomAlert
+        alertType="success"
+        message="Added to cart"
+        isOpen={openToast}
+        onClose={() => setOpenToast(false)}
+      />
+      <CustomAlert
+        alertType="success"
+        message="Added to wishlist"
+        isOpen={openToastWishlist}
+        onClose={() => setOpenToastWishlist(false)}
       />
     </div>
   );

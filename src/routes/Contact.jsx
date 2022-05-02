@@ -5,6 +5,10 @@ import ScrollToTopButton from "../components/ScrollToTopButton";
 import { shopHeader } from "../constants";
 import mapboxgl from "mapbox-gl";
 import ContactCard from "../components/ContactCard";
+import Sidebar from "../components/Sidebar";
+import Drawer from "@mui/material/Drawer";
+import { closeSidebar } from "../redux/app/slices/utilSlice";
+import { useDispatch, useSelector } from "react-redux";
 
 mapboxgl.accessToken = process.env.REACT_APP_MAPBOX_TOKEN;
 
@@ -83,6 +87,14 @@ const Contact = () => {
   const [lat, setLat] = useState(48.83);
   const [zoom, setZoom] = useState(9);
 
+  const sidebarStatus = useSelector((state) => state.util.sidebar);
+
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(closeSidebar());
+  }, []);
+
   useEffect(() => {
     if (map.current) return; // initialize map only once
     map.current = new mapboxgl.Map({
@@ -138,6 +150,14 @@ const Contact = () => {
       onWheel={handleWheel}
       className="relative flex min-h-screen flex-col justify-between"
     >
+      {/* drawer */}
+      <Drawer
+        anchor="left"
+        open={sidebarStatus}
+        onClose={() => dispatch(closeSidebar())}
+      >
+        <Sidebar />
+      </Drawer>
       <Navbar />
       <div className="h-[375px] w-full bg-gray-300">
         <img

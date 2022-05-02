@@ -95,7 +95,16 @@ const Sidebar = () => {
         </li>
       </ul>
 
-      <div className="px-4">My account</div>
+      <div className="px-4">
+        <NavLink
+          to="/profile"
+          className={({ isActive }) =>
+            isActive ? activeClassName : inactiveClassName
+          }
+        >
+          My account
+        </NavLink>
+      </div>
 
       {/* Contact div goes here */}
       <div className="flex w-full flex-col px-4">

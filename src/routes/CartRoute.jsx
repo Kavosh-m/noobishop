@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import TrashIcon from "../components/icons/TrashIcon";
 import { changeNumberOfItem, removeItem } from "../redux/app/slices/cartSlice";
@@ -8,12 +8,21 @@ import { useNavigate } from "react-router-dom";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import Counter from "../components/Counter";
+import Sidebar from "../components/Sidebar";
+import Drawer from "@mui/material/Drawer";
+import { closeSidebar } from "../redux/app/slices/utilSlice";
 import ScrollToTopButton from "../components/ScrollToTopButton";
 
 const CartRoute = () => {
   const orders = useSelector((state) => state.cart.ordered);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
+  const sidebarStatus = useSelector((state) => state.util.sidebar);
+
+  useEffect(() => {
+    dispatch(closeSidebar());
+  }, []);
 
   const handleIncrement = (id) => {
     dispatch(changeNumberOfItem({ id: id, operation: "addition" }));
@@ -65,6 +74,14 @@ const CartRoute = () => {
 
   return (
     <div ref={mainView} onWheel={handleWheel} className="relative min-h-screen">
+      {/* drawer */}
+      <Drawer
+        anchor="left"
+        open={sidebarStatus}
+        onClose={() => dispatch(closeSidebar())}
+      >
+        <Sidebar />
+      </Drawer>
       <Navbar />
       <div className="h-[375px] w-full bg-gray-300">
         <img
