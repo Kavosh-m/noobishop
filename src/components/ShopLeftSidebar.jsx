@@ -82,7 +82,7 @@ const ShopLeftSidebar = ({
                 pathname: `/products/${item.id}`,
               }}
               state={item}
-              className="aspect-square w-20"
+              className="aspect-square w-20 shrink-0"
             >
               <img
                 src={item.picurl}
@@ -96,7 +96,7 @@ const ShopLeftSidebar = ({
                   pathname: `/products/${item.id}`,
                 }}
                 state={item}
-                className="whitespace-nowrap font-semibold transition-all duration-300 ease-in-out hover:text-red-400"
+                className="font-semibold transition-all duration-300 ease-in-out hover:text-red-400"
               >
                 {item.name}
               </Link>

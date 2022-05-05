@@ -1,14 +1,22 @@
 import React, { forwardRef, useState } from "react";
 import { auth, db } from "../firebase";
 import { collection, query, where, getDocs } from "firebase/firestore";
-import { RecaptchaVerifier, signInWithPhoneNumber } from "firebase/auth";
+import {
+  RecaptchaVerifier,
+  signInWithPhoneNumber,
+  GoogleAuthProvider,
+  signInWithPopup,
+} from "firebase/auth";
 import { Link } from "react-router-dom";
 import loginBg from "../assets/images/food.jpg";
 import { ImSpinner9 } from "react-icons/im";
+import { FcGoogle } from "react-icons/fc";
 import { Snackbar } from "@mui/material";
 import MuiAlert from "@mui/material/Alert";
 
 const usersRef = collection(db, "users");
+
+const provider = new GoogleAuthProvider();
 
 const Alert = forwardRef(function Alert(props, ref) {
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
@@ -29,7 +37,27 @@ export default function LoginRoute() {
   const [openToast, setOpenToast] = useState(false);
   const [openToast2, setOpenToast2] = useState(false);
 
-  // const navigate = useNavigate();
+  const handleGoogleSignIn = (e) => {
+    e.preventDefault();
+
+    signInWithPopup(auth, provider)
+      .then((result) => {
+        // This gives you a Google Access Token. You can use it to access the Google API.
+        // The signed-in user info.
+        const user = result.user;
+        console.log(
+          `User successfully signed-in with google account.\nUser object:\n${user}`
+        );
+      })
+      .catch((error) => {
+        // Handle Errors here.
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        console.log(
+          `**********\nGoogle Sign-in Error:\nError code: ${errorCode}\nError message: ${errorMessage}\n***********`
+        );
+      });
+  };
 
   // Sent OTP
   const handleSignIn = async (e) => {
@@ -166,6 +194,19 @@ export default function LoginRoute() {
               Create Account
             </Link>
           </form>
+
+          {/* Google sign-in */}
+          <button
+            onClick={handleGoogleSignIn}
+            className="group flex items-center bg-blue-400 pr-2 shadow-lg transition-colors duration-300 ease-in-out hover:bg-blue-500"
+          >
+            <div className="bg-white p-3 group-hover:bg-slate-50">
+              <FcGoogle />
+            </div>
+            <p className="font-poppins ml-2 text-xs font-semibold text-white">
+              Sign in with Google
+            </p>
+          </button>
 
           <div className={googleVerifier} id="recaptcha-container"></div>
           <Snackbar

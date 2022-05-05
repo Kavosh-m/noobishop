@@ -17,7 +17,7 @@ import { closeSidebar } from "../redux/app/slices/utilSlice";
 import ReactPaginate from "react-paginate";
 import ArrowNarrowLeft from "../components/icons/ArrowNarrowLeft";
 import ArrowNarrowRight from "../components/icons/ArrowNarrowRight";
-import { db } from "../firebase";
+import { auth, db } from "../firebase";
 import { doc, setDoc } from "firebase/firestore";
 // import { gsap } from "gsap";
 
@@ -215,7 +215,7 @@ const ShopRoute = () => {
 
   useEffect(() => {
     saveInFirestore();
-    // console.log("user object ====> ", user);
+    console.log("user object ====> ", auth.currentUser);
   }, []);
 
   if (!currentFood.data) {
