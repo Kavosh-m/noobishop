@@ -1,4 +1,4 @@
-import React, { forwardRef, useState } from "react";
+import React, { forwardRef, useEffect, useState } from "react";
 import { auth, db } from "../firebase";
 import { collection, query, where, getDocs } from "firebase/firestore";
 import {
@@ -13,6 +13,7 @@ import { ImSpinner9 } from "react-icons/im";
 import { FcGoogle } from "react-icons/fc";
 import { Snackbar } from "@mui/material";
 import MuiAlert from "@mui/material/Alert";
+import axios from "axios";
 
 const usersRef = collection(db, "users");
 
@@ -26,6 +27,8 @@ export default function LoginRoute() {
   auth.languageCode = "en";
 
   const [phonenumber, setPhonenumber] = useState("");
+  const [countryCode, setCountryCode] = useState("");
+  const [country3LetterName, setCountry3LetterName] = useState("");
   const [otp, setOtp] = useState("");
   const [show, setShow] = useState(false);
   const [final, setFinal] = useState("");
@@ -36,6 +39,25 @@ export default function LoginRoute() {
   const [networkError, setNetworkError] = useState(false);
   const [openToast, setOpenToast] = useState(false);
   const [openToast2, setOpenToast2] = useState(false);
+
+  //Get country code
+  const getGeoInfo = () => {
+    axios
+      .get("https://ipapi.co/json/")
+      .then((response) => {
+        let data = response.data;
+        console.log("data Country ====> ", data);
+        setCountryCode(data.country_calling_code);
+        setCountry3LetterName(data.country_code_iso3);
+      })
+      .catch((error) => {
+        console.log("Country code error =====> ", error);
+      });
+  };
+
+  useEffect(() => {
+    getGeoInfo();
+  }, []);
 
   const handleGoogleSignIn = (e) => {
     e.preventDefault();
@@ -80,10 +102,9 @@ export default function LoginRoute() {
     if (!querySnapshot.empty) {
       setGoogleVerifier("block");
       let verify = new RecaptchaVerifier("recaptcha-container", {}, auth);
-      signInWithPhoneNumber(auth, "+98" + phonenumber, verify)
+      signInWithPhoneNumber(auth, countryCode + phonenumber, verify)
         .then((result) => {
           setFinal(result);
-          // console.log("code sent successfully");
           setLoading(false);
           setShow(true);
           setOpenToast(true);
@@ -167,16 +188,34 @@ export default function LoginRoute() {
               {error.state && (
                 <p className="mb-1 text-sm text-red-500">{error.message}</p>
               )}
-              <input
-                type="tel"
-                placeholder="Phone (e.g. 9117778888)"
-                value={phonenumber}
-                required
-                onChange={(event) => setPhonenumber(event.target.value)}
-                className={`${
-                  error.state && "outline outline-2 outline-red-400"
-                } w-full p-3 text-sm focus:outline focus:outline-1 focus:outline-red-400`}
-              />
+              <div className="flex items-center">
+                <div className="relative">
+                  <img
+                    src={
+                      countryCode !== "+98"
+                        ? `https://countryflagsapi.com/png/${country3LetterName}`
+                        : `https://countryflagsapi.com/png/IRN`
+                    }
+                    className="absolute top-0 left-2 z-10 aspect-video w-5 -translate-y-1/2"
+                    alt=""
+                  />
+                  <input
+                    className="relative w-[70px] p-3 text-sm focus:outline focus:outline-blue-400"
+                    value={countryCode}
+                    onChange={(e) => setCountryCode(e.target.value)}
+                  />
+                </div>
+                <input
+                  type="tel"
+                  placeholder="Phone..."
+                  value={phonenumber}
+                  required
+                  onChange={(event) => setPhonenumber(event.target.value)}
+                  className={`${
+                    error.state && "outline outline-2 outline-red-400"
+                  } ml-3 w-full p-3 text-sm focus:outline focus:outline-1 focus:outline-red-400`}
+                />
+              </div>
             </div>
             {!loading && (
               <button

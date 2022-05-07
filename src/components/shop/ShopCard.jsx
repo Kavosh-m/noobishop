@@ -69,13 +69,6 @@ const ShopCard = ({ data, showType }) => {
           <img src={data.picurl} alt="" className="h-full w-full object-fill" />
         </Link>
         <div className="flex flex-col space-y-2 pb-5 pl-10 sm:basis-8/12 sm:py-10 sm:pb-0 sm:pl-0">
-          <Rating
-            name="four star"
-            className="w-0"
-            defaultValue={4.5}
-            precision={0.5}
-            style={{ color: "#E98C81" }}
-          />
           <Link
             to={{
               pathname: `/products/${data.id}`,
@@ -85,6 +78,15 @@ const ShopCard = ({ data, showType }) => {
           >
             {data.name}
           </Link>
+          <Rating
+            size="small"
+            name="four star"
+            className="w-0"
+            defaultValue={4.5}
+            precision={0.5}
+            style={{ color: "#E98C81" }}
+          />
+
           <div className="flex items-center justify-start space-x-3">
             <p>${(data.price.toFixed(2) * 0.8).toFixed(2)}</p>
             <p className="text-gray-400 line-through">
@@ -102,7 +104,7 @@ const ShopCard = ({ data, showType }) => {
               {cartIDs?.includes(data.id) ? (
                 <BasketIconSolid />
               ) : (
-                <BasketIcon />
+                <BasketIcon className="h-6 w-6" />
               )}
             </button>
             <button
@@ -184,6 +186,7 @@ const ShopCard = ({ data, showType }) => {
       </Link>
       <div className="space-y-2 py-5 pl-5 pr-4">
         <Rating
+          size="small"
           name="four star"
           defaultValue={4.5}
           precision={0.5}
@@ -219,7 +222,7 @@ const ShopCard = ({ data, showType }) => {
               {cartIDs?.includes(data.id) ? (
                 <BasketIconSolid />
               ) : (
-                <BasketIcon />
+                <BasketIcon className="h-6 w-6" />
               )}
             </button>
             <button

@@ -44,11 +44,10 @@ const CartRoute = () => {
       url: "https://api.zarinpal.com/pg/v4/payment/request.json",
       method: "POST",
       data: params,
-      // headers: {
-      //   // "Access-Control-Allow-Origin": "*",
-      //   // "Access-Control-Allow-Credentials": "true",
-      //   // "Access-Control-Request-Method": "POST",
-      // },
+      headers: {
+        accept: "application/json",
+        "content-type": "application/json",
+      },
     })
       .then((response) => {
         console.log("Zarinpal response ===> ", response.data);
@@ -58,6 +57,25 @@ const CartRoute = () => {
       })
       .catch((error) => console.log("zarinpal. error happened ===> ", error));
   };
+
+  // const zarinpalGate = () => {
+  //   fetch(
+  //     "https://cors-anywhere.herokuapp.com/https://api.zarinpal.com/pg/v4/payment/request.json",
+  //     {
+  //       method: "POST",
+  //       // headers: {
+  //       //   Accept: "application/json",
+  //       //   "Content-Type": "application/json",
+  //       //   "Access-Control-Allow-Origin": "*",
+  //       //   Vary: "Origin",
+  //       // },
+  //       body: JSON.stringify(params),
+  //     }
+  //   )
+  //     .then((res) => res.json())
+  //     .then((data) => console.log(data))
+  //     .catch((error) => console.log(error));
+  // };
 
   const mainView = useRef();
   const [showBackToTopButton, setShowBackToTopButton] = useState(false);

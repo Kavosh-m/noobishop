@@ -183,11 +183,11 @@ const Navbar = () => {
             className="relative"
           >
             {orders?.length > 0 && (
-              <div className="absolute -top-2 -left-2 flex h-5 w-5 items-center justify-center rounded-full bg-black text-[10px] text-white">
+              <div className="absolute top-0 right-0 flex h-5 w-5 translate-x-1/3 -translate-y-1/3 items-center justify-center rounded-full bg-red-500 text-[10px] text-white">
                 <p ref={numberOfOrdersRef}>{orders.length}</p>
               </div>
             )}
-            <BasketIcon />
+            <BasketIcon className="h-6 w-6 sm:h-8 sm:w-8" />
           </Link>
           <Transition
             show={show}
