@@ -184,7 +184,16 @@ const ShopCard = ({ data, showType }) => {
           alt=""
         />
       </Link>
-      <div className="space-y-2 py-5 pl-5 pr-4">
+      <div className="flex flex-col space-y-2 py-5 pl-5 pr-4">
+        <Link
+          to={{
+            pathname: `/products/${data.id}`,
+          }}
+          state={data}
+          className="font-oswald text-left text-lg font-semibold transition duration-300 ease-in-out hover:text-red-600"
+        >
+          {data.name}
+        </Link>
         <Rating
           size="small"
           name="four star"
@@ -192,27 +201,31 @@ const ShopCard = ({ data, showType }) => {
           precision={0.5}
           style={{ color: "#E98C81" }}
         />
-        <div>
-          <Link
-            to={{
-              pathname: `/products/${data.id}`,
-            }}
-            state={data}
-            className="font-oswald text-left text-lg font-semibold transition duration-300 ease-in-out hover:text-red-600"
-          >
-            {data.name}
-          </Link>
-        </div>
-        {!entered ? (
-          <div className="flex items-center justify-start space-x-3">
-            <p>${(data.price.toFixed(2) * 0.8).toFixed(2)}</p>
-            <p className="text-gray-400 line-through">
+        <div className="flex items-center justify-between">
+          <p className="">
+            ${(data.price.toFixed(2) * 0.8).toFixed(2)}
+            <p className="ml-2 inline-block text-gray-400 line-through">
               ${data.price.toFixed(2)}
             </p>
-          </div>
-        ) : (
+          </p>
+          <button
+            title={
+              cartIDs?.includes(data.id) ? "Remove from cart" : "Add to cart"
+            }
+            onClick={() => handleCart(data)}
+            className="hover:text-red-600"
+          >
+            {cartIDs?.includes(data.id) ? (
+              <BasketIconSolid />
+            ) : (
+              <BasketIcon className="h-6 w-6" />
+            )}
+          </button>
+        </div>
+
+        {entered && (
           <div className="flex items-center justify-start space-x-3">
-            <button
+            {/* <button
               title={
                 cartIDs?.includes(data.id) ? "Remove from cart" : "Add to cart"
               }
@@ -224,7 +237,7 @@ const ShopCard = ({ data, showType }) => {
               ) : (
                 <BasketIcon className="h-6 w-6" />
               )}
-            </button>
+            </button> */}
             <button
               onClick={() => handleWishlist(data)}
               title={
@@ -232,7 +245,7 @@ const ShopCard = ({ data, showType }) => {
                   ? "Remove from Wishlist"
                   : "Add to wishlist"
               }
-              className="animate-leftToRight animation-delay-200 invisible hover:text-red-600"
+              className="animate-leftToRight invisible hover:text-red-600"
             >
               {wishlistIDs?.includes(data.id) ? (
                 <HeartIcon />
@@ -243,7 +256,7 @@ const ShopCard = ({ data, showType }) => {
             <button
               title="Quick View"
               onClick={() => setIsDialogOpen(true)}
-              className="animate-leftToRight animation-delay-600 invisible"
+              className="animate-leftToRight animation-delay-200 invisible"
             >
               <EyeIcon />
             </button>
