@@ -13,24 +13,35 @@ import { removeItemFromWishlist } from "../../redux/app/slices/wishSlice";
 import { saveToWishlist } from "../../redux/app/slices/wishSlice";
 import BasketIconSolid from "../icons/BasketIconSolid";
 import QuickViewItem from "../QuickViewItem";
+import TrashIcon from "../icons/TrashIcon";
 
 const ShopCard = ({ data, showType }) => {
   const wishlistIDs = useSelector((state) => state.wish.wishlistItemsID);
   const cartIDs = useSelector((state) => state.cart.cartItemsID);
+  const orders = useSelector((state) => state.cart.ordered);
 
   const [entered, setEntered] = useState(false);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
-  const [num, setNum] = useState(0);
+  const [num, setNum] = useState(() => {
+    let g = orders.filter((item) => item.id === data.id);
+
+    return g.length > 0 ? g[0].count : 1;
+  });
   const [openToast, setOpenToast] = useState(false);
 
   const dispatch = useDispatch();
+
+  const itemCount = (id) => {
+    let g = orders.filter((item) => item.id === id);
+    return g[0].count;
+  };
 
   const handleIncrement = () => {
     setNum(num + 1);
   };
 
   const handleDecrement = () => {
-    setNum(num > 0 ? num - 1 : 0);
+    setNum(num > 1 ? num - 1 : 1);
   };
 
   const handleAddToCart = () => {
@@ -94,19 +105,31 @@ const ShopCard = ({ data, showType }) => {
             </p>
           </div>
           <div className="flex items-center justify-start space-x-3">
-            <button
-              title={
-                cartIDs?.includes(data.id) ? "Remove from cart" : "Add to cart"
-              }
-              onClick={() => handleCart(data)}
-              className="hover:text-red-600"
-            >
-              {cartIDs?.includes(data.id) ? (
-                <BasketIconSolid />
-              ) : (
-                <BasketIcon className="h-6 w-6" />
-              )}
-            </button>
+            {cartIDs?.includes(data.id) ? (
+              <div className="group relative grid aspect-square w-7 place-items-center rounded-full bg-cyan-600 text-center text-xs text-white hover:bg-white/0">
+                <p className="group-hover:hidden">{itemCount(data.id)}</p>
+                <TrashIcon
+                  onClick={() => dispatch(removeItem({ id: data.id }))}
+                  className="hidden h-6 w-6 cursor-pointer text-black transition duration-500 ease-in-out hover:text-red-400 group-hover:block"
+                />
+              </div>
+            ) : (
+              <button
+                title={
+                  cartIDs?.includes(data.id)
+                    ? "Remove from cart"
+                    : "Add to cart"
+                }
+                onClick={() => handleCart(data)}
+                className="hover:text-red-600"
+              >
+                {cartIDs?.includes(data.id) ? (
+                  <BasketIconSolid />
+                ) : (
+                  <BasketIcon className="h-6 w-6" />
+                )}
+              </button>
+            )}
             <button
               onClick={() => handleWishlist(data)}
               title={
@@ -180,11 +203,11 @@ const ShopCard = ({ data, showType }) => {
       >
         <img
           src={data.picurl}
-          className="aspect-square w-full object-fill"
+          className="aspect-video w-full object-cover"
           alt=""
         />
       </Link>
-      <div className="flex flex-col space-y-2 py-5 pl-5 pr-4">
+      <div className="flex flex-col space-y-2 py-5 pt-12 pl-5 pr-4">
         <Link
           to={{
             pathname: `/products/${data.id}`,
@@ -202,25 +225,35 @@ const ShopCard = ({ data, showType }) => {
           style={{ color: "#E98C81" }}
         />
         <div className="flex items-center justify-between">
-          <p className="">
+          <div className="">
             ${(data.price.toFixed(2) * 0.8).toFixed(2)}
             <p className="ml-2 inline-block text-gray-400 line-through">
               ${data.price.toFixed(2)}
             </p>
-          </p>
-          <button
-            title={
-              cartIDs?.includes(data.id) ? "Remove from cart" : "Add to cart"
-            }
-            onClick={() => handleCart(data)}
-            className="hover:text-red-600"
-          >
-            {cartIDs?.includes(data.id) ? (
-              <BasketIconSolid />
-            ) : (
-              <BasketIcon className="h-6 w-6" />
-            )}
-          </button>
+          </div>
+          {cartIDs?.includes(data.id) ? (
+            <div className="group relative grid aspect-square w-7 place-items-center rounded-full bg-cyan-600 text-center text-xs text-white hover:bg-white/0">
+              <p className="group-hover:hidden">{itemCount(data.id)}</p>
+              <TrashIcon
+                onClick={() => dispatch(removeItem({ id: data.id }))}
+                className="hidden h-6 w-6 cursor-pointer text-black transition duration-500 ease-in-out hover:text-red-400 group-hover:block"
+              />
+            </div>
+          ) : (
+            <button
+              title={
+                cartIDs?.includes(data.id) ? "Remove from cart" : "Add to cart"
+              }
+              onClick={() => handleCart(data)}
+              className="hover:text-red-600"
+            >
+              {cartIDs?.includes(data.id) ? (
+                <BasketIconSolid />
+              ) : (
+                <BasketIcon className="h-6 w-6" />
+              )}
+            </button>
+          )}
         </div>
 
         {entered && (

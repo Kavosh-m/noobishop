@@ -7,36 +7,36 @@ import { Link } from "react-router-dom";
 const SubmenuBasketProdectCard = ({ data }) => {
   const dispatch = useDispatch();
   return (
-    <div className="flex items-center justify-between">
+    <div className="font-poppins flex w-full items-center justify-between rounded-lg border bg-slate-100 shadow-md">
       <Link
         to={{
           pathname: `/products/${data.id}`,
         }}
         state={data}
-        className="aspect-square w-[100px] basis-2/5 cursor-pointer"
+        className="aspect-square basis-1/5 cursor-pointer"
       >
         <img src={data.picurl} className="h-full w-full object-fill" />
       </Link>
-      <div className="flex basis-2/5 flex-col items-start space-y-2 pl-3">
+      <div className="flex basis-3/5 flex-col items-start space-y-2 pl-3">
         <Link
           to={{
             pathname: `/products/${data.id}`,
           }}
           state={data}
-          className="cursor-pointer text-left transition-colors duration-300 ease-in-out hover:text-red-300"
+          className="cursor-pointer text-left text-sm font-semibold transition-colors duration-300 ease-in-out hover:text-red-500"
         >
           {data.name}
         </Link>
-        <p className="text-left">
+        <div className="text-left">
           {`${data.count}x `}
-          <p className="inline text-red-300">${data.price.toFixed(2)}</p>
-        </p>
+          <p className="inline text-red-500">${data.price.toFixed(2)}</p>
+        </div>
       </div>
       <div
-        className="basis-1/5 pl-7 pt-6"
+        className="flex basis-1/5 items-center justify-end"
         onClick={() => dispatch(removeItem({ id: data.id }))}
       >
-        <TrashIcon />
+        <TrashIcon className="h-7 w-7 cursor-pointer transition duration-500 ease-in-out hover:text-red-400" />
       </div>
     </div>
   );

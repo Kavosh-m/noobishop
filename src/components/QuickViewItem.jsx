@@ -1,6 +1,8 @@
-import React from "react";
+import React, { useState } from "react";
 import Rating from "@mui/material/Rating";
 import CustomAlert from "../components/CustomAlert";
+import { useDispatch } from "react-redux";
+import { saveToWishlist } from "../redux/app/slices/wishSlice";
 
 const QuickViewItem = ({
   data,
@@ -12,6 +14,10 @@ const QuickViewItem = ({
   openToast,
   setOpenToast,
 }) => {
+  const dispatch = useDispatch();
+
+  const [openToastWishlist, setOpenToastWishlist] = useState(false);
+
   return (
     <div className="relative z-10 flex w-4/6 items-center justify-between space-x-10 rounded-lg bg-white p-3">
       <div className="aspect-square w-full basis-1/2 bg-lime-300">
@@ -27,39 +33,47 @@ const QuickViewItem = ({
             </p>
           </div>
           <Rating
+            size="small"
             name="four star"
             className="w-0"
             defaultValue={4.5}
             precision={0.5}
+            style={{ color: "#E98C81" }}
           />
         </div>
-        <div className="grid grid-cols-3 gap-4">
-          <div className="flex flex-row items-center">
+        <div className="font-poppins flex items-center space-x-2">
+          <div className="flex items-center text-sm">
             <button
               onClick={handleDecrement}
-              className="basis-1/4 border-[1px] border-gray-300 p-3 transition duration-300 ease-in-out hover:border-red-400 hover:bg-red-400 hover:text-white"
+              className="border border-gray-300 p-3 px-4 transition duration-300 ease-in-out hover:border-red-400 hover:bg-red-400 hover:text-white"
             >
               -
             </button>
-            <div className="flex basis-1/2 items-center justify-center border-[1px] border-r-0 border-l-0 border-gray-300 p-3">
+            <div className="grid w-14 place-items-center border border-r-0 border-l-0 border-gray-300 py-3">
               <p>{num}</p>
             </div>
             <button
               onClick={handleIncrement}
-              className="basis-1/4 border-[1px] border-gray-300 p-3 transition duration-300 ease-in-out hover:border-red-400 hover:bg-red-400 hover:text-white"
+              className="border border-gray-300 p-3 px-4 transition duration-300 ease-in-out hover:border-red-400 hover:bg-red-400 hover:text-white"
             >
               +
             </button>
           </div>
-          <div>
-            <button
-              disabled={num === 0 ? true : false}
-              onClick={handleAddToCart}
-              className="h-full w-full rounded-3xl bg-red-400 p-3 text-white transition duration-300 ease-in-out hover:bg-gray-300 hover:text-black disabled:bg-gray-300 disabled:text-black/30"
-            >
-              ADD TO CART
-            </button>
-          </div>
+          <button
+            onClick={handleAddToCart}
+            className="rounded-3xl bg-red-400 p-3 px-4 text-sm text-white transition duration-300 ease-in-out hover:bg-gray-300 hover:text-black disabled:bg-gray-300 disabled:text-black/30"
+          >
+            ADD TO CART
+          </button>
+          <button
+            onClick={() => {
+              dispatch(saveToWishlist(data));
+              setOpenToastWishlist(true);
+            }}
+            className="whitespace-nowrap rounded-3xl border border-gray-400 bg-white p-3 px-4 text-sm text-black transition duration-300 ease-in-out hover:border-red-300 hover:text-red-300"
+          >
+            Add to wishlist
+          </button>
         </div>
       </div>
 
@@ -74,6 +88,12 @@ const QuickViewItem = ({
         message="Added to cart"
         isOpen={openToast}
         onClose={() => setOpenToast(false)}
+      />
+      <CustomAlert
+        alertType="success"
+        message="Added to wishlist"
+        isOpen={openToastWishlist}
+        onClose={() => setOpenToastWishlist(false)}
       />
     </div>
   );

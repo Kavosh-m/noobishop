@@ -13,15 +13,25 @@ import { closeSidebar } from "../redux/app/slices/utilSlice";
 import Footer from "../components/Footer";
 import ScrollToTopButton from "../components/ScrollToTopButton";
 import CustomAlert from "../components/CustomAlert";
+import { FaFacebookSquare } from "react-icons/fa";
+import { FaTwitterSquare } from "react-icons/fa";
+import { FaLinkedin } from "react-icons/fa";
+import { FaPinterestSquare } from "react-icons/fa";
+import creditCards from "../assets/images/img-payment.png";
 
 const ProductDetailsRoute = () => {
   const location = useLocation();
   const dispatch = useDispatch();
 
   const sidebarStatus = useSelector((state) => state.util.sidebar);
+  const orders = useSelector((state) => state.cart.ordered);
 
   const [data, setData] = useState(null);
-  const [unit, setUnit] = useState(0);
+  const [unit, setUnit] = useState(() => {
+    let g = orders.filter((item) => item.id === location.state.id);
+
+    return g.length > 0 ? g[0].count : 1;
+  });
   const [openToast, setOpenToast] = useState(false);
   const [openToastWishlist, setOpenToastWishlist] = useState(false);
 
@@ -30,7 +40,7 @@ const ProductDetailsRoute = () => {
   };
 
   const handleDecrement = () => {
-    setUnit(unit > 0 ? unit - 1 : 0);
+    setUnit(unit > 1 ? unit - 1 : 1);
   };
 
   const handleAddToCart = () => {
@@ -105,23 +115,30 @@ const ProductDetailsRoute = () => {
                   ${data.price.toFixed(2)}
                 </p>
               </div>
-              <Rating name="four star" defaultValue={4.5} precision={0.5} />
+              <Rating
+                size="small"
+                name="four star"
+                className="w-0"
+                defaultValue={4.5}
+                precision={0.5}
+                style={{ color: "#E98C81" }}
+              />
             </div>
 
             <div className="font-poppins flex flex-col space-y-3 sm:flex-row sm:items-center sm:space-y-0 sm:space-x-3">
               <div className="flex items-center text-base font-semibold">
                 <button
                   onClick={handleDecrement}
-                  className="border-[1px] border-gray-300 p-3 px-4 transition duration-300 ease-in-out hover:border-red-400 hover:bg-red-400 hover:text-white"
+                  className="border border-gray-300 p-3 px-4 transition duration-300 ease-in-out hover:border-red-400 hover:bg-red-400 hover:text-white"
                 >
                   -
                 </button>
-                <div className="font-oswald grid w-14 place-items-center border-[1px] border-r-0 border-l-0 border-gray-300 py-3">
+                <div className="font-oswald grid w-14 place-items-center border border-r-0 border-l-0 border-gray-300 py-3">
                   <p>{unit}</p>
                 </div>
                 <button
                   onClick={handleIncrement}
-                  className="border-[1px] border-gray-300 p-3 px-4 transition duration-300 ease-in-out hover:border-red-400 hover:bg-red-400 hover:text-white"
+                  className="border border-gray-300 p-3 px-4 transition duration-300 ease-in-out hover:border-red-400 hover:bg-red-400 hover:text-white"
                 >
                   +
                 </button>
@@ -129,7 +146,6 @@ const ProductDetailsRoute = () => {
 
               <div className="flex items-center space-x-3">
                 <button
-                  disabled={unit > 0 ? false : true}
                   onClick={handleAddToCart}
                   className="whitespace-nowrap rounded-3xl bg-red-400 p-3 px-4 text-white transition duration-300 ease-in-out hover:bg-gray-300 hover:text-black disabled:bg-gray-300 disabled:text-black/30"
                 >
@@ -140,7 +156,6 @@ const ProductDetailsRoute = () => {
                   onClick={() => {
                     dispatch(saveToWishlist(data));
                     setOpenToastWishlist(true);
-                    // navigate("/wish");
                   }}
                   className="whitespace-nowrap rounded-3xl border-[1px] border-gray-400 bg-white p-3 px-4 text-black transition duration-300 ease-in-out hover:border-red-300 hover:text-red-300"
                 >
@@ -148,6 +163,30 @@ const ProductDetailsRoute = () => {
                 </button>
               </div>
             </div>
+            <div className="flex items-center space-x-3">
+              <p className="font-poppins text-base font-semibold">Share :</p>
+              <FaFacebookSquare
+                size="1.85rem"
+                className="cursor-pointer text-blue-800 transition-colors duration-300 ease-in-out hover:text-red-400"
+              />
+              <FaTwitterSquare
+                size="1.85rem"
+                className="cursor-pointer text-blue-400 transition-colors duration-300 ease-in-out hover:text-red-400"
+              />
+              <FaLinkedin
+                size="1.85rem"
+                className="cursor-pointer text-blue-600 transition-colors duration-300 ease-in-out hover:text-red-400"
+              />
+              <FaPinterestSquare
+                size="1.85rem"
+                className="cursor-pointer text-red-600 transition-colors duration-300 ease-in-out hover:text-red-400"
+              />
+            </div>
+            <img
+              src={creditCards}
+              alt=""
+              className="w-3/5 border border-slate-300"
+            />
           </div>
         </div>
       </div>

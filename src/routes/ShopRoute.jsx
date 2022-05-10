@@ -17,6 +17,7 @@ import { closeSidebar } from "../redux/app/slices/utilSlice";
 import ReactPaginate from "react-paginate";
 import ArrowNarrowLeft from "../components/icons/ArrowNarrowLeft";
 import ArrowNarrowRight from "../components/icons/ArrowNarrowRight";
+import { FaEllipsisH } from "react-icons/fa";
 import { auth, db } from "../firebase";
 import { doc, setDoc } from "firebase/firestore";
 // import { gsap } from "gsap";
@@ -215,7 +216,7 @@ const ShopRoute = () => {
 
   useEffect(() => {
     saveInFirestore();
-    console.log("user object ====> ", auth.currentUser);
+    // console.log("user object ====> ", auth.currentUser);
   }, []);
 
   if (!currentFood.data) {
@@ -267,7 +268,7 @@ const ShopRoute = () => {
           {/* container of layout-sort bar and foods */}
           <div
             ref={sortBarRef}
-            className="grid w-full basis-3/4 grid-cols-1 gap-6 px-6 sm:grid-cols-2 sm:px-20 lg:mx-0 lg:grid-cols-3 lg:px-3"
+            className="grid w-full basis-3/4 grid-cols-1 gap-6 gap-x-14 px-6 sm:grid-cols-2 sm:px-20 lg:mx-0 lg:grid-cols-3 lg:px-3"
           >
             {/* container of grid and sort stuff */}
             <div className="xsmall:flex-row xsmall:space-y-0 col-span-1 flex flex-col items-center justify-between space-y-1 border-2 py-3 px-2 sm:col-span-2 sm:px-6 lg:col-span-3">
@@ -350,12 +351,15 @@ const ShopRoute = () => {
                 marginPagesDisplayed={1}
                 pageCount={numOfPages}
                 onPageChange={onPageChange}
-                containerClassName="bg-white  py-5 flex items-center"
-                pageClassName="px-4"
-                activeLinkClassName="text-black cursor-default"
+                containerClassName="bg-white py-5 flex items-center"
+                pageClassName="mx-1"
+                breakClassName="mx-1"
+                breakLabel={<FaEllipsisH />}
+                activeLinkClassName="text-slate-50 bg-cyan-600 border-0 cursor-default"
                 disabledClassName="text-gray-300"
-                disabledLinkClassName="text-gray-300"
-                pageLinkClassName="text-gray-300 hover:text-black transition-colors duration-300 ease-in-out"
+                activeClassName=""
+                disabledLinkClassName="text-gray-300 cursor-not-allowed"
+                pageLinkClassName="w-8 border border-slate-300 aspect-square grid place-items-center bg-white rounded-full hover:text-white hover:bg-cyan-600 transition-colors duration-300 ease-in-out"
               />
               {/* <p className="pr-4">{`Showing ${numOfItemsVisited + 1} - ${
                 numOfItemsVisited + numOfItemsPerPage

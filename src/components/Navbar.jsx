@@ -11,6 +11,7 @@ import { Transition } from "@headlessui/react";
 import UserIcon from "./icons/UserIcon";
 import ProfileHoverCard from "./ProfileHoverCard";
 import { gsap } from "gsap";
+import emptyCart from "../assets/images/empty-cart.png";
 
 const Navbar = () => {
   const [scrollPosition, setPosition] = useState(0);
@@ -187,7 +188,7 @@ const Navbar = () => {
                 <p ref={numberOfOrdersRef}>{orders.length}</p>
               </div>
             )}
-            <BasketIcon className="h-6 w-6 sm:h-8 sm:w-8" />
+            <BasketIcon className="h-6 w-6 transition-colors duration-300 ease-in-out hover:text-red-300 sm:h-8 sm:w-8" />
           </Link>
           <Transition
             show={show}
@@ -201,21 +202,42 @@ const Navbar = () => {
             <div
               onMouseEnter={() => setShow(true)}
               onMouseLeave={() => setShow(false)}
-              className="absolute -right-12 top-[52px] z-10 flex w-96 flex-col divide-y-2 bg-white px-6 shadow-lg lg:right-0"
+              className="absolute -right-12 top-[58px] z-10 flex w-96 flex-col divide-y-2 bg-white px-6 shadow-xl lg:right-0"
             >
               {/*onhover content*/}
 
-              <div className="my-5 flex h-80 flex-col justify-start space-y-3 overflow-y-auto pr-2">
-                {orders?.map((order) => (
-                  <SubmenuBasketProdectCard data={order} key={order.id} />
-                ))}
-              </div>
+              {orders.length < 1 ? (
+                <>
+                  <img
+                    src={emptyCart}
+                    alt=""
+                    className="aspect-auto w-2/3 self-center object-cover"
+                  />
+                  <p className="font-poppins my-5 self-center text-center text-xl font-bold text-slate-300">
+                    Cart is empty !
+                  </p>
+                </>
+              ) : (
+                <div className="my-5 flex max-h-52 flex-col justify-start space-y-3 overflow-y-auto pr-2">
+                  {orders?.map((order) => (
+                    <SubmenuBasketProdectCard data={order} key={order.id} />
+                  ))}
+                </div>
+              )}
 
-              <div className="font-oswald flex items-center justify-between py-3 text-xl font-bold">
+              <div
+                className={`${
+                  orders.length < 1 && "hidden"
+                } font-oswald flex items-center justify-between py-3 text-xl font-bold`}
+              >
                 <p>total:</p>
                 <p>${total.toFixed(2)}</p>
               </div>
-              <div className="font-oswald flex items-center justify-center space-x-2 px-5 py-3 text-xl font-bold">
+              <div
+                className={`${
+                  orders.length < 1 && "hidden"
+                } font-oswald flex items-center justify-center space-x-2 px-5 py-3 text-xl font-bold`}
+              >
                 <Link
                   className="basis-1/2 whitespace-nowrap rounded-3xl bg-gray-300 px-7 py-3 text-center text-xl text-black transition-all duration-300 ease-in-out hover:bg-red-300 hover:text-white"
                   to="/cart"

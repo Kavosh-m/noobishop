@@ -13,12 +13,12 @@ const ShopLeftSidebar = ({
 }) => {
   return (
     <div className="font-oswald flex w-full basis-1/4 flex-col px-6 sm:mt-16 sm:px-20 lg:mx-0 lg:mt-0 lg:w-fit lg:px-4">
-      <div className="w-2/3 border-b-[1px] border-black pb-[2px]">
+      <div className="w-2/3 border-b border-black pb-[2px]">
         <h3 className="whitespace-nowrap text-xl font-medium">Search</h3>
       </div>
-      <div className="mt-8 flex items-center justify-start">
+      <div className="mt-8 flex w-4/5 items-center justify-start">
         <input
-          className="basis-11/12 rounded-tl-md rounded-bl-md border-[1px] border-gray-400 p-[0.83rem] text-sm outline-none focus:border-red-400 lg:basis-5/6"
+          className="basis-11/12 rounded-tl-md rounded-bl-md border border-gray-400 p-[0.83rem] text-sm outline-none focus:border-red-400 lg:basis-5/6"
           type="text"
           placeholder="Search..."
           value={search}
@@ -74,7 +74,7 @@ const ShopLeftSidebar = ({
           Recent Products
         </h3>
       </div>
-      <div className="mt-3 space-y-3">
+      <div className="mt-3 w-11/12 space-y-3">
         {recentProducts?.map((item) => (
           <div key={item.id} className="flex items-center gap-3">
             <Link

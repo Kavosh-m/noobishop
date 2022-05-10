@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import Footer from "../components/Footer";
 import Navbar from "../components/Navbar";
 import ScrollToTopButton from "../components/ScrollToTopButton";
-import { shopHeader } from "../constants";
+// import { shopHeader } from "../constants";
 import mapboxgl from "mapbox-gl";
 import ContactCard from "../components/ContactCard";
 import Sidebar from "../components/Sidebar";
@@ -19,7 +19,7 @@ const data = [
     icon: (
       <svg
         xmlns="http://www.w3.org/2000/svg"
-        className="h-9 w-9 text-red-300 transition-colors delay-200 duration-300 ease-in-out group-hover:text-white"
+        className="aspect-square h-4/5 text-red-300 transition-colors delay-200 duration-300 ease-in-out group-hover:text-white"
         fill="none"
         viewBox="0 0 24 24"
         stroke="currentColor"
@@ -44,7 +44,7 @@ const data = [
     icon: (
       <svg
         xmlns="http://www.w3.org/2000/svg"
-        className="h-9 w-9 text-red-300 transition-colors delay-200 duration-300 ease-in-out group-hover:text-white"
+        className="aspect-square h-4/5 text-red-300 transition-colors delay-200 duration-300 ease-in-out group-hover:text-white"
         fill="none"
         viewBox="0 0 24 24"
         stroke="currentColor"
@@ -60,11 +60,11 @@ const data = [
   },
   {
     title: "Support Overall",
-    info: "Support24/7@example.com",
+    info: "Support24/7@ex.com",
     icon: (
       <svg
         xmlns="http://www.w3.org/2000/svg"
-        className="h-9 w-9 text-red-300 transition-colors delay-200 duration-300 ease-in-out group-hover:text-white"
+        className="aspect-square h-4/5 text-red-300 transition-colors delay-200 duration-300 ease-in-out group-hover:text-white"
         fill="none"
         viewBox="0 0 24 24"
         stroke="currentColor"
@@ -85,7 +85,7 @@ const Contact = () => {
   const map = useRef(null);
   const [lng, setLng] = useState(2.37);
   const [lat, setLat] = useState(48.83);
-  const [zoom, setZoom] = useState(9);
+  const [zoom, setZoom] = useState(17);
 
   const sidebarStatus = useSelector((state) => state.util.sidebar);
 
@@ -159,13 +159,13 @@ const Contact = () => {
         <Sidebar />
       </Drawer>
       <Navbar />
-      <div className="h-[375px] w-full bg-gray-300">
+      {/* <div className="h-[375px] w-full bg-gray-300">
         <img
           src={shopHeader}
           alt=""
           className="h-full w-full object-cover brightness-50"
         />
-      </div>
+      </div> */}
       <div className="flex-1 basis-auto bg-white">
         {/* Three square */}
         <div className="small:mx-24 mx-4 mt-20 grid grid-cols-2 bg-white">
@@ -173,7 +173,7 @@ const Contact = () => {
             {data.map((item) => (
               <li
                 key={item.title}
-                className="group grid place-items-center border border-gray-300 bg-white py-10 md:aspect-square md:py-0 last:md:col-span-2 last:md:aspect-auto last:md:py-10 last:lg:col-span-1"
+                className="group flex flex-1 items-center justify-center border border-gray-300 bg-white py-10 md:aspect-square md:py-0 last:md:col-span-2 md:last:aspect-auto last:md:py-10 last:lg:col-span-1 last:lg:py-0"
               >
                 <ContactCard data={item} />
               </li>
@@ -213,7 +213,7 @@ const Contact = () => {
         {/* Map */}
         <div
           ref={mapContainer}
-          className="mt-32 mb-20 h-[400px] bg-cyan-200"
+          className="mt-32 mb-20 h-[560px] bg-cyan-200"
         ></div>
       </div>
       <Footer />

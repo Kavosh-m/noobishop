@@ -11,6 +11,7 @@ import Footer from "../components/Footer";
 import Navbar from "../components/Navbar";
 import ScrollToTopButton from "../components/ScrollToTopButton";
 import CustomAlert from "../components/CustomAlert";
+import { ImSad2 } from "react-icons/im";
 
 const WishRoute = () => {
   const favorites = useSelector((state) => state.wish.wishlist);
@@ -54,67 +55,76 @@ const WishRoute = () => {
           className="h-full w-full object-cover brightness-50"
         />
       </div>
-      <div className="mx-4 my-10 overflow-x-auto sm:mx-20">
-        <table className="font-poppins w-full border-collapse border font-medium">
-          <thead>
-            <tr className="">
-              <th className="border border-gray-400 px-5 py-4">Image</th>
-              <th className="border border-gray-400 px-5 py-4">Product</th>
-              <th className="border border-gray-400 px-5 py-4">Price</th>
-              <th className="whitespace-nowrap border border-gray-400 px-5 py-4">
-                Stock Status
-              </th>
-              <th className="whitespace-nowrap border border-gray-400 px-5 py-4">
-                Add To Cart
-              </th>
-              <th className="border border-gray-400 px-5 py-4">Remove</th>
-            </tr>
-          </thead>
-          <tbody className="">
-            {favorites?.map((order) => (
-              <tr key={order.id}>
-                <td className="h-36 w-36 min-w-[144px] border border-gray-400 p-4">
-                  <img
-                    className="h-full w-full object-fill"
-                    src={order.picurl}
-                  />
-                </td>
-                <td className="h-36 min-w-[144px] border border-gray-400 px-5 text-center">
-                  {order.name}
-                </td>
-                <td className="h-36 min-w-[144px] border border-gray-400 px-5 text-center">
-                  <p>${order.price}</p>
-                </td>
-                <td className="h-36 min-w-[144px] border border-gray-400 px-5 text-center">
-                  <p className="font-bold">In Stock</p>
-                </td>
-                <td className="h-36 min-w-[202px] border border-gray-400 px-5 text-center">
-                  <button
-                    // disabled={unit > 0 ? false : true}
-                    onClick={() => {
-                      dispatch(saveOrders({ ...order, count: 1 }));
-                      setOpenToast(true);
-                    }}
-                    className="rounded-3xl bg-red-400 p-3 px-7 text-base text-white transition duration-300 ease-in-out hover:bg-gray-300 hover:text-black"
-                  >
-                    ADD TO CART
-                  </button>
-                </td>
-                <td className="h-36 min-w-[144px] border border-gray-400 px-5 text-center">
-                  <button
-                    onClick={() =>
-                      dispatch(removeItemFromWishlist({ id: order.id }))
-                    }
-                    className="flex w-full justify-center"
-                  >
-                    <TrashIcon />
-                  </button>
-                </td>
+      {favorites.length > 0 ? (
+        <div className="mx-4 my-10 overflow-x-auto sm:mx-20">
+          <table className="font-poppins w-full border-collapse border font-medium">
+            <thead>
+              <tr className="">
+                <th className="border border-gray-400 px-5 py-4">Image</th>
+                <th className="border border-gray-400 px-5 py-4">Product</th>
+                <th className="border border-gray-400 px-5 py-4">Price</th>
+                <th className="whitespace-nowrap border border-gray-400 px-5 py-4">
+                  Stock Status
+                </th>
+                <th className="whitespace-nowrap border border-gray-400 px-5 py-4">
+                  Add To Cart
+                </th>
+                <th className="border border-gray-400 px-5 py-4">Remove</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
+            </thead>
+            <tbody className="">
+              {favorites?.map((order) => (
+                <tr key={order.id}>
+                  <td className="h-36 w-36 min-w-[144px] border border-gray-400 p-4">
+                    <img
+                      className="h-full w-full object-fill"
+                      src={order.picurl}
+                    />
+                  </td>
+                  <td className="h-36 min-w-[144px] border border-gray-400 px-5 text-center">
+                    {order.name}
+                  </td>
+                  <td className="h-36 min-w-[144px] border border-gray-400 px-5 text-center">
+                    <p>${order.price}</p>
+                  </td>
+                  <td className="h-36 min-w-[144px] border border-gray-400 px-5 text-center">
+                    <p className="font-bold">In Stock</p>
+                  </td>
+                  <td className="h-36 min-w-[202px] border border-gray-400 px-5 text-center">
+                    <button
+                      // disabled={unit > 0 ? false : true}
+                      onClick={() => {
+                        dispatch(saveOrders({ ...order, count: 1 }));
+                        setOpenToast(true);
+                      }}
+                      className="rounded-3xl bg-red-400 p-3 px-7 text-base text-white transition duration-300 ease-in-out hover:bg-gray-300 hover:text-black"
+                    >
+                      ADD TO CART
+                    </button>
+                  </td>
+                  <td className="h-36 min-w-[144px] border border-gray-400 px-5 text-center">
+                    <button
+                      onClick={() =>
+                        dispatch(removeItemFromWishlist({ id: order.id }))
+                      }
+                      className="flex w-full justify-center"
+                    >
+                      <TrashIcon className="h-9 w-9 cursor-pointer transition duration-500 ease-in-out hover:text-red-400" />
+                    </button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      ) : (
+        <div className="my-20 flex flex-col items-center">
+          <ImSad2 size="5rem" className="text-slate-500" />
+          <p className="font-poppins mt-10 text-center text-2xl font-semibold text-slate-400">
+            Your wishlist is empty !
+          </p>
+        </div>
+      )}
       <Footer />
       <ScrollToTopButton
         showBackToTopButton={showBackToTopButton}
