@@ -181,14 +181,14 @@ const CartRoute = () => {
 
               {/* Last row */}
 
-              <tr className="border border-slate-400 bg-slate-200">
+              <tr className="border border-slate-400 bg-gradient-to-r from-pink-200 to-indigo-200">
                 <td className="h-12 min-w-[144px] text-center">Total</td>
                 <td></td>
                 <td></td>
-                <td className="h-12 min-w-[144px] bg-cyan-200 text-center">
+                <td className="h-12 min-w-[144px] text-center">
                   {totalNumberOfItems()}
                 </td>
-                <td className="h-12 min-w-[144px] bg-cyan-300 text-center">
+                <td className="h-12 min-w-[144px] text-center">
                   {`$${totalPrice()}`}
                 </td>
                 <td></td>

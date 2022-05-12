@@ -12,6 +12,7 @@ import UserIcon from "./icons/UserIcon";
 import ProfileHoverCard from "./ProfileHoverCard";
 import { gsap } from "gsap";
 import emptyCart from "../assets/images/empty-cart.png";
+import BasketHoverCard from "./BasketHoverCard";
 
 const Navbar = () => {
   const [scrollPosition, setPosition] = useState(0);
@@ -73,9 +74,12 @@ const Navbar = () => {
         scrollPosition >= 350 ? "animate-dropDown sticky top-0" : "relative"
       }  font-poppins z-40 mx-0 flex w-full items-center justify-between bg-white px-4 py-6 text-base shadow-md`}
     >
+      {/* Left section of Navbar */}
       <Link className="aspect-auto w-32" to="/">
         <img src={logo} alt="" className="h-full w-full object-fill" />
       </Link>
+
+      {/* Middle section of Navbar */}
       <ul className="hidden items-center justify-center space-x-10 lg:flex">
         <li className="cursor-pointer">
           <NavLink
@@ -87,16 +91,6 @@ const Navbar = () => {
             Home
           </NavLink>
         </li>
-        {/* <li className="cursor-pointer">
-          <NavLink
-            to="/shop"
-            className={({ isActive }) =>
-              isActive ? activeClassName : inactiveClassName
-            }
-          >
-            Shop
-          </NavLink>
-        </li> */}
         <li className="cursor-pointer">
           <NavLink
             to="/wish"
@@ -128,20 +122,23 @@ const Navbar = () => {
           </NavLink>
         </li>
       </ul>
+
+      {/* Right section of Navbar */}
       <div className="flex items-center justify-center space-x-6">
+        {/* Login/Register or profile icon */}
         <div className="flex items-center justify-center space-x-3">
           {!auth.currentUser ? (
             <>
               <button
                 onClick={() => navigate("/login")}
-                className="transition duration-300 ease-in-out hover:text-red-400"
+                className="hidden transition duration-300 ease-in-out hover:text-red-400 sm:block"
               >
                 Login
               </button>
-              <p className="font-thin">|</p>
+              <p className="hidden font-thin sm:block">|</p>
               <button
                 onClick={() => navigate("/register")}
-                className="transition duration-300 ease-in-out hover:text-red-400"
+                className="hidden transition duration-300 ease-in-out hover:text-red-400 sm:block"
               >
                 Register
               </button>
@@ -176,6 +173,7 @@ const Navbar = () => {
           )}
         </div>
 
+        {/* Basket icon */}
         <div className="relative bg-white">
           <Link
             onMouseEnter={() => setShow(true)}
@@ -188,7 +186,7 @@ const Navbar = () => {
                 <p ref={numberOfOrdersRef}>{orders.length}</p>
               </div>
             )}
-            <BasketIcon className="h-6 w-6 transition-colors duration-300 ease-in-out hover:text-red-300 sm:h-8 sm:w-8" />
+            <BasketIcon className="h-6 w-6 transition-colors duration-300 ease-in-out hover:text-indigo-500 sm:h-8 sm:w-8" />
           </Link>
           <Transition
             show={show}
@@ -199,73 +197,24 @@ const Navbar = () => {
             leaveFrom="opacity-100"
             leaveTo="opacity-0"
           >
-            <div
-              onMouseEnter={() => setShow(true)}
-              onMouseLeave={() => setShow(false)}
-              className="absolute -right-12 top-[58px] z-10 flex w-96 flex-col divide-y-2 bg-white px-6 shadow-xl lg:right-0"
-            >
-              {/*onhover content*/}
-
-              {orders.length < 1 ? (
-                <>
-                  <img
-                    src={emptyCart}
-                    alt=""
-                    className="aspect-auto w-2/3 self-center object-cover"
-                  />
-                  <p className="font-poppins my-5 self-center text-center text-xl font-bold text-slate-300">
-                    Cart is empty !
-                  </p>
-                </>
-              ) : (
-                <div className="my-5 flex max-h-52 flex-col justify-start space-y-3 overflow-y-auto pr-2">
-                  {orders?.map((order) => (
-                    <SubmenuBasketProdectCard data={order} key={order.id} />
-                  ))}
-                </div>
-              )}
-
-              <div
-                className={`${
-                  orders.length < 1 && "hidden"
-                } font-oswald flex items-center justify-between py-3 text-xl font-bold`}
-              >
-                <p>total:</p>
-                <p>${total.toFixed(2)}</p>
-              </div>
-              <div
-                className={`${
-                  orders.length < 1 && "hidden"
-                } font-oswald flex items-center justify-center space-x-2 px-5 py-3 text-xl font-bold`}
-              >
-                <Link
-                  className="basis-1/2 whitespace-nowrap rounded-3xl bg-gray-300 px-7 py-3 text-center text-xl text-black transition-all duration-300 ease-in-out hover:bg-red-300 hover:text-white"
-                  to="/cart"
-                >
-                  VIEW CART
-                </Link>
-                <Link
-                  className="basis-1/2 rounded-3xl bg-gray-300 px-7 py-3 text-center text-xl text-black transition-all duration-300 ease-in-out hover:bg-red-300 hover:text-white"
-                  to="/cart"
-                >
-                  CHECKOUT
-                </Link>
-              </div>
-            </div>
+            <BasketHoverCard orders={orders} setShow={setShow} />
           </Transition>
         </div>
 
+        {/* Hamburger menu icon */}
         <svg
-          onClick={() => dispatch(openSidebar())}
           xmlns="http://www.w3.org/2000/svg"
-          className="h-6 w-6 cursor-pointer transition-colors duration-500 ease-in hover:text-red-300 lg:hidden"
-          viewBox="0 0 20 20"
-          fill="currentColor"
+          className="h-6 w-6 cursor-pointer transition-colors duration-500 ease-in hover:text-red-300 sm:h-8 sm:w-8 lg:hidden"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+          strokeWidth={2}
+          onClick={() => dispatch(openSidebar())}
         >
           <path
-            fillRule="evenodd"
-            d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 15a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z"
-            clipRule="evenodd"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            d="M4 6h16M4 12h16M4 18h16"
           />
         </svg>
       </div>

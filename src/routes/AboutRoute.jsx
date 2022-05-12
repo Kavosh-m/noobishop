@@ -1,5 +1,12 @@
 import React, { useEffect, useRef, useState } from "react";
-import { collectionGroup, query, getDocs } from "firebase/firestore";
+import {
+  collectionGroup,
+  query,
+  getDocs,
+  collection,
+  updateDoc,
+  doc,
+} from "firebase/firestore";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import ScrollToTopButton from "../components/ScrollToTopButton";
@@ -10,6 +17,21 @@ import { closeSidebar } from "../redux/app/slices/utilSlice";
 import { useSelector, useDispatch } from "react-redux";
 
 const AboutRoute = () => {
+  // const caroImages = [
+  //   {
+  //     id: "jfjdhfjygg7",
+  //     link: caro1,
+  //   },
+  //   {
+  //     id: "eyhfgbsgdbcj77",
+  //     link: caro2,
+  //   },
+  //   {
+  //     id: "ppkkmnjuhetf098",
+  //     link: caro3,
+  //   },
+  // ];
+
   const sidebarStatus = useSelector((state) => state.util.sidebar);
 
   const dispatch = useDispatch();
@@ -25,6 +47,20 @@ const AboutRoute = () => {
     querySnapshot.forEach((doc) => {
       console.log(doc.id, " => ", doc.data());
     });
+  };
+
+  const addCategoryFieldTofoods = async (categ) => {
+    const querySnapshot = await getDocs(
+      collection(db, "foods", categ, "items")
+    );
+    querySnapshot.forEach(async (docc) => {
+      // console.log(doc.id, " => ", doc.data());
+
+      await updateDoc(doc(db, "foods", categ, "items", docc.id), {
+        category: categ,
+      });
+    });
+    console.log("done!");
   };
 
   const mainView = useRef();
@@ -59,6 +95,12 @@ const AboutRoute = () => {
         <p className="font-poppins mt-10 text-xl">
           This page is under development
         </p>
+        {/* <button
+          onClick={() => addCategoryFieldTofoods("pizza")}
+          className="bg-red-200 px-10 py-3"
+        >
+          ACTION
+        </button> */}
       </div>
       <Footer />
       <ScrollToTopButton

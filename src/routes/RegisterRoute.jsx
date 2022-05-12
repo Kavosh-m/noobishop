@@ -147,16 +147,18 @@ const RegisterRoute = () => {
         // controls={false}
       />
       {!show ? (
-        <div className="flex flex-col items-center space-y-14 bg-[#f3f3f3] px-10 py-9">
+        <div className="flex w-[90%] flex-col items-center space-y-14 bg-gradient-to-bl from-emerald-200 to-sky-200 px-5 py-9 shadow-xl sm:w-[70%] md:w-[65%] md:px-10 lg:w-[55%] lg:px-20">
           <span className="flex flex-col items-center px-6">
             {loading ? (
               <ImSpinner9 className="animate-spin" size={"2rem"} />
             ) : (
-              <h1 className="font-oswald text-3xl font-semibold">
+              <h1 className="font-oswald text-center text-3xl font-semibold">
                 Create Account
               </h1>
             )}
-            <p className="mt-3">Please Register using account detail bellow</p>
+            <p className="mt-3 text-center">
+              Please Register using account detail bellow
+            </p>
           </span>
           <form className="flex w-full flex-col space-y-6">
             <div className="w-full">
@@ -212,7 +214,7 @@ const RegisterRoute = () => {
               <button
                 type="submit"
                 onClick={handleRegister}
-                className="w-1/3 rounded-3xl bg-[#e98c81] py-2 px-6 text-white transition-all duration-300 ease-in-out hover:bg-gray-300 hover:text-black"
+                className="w-fit rounded-3xl bg-[#e98c81] py-2 px-5 text-white transition-all duration-300 ease-in-out hover:bg-gray-300 hover:text-black"
               >
                 Register
               </button>
@@ -220,8 +222,8 @@ const RegisterRoute = () => {
             <div className="font-poppins text-sm text-gray-500">
               Already have account?{" "}
               <p
-                onClick={() => navigate("/")}
-                className="inline-block w-fit cursor-pointer text-sm font-semibold text-blue-300 transition-colors duration-300 ease-in-out hover:text-red-300"
+                onClick={() => navigate("/login")}
+                className="inline-block w-fit cursor-pointer text-sm font-semibold text-blue-500 transition-colors duration-300 ease-in-out hover:text-red-300"
               >
                 Sign-in
               </p>
@@ -245,7 +247,7 @@ const RegisterRoute = () => {
           </Snackbar>
         </div>
       ) : (
-        <div className="flex flex-col items-center space-y-14 bg-[#f3f3f3] px-10 py-9">
+        <div className="flex w-[90%] flex-col items-center space-y-14 bg-gradient-to-bl from-emerald-200 to-sky-200 px-5 py-9 shadow-xl sm:w-[70%] md:w-[65%] md:px-10 lg:w-[55%] lg:px-20">
           <span className="flex flex-col items-center">
             {confirmloading ? (
               <ImSpinner9 className="animate-spin" size={"2rem"} />

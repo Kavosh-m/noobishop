@@ -75,25 +75,20 @@ export default function App() {
   return (
     <BrowserRouter>
       <Routes>
-        {!isLoggedIn ? (
+        <Route path="/" element={<ShopRoute />} />
+        {!isLoggedIn && (
           <>
-            <Route path="/" element={<LoginRoute />} />
+            <Route path="/login" element={<LoginRoute />} />
             <Route path="/register" element={<RegisterRoute />} />
-            <Route path="*" element={<NotFoundRoute />} />
-          </>
-        ) : (
-          <>
-            {/* <Route path="/" element={<HomeRoute />} /> */}
-            <Route path="/" element={<ShopRoute />} />
-            <Route path="/about" element={<AboutRoute />} />
-            <Route path="/contact" element={<Contact />} />
-            <Route path="/products/:id" element={<ProductDetailsRoute />} />
-            <Route path="/cart" element={<CartRoute />} />
-            <Route path="/wish" element={<WishRoute />} />
-            <Route path="/profile" element={<MyAccountRoute />} />
-            <Route path="*" element={<NotFoundRoute />} />
           </>
         )}
+        <Route path="/about" element={<AboutRoute />} />
+        <Route path="/contact" element={<Contact />} />
+        <Route path="/products/:id" element={<ProductDetailsRoute />} />
+        <Route path="/cart" element={<CartRoute />} />
+        <Route path="/wish" element={<WishRoute />} />
+        {isLoggedIn && <Route path="/profile" element={<MyAccountRoute />} />}
+        <Route path="*" element={<NotFoundRoute />} />
       </Routes>
     </BrowserRouter>
   );

@@ -7,13 +7,14 @@ import {
   GoogleAuthProvider,
   signInWithPopup,
 } from "firebase/auth";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import loginBg from "../assets/images/food.jpg";
 import { ImSpinner9 } from "react-icons/im";
 import { FcGoogle } from "react-icons/fc";
 import { Snackbar } from "@mui/material";
 import MuiAlert from "@mui/material/Alert";
 import axios from "axios";
+import Navbar from "../components/Navbar";
 
 const usersRef = collection(db, "users");
 
@@ -40,13 +41,15 @@ export default function LoginRoute() {
   const [openToast, setOpenToast] = useState(false);
   const [openToast2, setOpenToast2] = useState(false);
 
+  const navigate = useNavigate();
+
   //Get country code
   const getGeoInfo = () => {
     axios
       .get("https://ipapi.co/json/")
       .then((response) => {
         let data = response.data;
-        console.log("data Country ====> ", data);
+        // console.log("data Country ====> ", data);
         setCountryCode(data.country_calling_code);
         setCountry3LetterName(data.country_code_iso3);
       })
@@ -62,6 +65,7 @@ export default function LoginRoute() {
   const handleGoogleSignIn = (e) => {
     e.preventDefault();
 
+    setLoading(true);
     signInWithPopup(auth, provider)
       .then((result) => {
         // This gives you a Google Access Token. You can use it to access the Google API.
@@ -70,6 +74,8 @@ export default function LoginRoute() {
         console.log(
           `User successfully signed-in with google account.\nUser object:\n${user}`
         );
+        setLoading(false);
+        navigate("/");
       })
       .catch((error) => {
         // Handle Errors here.
@@ -78,6 +84,7 @@ export default function LoginRoute() {
         console.log(
           `**********\nGoogle Sign-in Error:\nError code: ${errorCode}\nError message: ${errorMessage}\n***********`
         );
+        setLoading(false);
       });
   };
 
@@ -141,7 +148,7 @@ export default function LoginRoute() {
       .then((result) => {
         setConfirmLoading(false);
         // console.log("user loged-in succesfully ===> ", result);
-        // navigate("/");
+        navigate("/");
       })
       .catch((err) => {
         console.log("Wrong code, error ===>", err);
@@ -157,7 +164,8 @@ export default function LoginRoute() {
   };
 
   return (
-    <div className="font-poppins relative flex min-h-screen w-screen items-center justify-center tracking-tight">
+    <div className="font-poppins relative flex min-h-screen w-screen items-center justify-center">
+      {/* <Navbar /> */}
       {networkError && (
         <p className="fixed top-0 right-0 left-0 bg-red-400 py-3 text-center text-sm text-white">
           network request failed. check your connection!
@@ -172,7 +180,7 @@ export default function LoginRoute() {
         // controls={false}
       />
       {!show ? (
-        <div className="flex flex-col items-center space-y-14 bg-[#f3f3f3] px-10 py-9">
+        <div className="flex flex-col items-center space-y-14 bg-gradient-to-bl from-emerald-200 to-sky-200 px-5 py-9 shadow-xl sm:w-[70%] md:w-[65%] md:px-10 lg:w-[55%] lg:px-20">
           <span className="flex flex-col items-center px-6">
             {loading ? (
               <ImSpinner9 className="animate-spin" size={"2rem"} />
@@ -264,7 +272,7 @@ export default function LoginRoute() {
           </Snackbar>
         </div>
       ) : (
-        <div className="flex flex-col space-y-14 bg-[#f3f3f3] px-10 py-9">
+        <div className="flex w-[90%] flex-col space-y-14 bg-gradient-to-bl from-emerald-200 to-sky-200 px-5 py-9 shadow-xl sm:w-[70%] md:w-[65%] md:px-10 lg:w-[55%] lg:px-20">
           <span className="flex flex-col items-center">
             {confirmloading ? (
               <ImSpinner9 className="animate-spin" size={"2rem"} />

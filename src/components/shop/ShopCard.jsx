@@ -14,6 +14,7 @@ import { saveToWishlist } from "../../redux/app/slices/wishSlice";
 import BasketIconSolid from "../icons/BasketIconSolid";
 import QuickViewItem from "../QuickViewItem";
 import TrashIcon from "../icons/TrashIcon";
+import checkedGif from "../../assets/images/checked2-transparent.gif";
 
 const ShopCard = ({ data, showType }) => {
   const wishlistIDs = useSelector((state) => state.wish.wishlistItemsID);
@@ -28,6 +29,8 @@ const ShopCard = ({ data, showType }) => {
     return g.length > 0 ? g[0].count : 1;
   });
   const [openToast, setOpenToast] = useState(false);
+
+  const [showCheckedGif, setShowCheckedGif] = useState(false);
 
   const dispatch = useDispatch();
 
@@ -64,6 +67,12 @@ const ShopCard = ({ data, showType }) => {
       dispatch(removeItem({ id: data.id }));
     } else {
       dispatch(saveOrders({ ...data, count: 1 }));
+
+      setShowCheckedGif(true);
+
+      setTimeout(() => {
+        setShowCheckedGif(false);
+      }, 1700);
     }
   };
 
@@ -192,22 +201,18 @@ const ShopCard = ({ data, showType }) => {
     <div
       onMouseEnter={() => setEntered(true)}
       onMouseLeave={() => setEntered(false)}
-      className="relative w-full transition duration-300 ease-in-out hover:shadow-lg hover:shadow-gray-400"
+      className="relative flex w-full flex-col justify-between bg-gray-100 transition duration-300 ease-in-out hover:shadow-lg hover:shadow-gray-400"
     >
       <Link
-        className="aspect-square w-full"
+        className="aspect-video w-full"
         to={{
           pathname: `/products/${data.id}`,
         }}
         state={data}
       >
-        <img
-          src={data.picurl}
-          className="aspect-video w-full object-cover"
-          alt=""
-        />
+        <img src={data.picurl} className="h-full w-full object-cover" alt="" />
       </Link>
-      <div className="flex flex-col space-y-2 py-5 pt-12 pl-5 pr-4">
+      <div className="mt-10 flex flex-col space-y-2 pb-5 pt-0 pl-5 pr-4">
         <Link
           to={{
             pathname: `/products/${data.id}`,
@@ -232,11 +237,22 @@ const ShopCard = ({ data, showType }) => {
             </p>
           </div>
           {cartIDs?.includes(data.id) ? (
-            <div className="group relative grid aspect-square w-7 place-items-center rounded-full bg-cyan-600 text-center text-xs text-white hover:bg-white/0">
-              <p className="group-hover:hidden">{itemCount(data.id)}</p>
+            <div
+              className={`${
+                showCheckedGif ? "bg-transparent" : "bg-cyan-600"
+              } group relative grid aspect-square w-7 place-items-center rounded-full text-center text-xs text-white hover:bg-white/0`}
+            >
+              <p className={`${showCheckedGif && "hidden"} group-hover:hidden`}>
+                {itemCount(data.id)}
+              </p>
+              {showCheckedGif && (
+                <img src={checkedGif} alt="" className={`absolute inset-0`} />
+              )}
               <TrashIcon
                 onClick={() => dispatch(removeItem({ id: data.id }))}
-                className="hidden h-6 w-6 cursor-pointer text-black transition duration-500 ease-in-out hover:text-red-400 group-hover:block"
+                className={`${
+                  !showCheckedGif && "group-hover:block"
+                } hidden h-6 w-6 cursor-pointer text-black transition duration-500 ease-in-out hover:text-red-400`}
               />
             </div>
           ) : (
@@ -258,19 +274,6 @@ const ShopCard = ({ data, showType }) => {
 
         {entered && (
           <div className="flex items-center justify-start space-x-3">
-            {/* <button
-              title={
-                cartIDs?.includes(data.id) ? "Remove from cart" : "Add to cart"
-              }
-              onClick={() => handleCart(data)}
-              className="animate-leftToRight hover:text-red-600"
-            >
-              {cartIDs?.includes(data.id) ? (
-                <BasketIconSolid />
-              ) : (
-                <BasketIcon className="h-6 w-6" />
-              )}
-            </button> */}
             <button
               onClick={() => handleWishlist(data)}
               title={

@@ -1,9 +1,23 @@
 import React from "react";
 import emptyCartGif from "../assets/images/empty-cart-gif.gif";
+import { Link } from "react-router-dom";
 
 const OrdersDetails = ({ orders }) => {
   const totalPrice = () => {
     return orders.reduce((p, c) => p + c.count * c.price, 0);
+  };
+
+  const dateFormatter = () => {
+    let time = new Date();
+    let n = time.toDateString();
+
+    let dateArray = n.split(" ");
+
+    let month = dateArray[1];
+    let day = dateArray[2];
+    let year = dateArray[3];
+
+    return `${month} ${day}, ${year}`;
   };
 
   return (
@@ -23,24 +37,27 @@ const OrdersDetails = ({ orders }) => {
         <div className="mx-4 my-10 overflow-x-auto">
           <table className="w-full border-collapse border-0">
             <thead>
-              <tr className="bg-slate-200">
+              <tr className="font-poppins bg-slate-200">
                 <th className="border border-gray-400 px-5 py-2">Date</th>
                 <th className="border border-gray-400 px-5 py-2">Total</th>
                 <th className="border border-gray-400 px-5 py-2">Action</th>
               </tr>
             </thead>
             <tbody className="">
-              <tr className="">
-                <td className="h-12 w-36 min-w-[144px] border border-gray-400 p-4">
-                  {`22 june 2013`}
+              <tr className="font-poppins">
+                <td className="h-12 min-w-[144px] border border-gray-400 p-4 text-center">
+                  {`${dateFormatter()}`}
                 </td>
                 <td className="h-12 min-w-[144px] border border-gray-400 px-5 text-center">
                   {`$${totalPrice()}`}
                 </td>
                 <td className="h-12 min-w-[144px] border border-gray-400 px-5 text-center">
-                  <button className="bg-red-400 px-4 py-2 text-white transition-colors duration-300 ease-in-out hover:bg-slate-400 hover:text-black">
+                  <Link
+                    to="/cart"
+                    className="bg-red-400 px-4 py-2 text-white transition-colors duration-300 ease-in-out hover:bg-slate-300 hover:text-black"
+                  >
                     View
-                  </button>
+                  </Link>
                 </td>
               </tr>
             </tbody>

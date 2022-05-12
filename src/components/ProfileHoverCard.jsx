@@ -6,11 +6,13 @@ import { Link } from "react-router-dom";
 import { formatter } from "../utils/phoneNumberFormatter";
 
 const ProfileHoverCard = ({ auth, signOut, setShowSetting }) => {
+  // console.log(auth.currentUser?.providerData[0].photoURL);
+
   return (
     <div
       onMouseEnter={() => setShowSetting(true)}
       onMouseLeave={() => setShowSetting(false)}
-      className="absolute right-0 top-[54px] z-10 flex flex-col divide-y-2 bg-white px-5 py-3 shadow-lg"
+      className="absolute right-0 top-[56px] z-10 flex flex-col divide-y-2 divide-black bg-gradient-to-br from-cyan-200 to-green-300 px-5 py-3 shadow-lg"
     >
       {auth.currentUser?.providerData[0].providerId === "phone" ? (
         <div className="flex items-center p-3">

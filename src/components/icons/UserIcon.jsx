@@ -4,11 +4,11 @@ const UserIcon = () => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
-      className="h-7 w-7 sm:h-9 sm:w-9"
+      className="h-6 w-6 transition-colors duration-300 ease-in-out hover:text-indigo-500 sm:h-8 sm:w-8"
       fill="none"
       viewBox="0 0 24 24"
       stroke="currentColor"
-      strokeWidth={1}
+      strokeWidth={2}
     >
       <path
         strokeLinecap="round"

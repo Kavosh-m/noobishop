@@ -20,6 +20,8 @@ import ArrowNarrowRight from "../components/icons/ArrowNarrowRight";
 import { FaEllipsisH } from "react-icons/fa";
 import { auth, db } from "../firebase";
 import { doc, setDoc } from "firebase/firestore";
+import Carousel from "react-material-ui-carousel";
+import { caroImages } from "../constants";
 // import { gsap } from "gsap";
 
 const ShopRoute = () => {
@@ -246,13 +248,18 @@ const ShopRoute = () => {
       <Navbar />
       <div className="mx-0 flex w-full flex-col">
         {/* Header image goes here */}
-        <div className="h-[375px] w-full bg-gray-300">
-          <img
-            src={shopHeader}
-            alt=""
-            className="h-full w-full object-cover brightness-50"
-          />
-        </div>
+        <Carousel
+          height={400}
+          animation="slide"
+          duration={1000}
+          interval={3000}
+        >
+          {caroImages.map((item) => (
+            <div className="h-[400px] w-full" key={item.id}>
+              {item.content}
+            </div>
+          ))}
+        </Carousel>
 
         {/* Main page content goes here */}
         <div className="flex flex-col-reverse items-start py-4 lg:flex-row">

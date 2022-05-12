@@ -18,15 +18,61 @@ import { FaTwitterSquare } from "react-icons/fa";
 import { FaLinkedin } from "react-icons/fa";
 import { FaPinterestSquare } from "react-icons/fa";
 import creditCards from "../assets/images/img-payment.png";
+import caroImages from "../assets/carousel.json";
+import { Tab } from "@headlessui/react";
+import ShippingPolicy from "../components/ShippingPolicy";
+import ReviewsDetails from "../components/ReviewsDetails";
+import {
+  doc,
+  setDoc,
+  getDoc,
+  getDocs,
+  Timestamp,
+  collection,
+  addDoc,
+  query,
+  orderBy,
+} from "firebase/firestore";
+import { auth, db } from "../firebase";
+import ShopCard from "../components/shop/ShopCard";
 
 const ProductDetailsRoute = () => {
   const location = useLocation();
+
+  const burgers = useSelector((state) => state.food.burger);
+  const pizzas = useSelector((state) => state.food.pizza);
+  const pastas = useSelector((state) => state.food.pasta);
+  const drinks = useSelector((state) => state.food.drink);
+
+  const relatedProducts = () => {
+    return [burgers[0], pizzas[0], pastas[0], drinks[0]];
+  };
+
+  const mayAlsoLikeProducts = () => {
+    return [
+      burgers[burgers.length - 1],
+      pizzas[pizzas.length - 1],
+      pastas[pastas.length - 1],
+      drinks[drinks.length - 1],
+    ];
+  };
+
   const dispatch = useDispatch();
+
+  const [data, setData] = useState(null);
+
+  const [allCaro, setAllCaro] = useState(
+    [{ id: "uwbcvfgrt4r5", link: location.state.picurl }].concat(caroImages)
+  );
+  const [currentCaro, setCurrentCaro] = useState(allCaro[0]);
+
+  const selectedTabClass = "w-full h-full bg-red-400 text-white";
+  const unselectedTabClass =
+    "w-full h-full bg-slate-900 text-white hover:bg-red-400 transition-colors duration-300 ease-in-out";
 
   const sidebarStatus = useSelector((state) => state.util.sidebar);
   const orders = useSelector((state) => state.cart.ordered);
 
-  const [data, setData] = useState(null);
   const [unit, setUnit] = useState(() => {
     let g = orders.filter((item) => item.id === location.state.id);
 
@@ -52,7 +98,12 @@ const ProductDetailsRoute = () => {
 
   useEffect(() => {
     setData(location.state);
-  }, [location]);
+    setAllCaro(
+      [{ id: "uwbcvfgrt4r5", link: location.state.picurl }].concat(caroImages)
+    );
+    setCurrentCaro(allCaro[0]);
+    console.log(location.state);
+  }, [location.state]);
 
   const mainView = useRef();
   const [showBackToTopButton, setShowBackToTopButton] = useState(false);
@@ -67,6 +118,143 @@ const ProductDetailsRoute = () => {
     }
   };
 
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [comment, setComment] = useState("");
+  const [ratingValue, setRatingValue] = useState(2);
+  const [commentLoading, setCommentLoading] = useState(false);
+  const [commentSubmitionSuccessful, setCommentSubmitionSuccessful] =
+    useState("");
+  const [allComments, setAllComments] = useState([]);
+
+  const onSubmitComment = async (e) => {
+    e.preventDefault();
+
+    if (auth.currentUser) {
+      setCommentLoading(true);
+      // Step 1: get user name
+      const docRef = doc(db, "users", auth.currentUser.uid);
+      const docSnap = await getDoc(docRef);
+
+      if (docSnap.exists()) {
+        // console.log("Document data:", docSnap.data());
+        // Step 2: add comment to firestore
+        await setDoc(
+          doc(
+            db,
+            "foods",
+            location.state.category,
+            "items",
+            location.state.id,
+            "comments",
+            auth.currentUser.uid
+          ),
+          {
+            commentString: comment,
+            uploadTime: Timestamp.now(),
+            username: docSnap.data().name,
+            isRegisteredUser: true,
+            ratingStar: ratingValue,
+          }
+        );
+        setComment("");
+        setCommentLoading(false);
+        setCommentSubmitionSuccessful(Math.random().toString(36));
+      } else {
+        setComment("");
+        console.log("No user found!");
+        setCommentLoading(false);
+      }
+    } else {
+      setCommentLoading(true);
+      console.log("User is not registered");
+
+      // Add comment from user that not registered
+      await addDoc(
+        collection(
+          db,
+          "foods",
+          location.state.category,
+          "items",
+          location.state.id,
+          "comments"
+        ),
+        {
+          commentString: comment,
+          uploadTime: Timestamp.now(),
+          username: name,
+          isRegisteredUser: false,
+          emailAddress: email,
+          ratingStar: ratingValue,
+        }
+      );
+      setName("");
+      setEmail("");
+      setComment("");
+      setCommentLoading(false);
+      setCommentSubmitionSuccessful(Math.random().toString(36));
+    }
+  };
+
+  const fetchAllComments = async () => {
+    const q = query(
+      collection(
+        db,
+        "foods",
+        location.state.category,
+        "items",
+        location.state.id,
+        "comments"
+      ),
+      orderBy("uploadTime", "desc")
+    );
+    const querySnapshot = await getDocs(q);
+    if (!querySnapshot.empty) {
+      let posts = [];
+      querySnapshot.forEach((docc) => {
+        // console.log(doc.id, " => ", doc.data());
+        posts.push({ ...docc.data() });
+      });
+      setAllComments(posts);
+    }
+  };
+
+  useEffect(() => {
+    fetchAllComments();
+    // console.log(allComments);
+  }, [commentSubmitionSuccessful, location.state]);
+
+  const tabularData = [
+    {
+      title: "DESCRIPTION",
+      content:
+        "On the other hand, we denounce with righteous indignation and dislike men who are so beguiled and demoralized by the charms of pleasure of the moment, so blinded by desire, that they cannot foresee the pain and trouble that are bound to ensue; and equal blame belongs to those who fail in their duty through weakness of will, which is the same as saying through shrinking from toil and pain. These cases are perfectly simple and easy to distinguish. In a free hour, when our power of choice is untrammelled and when nothing prevents our being able to do what we like best, every pleasure is to be welcomed and every pain avoided. But in certain circumstances and owing to the claims of duty or the obligations of business it will frequently occur that pleasures have to be repudiated and annoyances accepted. The wise man therefore always holds in these matters to this principle of selection: he rejects pleasures to secure other greater pleasures, or else he endures pains to avoid worse pains. Et harum quidem rerum facilis est et expedita distinctio. Nam libero tempore, cum soluta nobis est eligendi optio cumque nihil impedit quo minus id quod maxime placeat facere possimus, omnis voluptas assumenda est, omnis dolor repellendus. Temporibus autem quibusdam et aut officiis debitis aut rerum necessitatibus saepe eveniet ut et voluptates repudiandae sint et molestiae non recusandae. Itaque earum rerum hic tenetur a sapiente delectus, ut aut reiciendis voluptatibus maiores alias consequatur aut perferendis doloribus asperiores repellat.",
+    },
+    {
+      title: "REVIEWS",
+      content: (
+        <ReviewsDetails
+          setComment={setComment}
+          setEmail={setEmail}
+          setName={setName}
+          comment={comment}
+          email={email}
+          name={name}
+          commentLoading={commentLoading}
+          onSubmitComment={onSubmitComment}
+          allComments={allComments}
+          ratingValue={ratingValue}
+          setRatingValue={setRatingValue}
+        />
+      ),
+    },
+    { title: "SHIPPING POLICY", content: <ShippingPolicy /> },
+  ];
+
+  // useEffect(() => {
+  //   console.log(location.state);
+  // }, [location.state]);
+
   if (data === null) {
     return (
       <>
@@ -76,7 +264,11 @@ const ProductDetailsRoute = () => {
   }
 
   return (
-    <div ref={mainView} onWheel={handleWheel} className="relative min-h-screen">
+    <div
+      ref={mainView}
+      onWheel={handleWheel}
+      className="relative flex min-h-screen flex-col justify-between"
+    >
       {/* drawer */}
       <Drawer
         anchor="left"
@@ -97,96 +289,184 @@ const ProductDetailsRoute = () => {
         />
       </div>
 
-      <div className="mx-10 mt-20 bg-white sm:mx-20">
-        <div className="flex flex-col justify-center space-x-0 pb-10 lg:flex-row lg:space-x-3">
-          <div className="aspect-square basis-1/2 bg-lime-400">
-            <img
-              src={data.picurl}
-              className="h-full w-full object-fill"
-              alt=""
-            />
-          </div>
-          <div className="flex basis-1/2 flex-col justify-between space-y-10 lg:space-y-0">
-            <div className="font-poppins flex flex-col space-y-1 pt-10 lg:pt-0">
-              <p className="font-oswald text-2xl font-bold">{data.name}</p>
-              <div className="flex items-center justify-start space-x-3">
-                <p className="text-lg">${(data.price * 0.8).toFixed(2)}</p>
-                <p className="text-gray-500 line-through">
-                  ${data.price.toFixed(2)}
-                </p>
-              </div>
-              <Rating
-                size="small"
-                name="four star"
-                className="w-0"
-                defaultValue={4.5}
-                precision={0.5}
-                style={{ color: "#E98C81" }}
+      <div className="flex-1 basis-auto">
+        <div className="mx-10 my-20 bg-white sm:mx-20">
+          <div className="grid w-full grid-cols-2 gap-8">
+            <div className="relative col-span-full flex flex-col bg-lime-400/0 lg:col-span-1">
+              <img
+                src={currentCaro.link}
+                className="aspect-video w-full object-cover"
+                alt=""
               />
+              <div className="mt-8 grid grid-cols-6 gap-x-3 overflow-x-auto">
+                {allCaro?.map((item, index) => (
+                  <div
+                    className="aspect-square cursor-pointer"
+                    key={item.id}
+                    onClick={() => setCurrentCaro(allCaro[index])}
+                  >
+                    <img
+                      src={item.link}
+                      alt=""
+                      className="h-full w-full object-fill transition-all duration-300 ease-in-out hover:opacity-30"
+                    />
+                  </div>
+                ))}
+              </div>
             </div>
-
-            <div className="font-poppins flex flex-col space-y-3 sm:flex-row sm:items-center sm:space-y-0 sm:space-x-3">
-              <div className="flex items-center text-base font-semibold">
-                <button
-                  onClick={handleDecrement}
-                  className="border border-gray-300 p-3 px-4 transition duration-300 ease-in-out hover:border-red-400 hover:bg-red-400 hover:text-white"
-                >
-                  -
-                </button>
-                <div className="font-oswald grid w-14 place-items-center border border-r-0 border-l-0 border-gray-300 py-3">
-                  <p>{unit}</p>
+            <div className="col-span-full flex flex-col space-y-10 lg:col-span-1">
+              <div className="font-poppins flex flex-col space-y-1 pt-10 lg:pt-0">
+                <p className="font-oswald text-2xl font-bold">{data.name}</p>
+                <div className="flex items-center justify-start space-x-3">
+                  <p className="text-lg">${(data.price * 0.8).toFixed(2)}</p>
+                  <p className="text-gray-500 line-through">
+                    ${data.price.toFixed(2)}
+                  </p>
                 </div>
-                <button
-                  onClick={handleIncrement}
-                  className="border border-gray-300 p-3 px-4 transition duration-300 ease-in-out hover:border-red-400 hover:bg-red-400 hover:text-white"
-                >
-                  +
-                </button>
+                <Rating
+                  size="small"
+                  name="four star"
+                  className="w-0"
+                  defaultValue={4.5}
+                  precision={0.5}
+                  style={{ color: "#E98C81" }}
+                />
               </div>
 
-              <div className="flex items-center space-x-3">
-                <button
-                  onClick={handleAddToCart}
-                  className="whitespace-nowrap rounded-3xl bg-red-400 p-3 px-4 text-white transition duration-300 ease-in-out hover:bg-gray-300 hover:text-black disabled:bg-gray-300 disabled:text-black/30"
-                >
-                  ADD TO CART
-                </button>
+              <p>
+                I must explain to you how all this mistaken idea of denouncing
+                pleasure and praising pain was born and I will give you a
+                complete account of the system, and expound the actual teachings
+                of the great explorer of the truth, the master-builder of human
+                happiness.
+              </p>
 
-                <button
-                  onClick={() => {
-                    dispatch(saveToWishlist(data));
-                    setOpenToastWishlist(true);
-                  }}
-                  className="whitespace-nowrap rounded-3xl border-[1px] border-gray-400 bg-white p-3 px-4 text-black transition duration-300 ease-in-out hover:border-red-300 hover:text-red-300"
-                >
-                  Add to wishlist
-                </button>
+              <div className="font-poppins flex flex-col space-y-3 sm:flex-row sm:items-center sm:space-y-0 sm:space-x-3">
+                <div className="flex items-center text-base font-semibold">
+                  <button
+                    onClick={handleDecrement}
+                    className="border border-gray-300 p-3 px-4 transition duration-300 ease-in-out hover:border-red-400 hover:bg-red-400 hover:text-white"
+                  >
+                    -
+                  </button>
+                  <div className="font-oswald grid w-14 place-items-center border border-r-0 border-l-0 border-gray-300 py-3">
+                    <p>{unit}</p>
+                  </div>
+                  <button
+                    onClick={handleIncrement}
+                    className="border border-gray-300 p-3 px-4 transition duration-300 ease-in-out hover:border-red-400 hover:bg-red-400 hover:text-white"
+                  >
+                    +
+                  </button>
+                </div>
+
+                <div className="flex items-center space-x-3">
+                  <button
+                    onClick={handleAddToCart}
+                    className="whitespace-nowrap rounded-3xl bg-red-400 p-3 px-4 text-white transition duration-300 ease-in-out hover:bg-gray-300 hover:text-black disabled:bg-gray-300 disabled:text-black/30"
+                  >
+                    ADD TO CART
+                  </button>
+
+                  <button
+                    onClick={() => {
+                      dispatch(saveToWishlist(data));
+                      setOpenToastWishlist(true);
+                    }}
+                    className="whitespace-nowrap rounded-3xl border-[1px] border-gray-400 bg-white p-3 px-4 text-black transition duration-300 ease-in-out hover:border-red-300 hover:text-red-300"
+                  >
+                    Add to wishlist
+                  </button>
+                </div>
+              </div>
+              <div className="space-y-5">
+                <div className="flex items-center space-x-3">
+                  <p className="font-poppins text-base font-semibold">
+                    Share :
+                  </p>
+                  <FaFacebookSquare
+                    size="1.85rem"
+                    className="cursor-pointer text-blue-800 transition-colors duration-300 ease-in-out hover:text-red-400"
+                  />
+                  <FaTwitterSquare
+                    size="1.85rem"
+                    className="cursor-pointer text-blue-400 transition-colors duration-300 ease-in-out hover:text-red-400"
+                  />
+                  <FaLinkedin
+                    size="1.85rem"
+                    className="cursor-pointer text-blue-600 transition-colors duration-300 ease-in-out hover:text-red-400"
+                  />
+                  <FaPinterestSquare
+                    size="1.85rem"
+                    className="cursor-pointer text-red-600 transition-colors duration-300 ease-in-out hover:text-red-400"
+                  />
+                </div>
+                <img
+                  src={creditCards}
+                  alt=""
+                  className="w-3/5 border border-slate-300"
+                />
               </div>
             </div>
-            <div className="flex items-center space-x-3">
-              <p className="font-poppins text-base font-semibold">Share :</p>
-              <FaFacebookSquare
-                size="1.85rem"
-                className="cursor-pointer text-blue-800 transition-colors duration-300 ease-in-out hover:text-red-400"
-              />
-              <FaTwitterSquare
-                size="1.85rem"
-                className="cursor-pointer text-blue-400 transition-colors duration-300 ease-in-out hover:text-red-400"
-              />
-              <FaLinkedin
-                size="1.85rem"
-                className="cursor-pointer text-blue-600 transition-colors duration-300 ease-in-out hover:text-red-400"
-              />
-              <FaPinterestSquare
-                size="1.85rem"
-                className="cursor-pointer text-red-600 transition-colors duration-300 ease-in-out hover:text-red-400"
-              />
+          </div>
+
+          {/* 4 tab section */}
+          <div className="mt-20 w-full bg-indigo-300/0">
+            <Tab.Group>
+              <Tab.List className="font-poppins flex h-12 bg-blue-900/20 font-bold uppercase">
+                {tabularData.map((item) => (
+                  <Tab
+                    key={item.title}
+                    className={({ selected }) =>
+                      selected ? selectedTabClass : unselectedTabClass
+                    }
+                  >
+                    {item.title}
+                  </Tab>
+                ))}
+              </Tab.List>
+              <Tab.Panels>
+                {tabularData.map((item) => (
+                  <Tab.Panel
+                    className="font-poppins bg-gradient-to-br from-slate-100 to-rose-100 py-9 px-8"
+                    key={item.title}
+                  >
+                    {item.content}
+                  </Tab.Panel>
+                ))}
+              </Tab.Panels>
+            </Tab.Group>
+          </div>
+
+          {/* Related product section */}
+          <div className="mt-20 w-full bg-indigo-300/0">
+            <p className="font-oswald text-center text-xl font-bold">
+              RELATED PRODUCT
+            </p>
+            <p className="font-poppins mt-3 text-center">
+              You can check the related product for your shopping collection.
+            </p>
+            <div className="mt-14 grid grid-cols-4 gap-6 bg-white">
+              {relatedProducts().map((item) => (
+                <ShopCard key={item.id} showType="grid" data={item} />
+              ))}
             </div>
-            <img
-              src={creditCards}
-              alt=""
-              className="w-3/5 border border-slate-300"
-            />
+          </div>
+
+          {/* You may also like product section */}
+          <div className="mt-20 w-full bg-indigo-300/0">
+            <p className="font-oswald text-center text-xl font-bold">
+              YOU MAY ALSO LIKE
+            </p>
+            <p className="font-poppins mt-3 text-center">
+              Most of the customers choose our products. You may also like our
+              product.
+            </p>
+            <div className="mt-14 grid grid-cols-4 gap-6 bg-white">
+              {mayAlsoLikeProducts().map((item) => (
+                <ShopCard key={item.id} showType="grid" data={item} />
+              ))}
+            </div>
           </div>
         </div>
       </div>

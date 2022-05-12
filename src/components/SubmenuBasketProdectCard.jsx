@@ -13,11 +13,11 @@ const SubmenuBasketProdectCard = ({ data }) => {
           pathname: `/products/${data.id}`,
         }}
         state={data}
-        className="aspect-square basis-1/5 cursor-pointer"
+        className="aspect-square basis-[30%] cursor-pointer"
       >
         <img src={data.picurl} className="h-full w-full object-fill" />
       </Link>
-      <div className="flex basis-3/5 flex-col items-start space-y-2 pl-3">
+      <div className="flex basis-[50%] flex-col items-start space-y-2 pl-3">
         <Link
           to={{
             pathname: `/products/${data.id}`,
@@ -33,7 +33,7 @@ const SubmenuBasketProdectCard = ({ data }) => {
         </div>
       </div>
       <div
-        className="flex basis-1/5 items-center justify-end"
+        className="flex basis-[20%] items-center justify-end pr-2"
         onClick={() => dispatch(removeItem({ id: data.id }))}
       >
         <TrashIcon className="h-7 w-7 cursor-pointer transition duration-500 ease-in-out hover:text-red-400" />

@@ -7,6 +7,7 @@ import { TiSocialLinkedin } from "react-icons/ti";
 import { ImYoutube2 } from "react-icons/im";
 import { FaVimeoV } from "react-icons/fa";
 import { NavLink } from "react-router-dom";
+import { auth } from "../firebase";
 
 const socials = [
   { title: "facebook", icon: <GrFacebookOption /> },
@@ -16,20 +17,26 @@ const socials = [
   { title: "vimeo", icon: <FaVimeoV /> },
 ];
 
-const links = [
-  { routeName: "Home", path: "/" },
-  { routeName: "Wishlist", path: "/wish" },
-  { routeName: "About", path: "/about" },
-  { routeName: "Contact", path: "/contact" },
-  { routeName: "My account", path: "/profile" },
-];
+const links = auth.currentUser
+  ? [
+      { routeName: "Home", path: "/" },
+      { routeName: "Wishlist", path: "/wish" },
+      { routeName: "About", path: "/about" },
+      { routeName: "Contact", path: "/contact" },
+      { routeName: "My account", path: "/profile" },
+    ]
+  : [
+      { routeName: "Home", path: "/" },
+      { routeName: "Wishlist", path: "/wish" },
+      { routeName: "About", path: "/about" },
+      { routeName: "Contact", path: "/contact" },
+    ];
 
 const Sidebar = () => {
   const [search, setSearch] = useState("");
 
-  const activeClassName = "text-red-300";
-  const inactiveClassName =
-    "hover:text-red-300 transition-colors duration-300 ease-in-out";
+  const activeClassName = `text-red-300`;
+  const inactiveClassName = `hover:text-red-300 transition-colors duration-300 ease-in-out`;
 
   return (
     <div className="font-poppins relative flex min-h-screen w-[300px] cursor-default flex-col justify-between bg-white">
@@ -58,7 +65,7 @@ const Sidebar = () => {
       </div>
 
       <div className="flex-1 basis-auto overflow-y-auto bg-white">
-        <ul className="mt-10 space-y-4 px-4">
+        <ul className="mt-10 space-y-3 px-4">
           {links.map((link) => (
             <li key={link.routeName} className="cursor-pointer">
               <NavLink
@@ -72,6 +79,28 @@ const Sidebar = () => {
             </li>
           ))}
         </ul>
+
+        {/* Register section if user not registered or signed-in */}
+        {!auth.currentUser && (
+          <div className="mt-10 flex flex-col space-y-3 px-4">
+            <NavLink
+              to="/login"
+              className={({ isActive }) =>
+                isActive ? activeClassName : inactiveClassName
+              }
+            >
+              Login
+            </NavLink>
+            <NavLink
+              to="/register"
+              className={({ isActive }) =>
+                isActive ? activeClassName : inactiveClassName
+              }
+            >
+              Register
+            </NavLink>
+          </div>
+        )}
       </div>
 
       {/* Contact div goes here */}
