@@ -19,11 +19,11 @@ const QuickViewItem = ({
   const [openToastWishlist, setOpenToastWishlist] = useState(false);
 
   return (
-    <div className="relative z-10 flex w-4/6 items-center justify-between space-x-10 rounded-lg bg-white p-3">
-      <div className="aspect-square w-full basis-1/2 bg-lime-300">
+    <div className="relative z-10 grid w-9/12 grid-cols-2 gap-4 rounded-lg bg-white p-3">
+      <div className="aspect-square w-full  bg-lime-300">
         <img className="h-full w-full object-fill" src={data.picurl} alt="" />
       </div>
-      <div className="flex h-[450px] basis-1/2 flex-col justify-between bg-white pb-16">
+      <div className="flex flex-col justify-between bg-white">
         <div className="flex flex-col space-y-1">
           <p className="text-2xl">{data.name}</p>
           <div className="flex items-center justify-start space-x-3">
@@ -33,6 +33,7 @@ const QuickViewItem = ({
             </p>
           </div>
           <Rating
+            readOnly
             size="small"
             name="four star"
             className="w-0"
@@ -41,7 +42,12 @@ const QuickViewItem = ({
             style={{ color: "#E98C81" }}
           />
         </div>
-        <div className="font-poppins flex items-center space-x-2">
+        <p className="font-poppins border-t pt-3">
+          {
+            "Burger King is an American multinational chain of hamburger fast food restaurants. Headquartered in Miami-Dade County, Florida, the company was founded in 1953 as Insta-Burger King, a Jacksonville, Florida-based restaurant chain."
+          }
+        </p>
+        <div className="font-poppins grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3">
           <div className="flex items-center text-sm">
             <button
               onClick={handleDecrement}
@@ -61,7 +67,7 @@ const QuickViewItem = ({
           </div>
           <button
             onClick={handleAddToCart}
-            className="rounded-3xl bg-red-400 p-3 px-4 text-sm text-white transition duration-300 ease-in-out hover:bg-gray-300 hover:text-black disabled:bg-gray-300 disabled:text-black/30"
+            className="box-border rounded-3xl bg-red-400 p-3 px-4 text-sm text-white transition duration-300 ease-in-out hover:bg-gray-300 hover:text-black disabled:bg-gray-300 disabled:text-black/30"
           >
             ADD TO CART
           </button>
@@ -70,7 +76,7 @@ const QuickViewItem = ({
               dispatch(saveToWishlist(data));
               setOpenToastWishlist(true);
             }}
-            className="whitespace-nowrap rounded-3xl border border-gray-400 bg-white p-3 px-4 text-sm text-black transition duration-300 ease-in-out hover:border-red-300 hover:text-red-300"
+            className="rounded-3xl border border-gray-400 bg-white p-3 px-4 text-sm text-black transition duration-300 ease-in-out hover:border-red-300 hover:text-red-300"
           >
             Add to wishlist
           </button>

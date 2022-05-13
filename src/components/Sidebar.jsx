@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { ImPhone } from "react-icons/im";
 import { HiMail } from "react-icons/hi";
 import { GrFacebookOption } from "react-icons/gr";
@@ -17,40 +17,45 @@ const socials = [
   { title: "vimeo", icon: <FaVimeoV /> },
 ];
 
-const links = auth.currentUser
-  ? [
-      { routeName: "Home", path: "/" },
-      { routeName: "Wishlist", path: "/wish" },
-      { routeName: "About", path: "/about" },
-      { routeName: "Contact", path: "/contact" },
-      { routeName: "My account", path: "/profile" },
-    ]
-  : [
-      { routeName: "Home", path: "/" },
-      { routeName: "Wishlist", path: "/wish" },
-      { routeName: "About", path: "/about" },
-      { routeName: "Contact", path: "/contact" },
-    ];
-
 const Sidebar = () => {
   const [search, setSearch] = useState("");
+  const [links, setLinks] = useState([]);
+
+  useEffect(() => {
+    if (auth.currentUser) {
+      setLinks([
+        { routeName: "Home", path: "/" },
+        { routeName: "Wishlist", path: "/wish" },
+        { routeName: "About", path: "/about" },
+        { routeName: "Contact", path: "/contact" },
+        { routeName: "My account", path: "/profile" },
+      ]);
+    } else {
+      setLinks([
+        { routeName: "Home", path: "/" },
+        { routeName: "Wishlist", path: "/wish" },
+        { routeName: "About", path: "/about" },
+        { routeName: "Contact", path: "/contact" },
+      ]);
+    }
+  }, [auth.currentUser]);
 
   const activeClassName = `text-red-300`;
   const inactiveClassName = `hover:text-red-300 transition-colors duration-300 ease-in-out`;
 
   return (
-    <div className="font-poppins relative flex min-h-screen w-[300px] cursor-default flex-col justify-between bg-white">
+    <div className="font-poppins relative flex min-h-screen w-full cursor-default flex-col justify-between bg-white">
       {/* search input and button goes here */}
-      <div className="flex h-10 w-full items-center justify-between bg-gray-200 pl-1">
+      <div className="flex h-10 w-full items-center justify-end bg-gray-200 px-2">
         <input
           placeholder="Search products..."
           value={search}
           onChange={(e) => setSearch(e.target.value)}
-          className="h-full basis-5/6 bg-transparent text-sm outline-0"
+          className="h-full flex-1 bg-rose-300/0 text-sm outline-0 focus:outline-0"
         />
         <svg
           xmlns="http://www.w3.org/2000/svg"
-          className="h-6 w-6 shrink-0 basis-1/6 cursor-pointer text-slate-500"
+          className="h-6 w-6 shrink-0 cursor-pointer text-slate-500"
           fill="none"
           viewBox="0 0 24 24"
           stroke="currentColor"

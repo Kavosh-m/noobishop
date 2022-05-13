@@ -78,9 +78,9 @@ const ShopCard = ({ data, showType }) => {
 
   if (showType === "list") {
     return (
-      <div className="grid grid-cols-1 md:grid-cols-2">
+      <div className="grid grid-cols-1 md:grid-cols-3">
         <Link
-          className="aspect-square w-full py-10 px-5"
+          className="col-span-1 aspect-square w-full py-10 px-5"
           to={{
             pathname: `/products/${data.id}`,
           }}
@@ -88,7 +88,7 @@ const ShopCard = ({ data, showType }) => {
         >
           <img src={data.picurl} alt="" className="h-full w-full object-fill" />
         </Link>
-        <div className="flex flex-col space-y-2 py-10 pl-5 pr-5 md:pl-0">
+        <div className="col-span-1 flex flex-col space-y-2 py-10 pl-5 pr-5 md:col-span-2 md:pl-0">
           <Link
             to={{
               pathname: `/products/${data.id}`,

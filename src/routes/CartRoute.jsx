@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import TrashIcon from "../components/icons/TrashIcon";
 import { changeNumberOfItem, removeItem } from "../redux/app/slices/cartSlice";
-import { shopHeader } from "../constants";
+import shopHeader from "../assets/images/banner3.jpg";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import Navbar from "../components/Navbar";

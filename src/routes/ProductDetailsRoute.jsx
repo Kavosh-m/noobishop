@@ -3,7 +3,7 @@ import { useLocation } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { saveOrders } from "../redux/app/slices/cartSlice";
 import { saveToWishlist } from "../redux/app/slices/wishSlice";
-import { shopHeader } from "../constants";
+import shopHeader from "../assets/images/banner1.jpg";
 import Rating from "@mui/material/Rating";
 import NotFoundRoute from "./NotFoundRoute";
 import Navbar from "../components/Navbar";

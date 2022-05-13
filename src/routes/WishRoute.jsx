@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import { shopHeader } from "../constants";
+import shopHeader from "../assets/images/banner2.jpg";
 import { useSelector, useDispatch } from "react-redux";
 import { saveOrders } from "../redux/app/slices/cartSlice";
 import { removeItemFromWishlist } from "../redux/app/slices/wishSlice";
