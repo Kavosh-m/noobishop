@@ -78,9 +78,9 @@ const ShopCard = ({ data, showType }) => {
 
   if (showType === "list") {
     return (
-      <div className="flex w-full flex-col sm:flex-row">
+      <div className="grid grid-cols-1 md:grid-cols-2">
         <Link
-          className="aspect-square w-full p-10 sm:basis-4/12"
+          className="aspect-square w-full py-10 px-5"
           to={{
             pathname: `/products/${data.id}`,
           }}
@@ -88,7 +88,7 @@ const ShopCard = ({ data, showType }) => {
         >
           <img src={data.picurl} alt="" className="h-full w-full object-fill" />
         </Link>
-        <div className="flex flex-col space-y-2 pb-5 pl-10 sm:basis-8/12 sm:py-10 sm:pb-0 sm:pl-0">
+        <div className="flex flex-col space-y-2 py-10 pl-5 pr-5 md:pl-0">
           <Link
             to={{
               pathname: `/products/${data.id}`,
@@ -113,7 +113,7 @@ const ShopCard = ({ data, showType }) => {
               ${data.price.toFixed(2)}
             </p>
           </div>
-          <div className="flex items-center justify-start space-x-3">
+          <div className="flex items-center justify-start space-x-3 pb-3">
             {cartIDs?.includes(data.id) ? (
               <div className="group relative grid aspect-square w-7 place-items-center rounded-full bg-cyan-600 text-center text-xs text-white hover:bg-white/0">
                 <p className="group-hover:hidden">{itemCount(data.id)}</p>
@@ -162,6 +162,11 @@ const ShopCard = ({ data, showType }) => {
               <EyeIcon />
             </button>
           </div>
+          <p className="font-poppins border-t pt-3">
+            {
+              "Burger King is an American multinational chain of hamburger fast food restaurants. Headquartered in Miami-Dade County, Florida, the company was founded in 1953 as Insta-Burger King, a Jacksonville, Florida-based restaurant chain."
+            }
+          </p>
         </div>
         <Transition show={isDialogOpen} as={Fragment}>
           <Dialog

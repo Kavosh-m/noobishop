@@ -40,6 +40,11 @@ const AboutRoute = () => {
     dispatch(closeSidebar());
   }, []);
 
+  // useEffect(() => {
+  //   let e = document.getElementById("maindiv");
+  //   console.log(e.scrollHeight);
+  // });
+
   const onclick = async () => {
     const foods = query(collectionGroup(db, "items"));
     const querySnapshot = await getDocs(foods);
@@ -78,6 +83,7 @@ const AboutRoute = () => {
 
   return (
     <div
+      id="maindiv"
       ref={mainView}
       onWheel={handleWheel}
       className="relative flex min-h-screen flex-col justify-between"
@@ -92,9 +98,11 @@ const AboutRoute = () => {
       </Drawer>
       <Navbar />
       <div className="flex-1 basis-auto bg-white">
-        <p className="font-poppins mt-10 text-xl">
-          This page is under development
-        </p>
+        {[...new Array(30)].map((_, index) => (
+          <p key={index} className="font-poppins mt-10 text-xl">
+            This page is under development
+          </p>
+        ))}
         {/* <button
           onClick={() => addCategoryFieldTofoods("pizza")}
           className="bg-red-200 px-10 py-3"
