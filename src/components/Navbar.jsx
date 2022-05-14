@@ -19,6 +19,7 @@ import ProfileHoverCard from "./ProfileHoverCard";
 import { gsap } from "gsap";
 import emptyCart from "../assets/images/empty-cart.png";
 import BasketHoverCard from "./BasketHoverCard";
+import Badge from "@mui/material/Badge";
 
 const Navbar = () => {
   const [scrollPosition, setPosition] = useState(0);
@@ -183,19 +184,16 @@ const Navbar = () => {
 
         {/* Basket icon */}
         <div className="relative bg-white">
-          <Link
-            onMouseEnter={() => setShow(true)}
-            onMouseLeave={() => setShow(false)}
-            to="/cart"
-            className="relative"
-          >
-            {orders?.length > 0 && (
-              <div className="absolute top-0 right-0 flex h-5 w-5 translate-x-1/3 -translate-y-1/3 items-center justify-center rounded-full bg-red-500 text-[10px] text-white">
-                <p ref={numberOfOrdersRef}>{orders.length}</p>
-              </div>
-            )}
-            <BasketIcon className="h-6 w-6 transition-colors duration-300 ease-in-out hover:text-indigo-500 sm:h-8 sm:w-8" />
-          </Link>
+          <Badge badgeContent={orders.length} color="error">
+            <Link
+              onMouseEnter={() => setShow(true)}
+              onMouseLeave={() => setShow(false)}
+              to="/cart"
+              className="relative"
+            >
+              <BasketIcon className="h-6 w-6 transition-colors duration-300 ease-in-out hover:text-indigo-500 sm:h-8 sm:w-8" />
+            </Link>
+          </Badge>
           <Transition
             show={show}
             enter="transition-all duration-1000"

@@ -35,10 +35,10 @@ const ScrollToTop = () => {
     <Transition
       appear={true}
       show={isVisible}
-      enter="transition-opacity duration-1000"
+      enter="transition-all duration-1000"
       enterFrom="opacity-0"
       enterTo="opacity-100"
-      leave="transition-opacity duration-700"
+      leave="transition-all duration-700"
       leaveFrom="opacity-100"
       leaveTo="opacity-0"
     >
