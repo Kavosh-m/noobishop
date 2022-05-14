@@ -37,10 +37,10 @@ const ReviewsDetails = ({
             key={index.toString(36)}
             className="border border-slate-300 px-5 py-2"
           >
-            <div className="font-oswald flex items-center space-x-1 text-lg font-bold">
+            <div className="font-oswald flex items-center space-x-1 text-sm font-bold md:text-base lg:text-lg">
               <p>{item.username}</p>
               <p>-</p>
-              <p className="text-base font-light">
+              <p className="text-sm font-light md:text-base lg:text-lg">
                 {dateFormatter(item.uploadTime.toDate())}
               </p>
             </div>
@@ -58,7 +58,9 @@ const ReviewsDetails = ({
 
       {/* Add new comment */}
       <div className={`${allComments.length < 1 ? "mt-0" : "mt-12"}`}>
-        <h2 className="font-oswald text-xl font-bold">Add a review</h2>
+        <h2 className="font-oswald text-base font-bold lg:text-lg">
+          Add a review
+        </h2>
         {!auth.currentUser && (
           <p className="my-2">
             Your email address will not be published. Required fields are marked

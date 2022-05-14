@@ -115,11 +115,24 @@ const ShopCard = ({ data, showType }) => {
           </div>
           <div className="flex items-center justify-start space-x-3 pb-3">
             {cartIDs?.includes(data.id) ? (
-              <div className="group relative grid aspect-square w-7 place-items-center rounded-full bg-cyan-600 text-center text-xs text-white hover:bg-white/0">
-                <p className="group-hover:hidden">{itemCount(data.id)}</p>
+              <div
+                className={`${
+                  showCheckedGif ? "bg-transparent" : "bg-cyan-600"
+                } group relative grid aspect-square w-7 place-items-center rounded-full text-center text-xs text-white hover:bg-white/0`}
+              >
+                <p
+                  className={`${showCheckedGif && "hidden"} group-hover:hidden`}
+                >
+                  {itemCount(data.id)}
+                </p>
+                {showCheckedGif && (
+                  <img src={checkedGif} alt="" className={`absolute inset-0`} />
+                )}
                 <TrashIcon
                   onClick={() => dispatch(removeItem({ id: data.id }))}
-                  className="hidden h-6 w-6 cursor-pointer text-black transition duration-500 ease-in-out hover:text-red-400 group-hover:block"
+                  className={`${
+                    !showCheckedGif && "group-hover:block"
+                  } hidden h-6 w-6 cursor-pointer text-black transition duration-500 ease-in-out hover:text-red-400`}
                 />
               </div>
             ) : (

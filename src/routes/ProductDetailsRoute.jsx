@@ -290,7 +290,7 @@ const ProductDetailsRoute = () => {
       </div>
 
       <div className="flex-1 basis-auto">
-        <div className="mx-10 my-20 bg-white sm:mx-20">
+        <div className="mx-2 my-20 bg-white sm:mx-5 md:mx-10 lg:mx-20">
           <div className="grid w-full grid-cols-2 gap-8">
             <div className="relative col-span-full flex flex-col bg-lime-400/0 lg:col-span-1">
               <img
@@ -413,7 +413,7 @@ const ProductDetailsRoute = () => {
           {/* 4 tab section */}
           <div className="mt-20 w-full bg-indigo-300/0">
             <Tab.Group>
-              <Tab.List className="font-poppins flex h-12 bg-blue-900/20 font-bold uppercase">
+              <Tab.List className="font-poppins flex h-12 bg-blue-900/20 text-xs font-bold uppercase sm:text-sm md:text-base">
                 {tabularData.map((item) => (
                   <Tab
                     key={item.title}
@@ -428,7 +428,7 @@ const ProductDetailsRoute = () => {
               <Tab.Panels>
                 {tabularData.map((item) => (
                   <Tab.Panel
-                    className="font-poppins bg-gradient-to-br from-slate-100 to-rose-100 py-9 px-8"
+                    className="font-poppins bg-gradient-to-br from-slate-100 to-rose-100 py-9 px-3 text-xs sm:px-5 sm:text-sm md:px-8 md:text-base"
                     key={item.title}
                   >
                     {item.content}
@@ -446,7 +446,7 @@ const ProductDetailsRoute = () => {
             <p className="font-poppins mt-3 text-center">
               You can check the related product for your shopping collection.
             </p>
-            <div className="mt-14 grid grid-cols-4 gap-6 bg-white">
+            <div className="mt-14 grid grid-cols-1 gap-6 bg-white sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
               {relatedProducts().map((item) => (
                 <ShopCard key={item.id} showType="grid" data={item} />
               ))}
@@ -462,7 +462,7 @@ const ProductDetailsRoute = () => {
               Most of the customers choose our products. You may also like our
               product.
             </p>
-            <div className="mt-14 grid grid-cols-4 gap-6 bg-white">
+            <div className="mt-14 grid grid-cols-1 gap-6 bg-white sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
               {mayAlsoLikeProducts().map((item) => (
                 <ShopCard key={item.id} showType="grid" data={item} />
               ))}

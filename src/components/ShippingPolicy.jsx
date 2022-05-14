@@ -3,7 +3,7 @@ import React from "react";
 const ShippingPolicy = () => {
   return (
     <div className="font-poppins">
-      <h2 className="font-oswald text-2xl font-bold">
+      <h2 className="font-oswald text-base font-bold sm:text-lg md:text-xl lg:text-2xl">
         Shipping policy for our store
       </h2>
       <p className="mt-5">
