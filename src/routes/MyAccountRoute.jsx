@@ -186,7 +186,7 @@ const MyAccountRoute = () => {
 
   const handleSigningOut = () => {
     signOut(auth)
-      .then(() => navigate("/"))
+      .then(() => navigate("/login"))
       .catch((err) => console.log(err));
   };
 

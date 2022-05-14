@@ -48,7 +48,7 @@ const ProfileHoverCard = ({ auth, signOut, setShowSetting }) => {
       <div className="flex items-center p-3">
         <MdLogout />
         <p
-          onClick={signOut}
+          onClick={() => signOut(true)}
           className="ml-3 cursor-pointer transition-colors duration-300 ease-in-out hover:text-red-300"
         >
           Log Out

@@ -80,7 +80,7 @@ const ReviewsDetails = ({
         {/* Form elements */}
         <div className="mt-6 space-y-3">
           {!auth.currentUser && (
-            <div className="flex items-center justify-between">
+            <div className="flex flex-col space-y-2 sm:flex-row sm:items-center sm:justify-between sm:space-y-0">
               <div className="w-full basis-[48%] space-y-2">
                 <p>Name *</p>
                 <input

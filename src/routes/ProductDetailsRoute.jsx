@@ -35,6 +35,7 @@ import {
 } from "firebase/firestore";
 import { auth, db } from "../firebase";
 import ShopCard from "../components/shop/ShopCard";
+import LoadingIndicator from "../components/LoadingIndicator";
 
 const ProductDetailsRoute = () => {
   const location = useLocation();
@@ -257,9 +258,9 @@ const ProductDetailsRoute = () => {
 
   if (data === null) {
     return (
-      <>
-        <NotFoundRoute />
-      </>
+      <div className="grid h-screen w-screen place-items-center">
+        <LoadingIndicator />
+      </div>
     );
   }
 

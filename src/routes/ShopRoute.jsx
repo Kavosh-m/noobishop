@@ -234,7 +234,7 @@ const ShopRoute = () => {
     <div
       ref={mainView}
       onWheel={handleWheel}
-      className="relative flex flex-col"
+      className="relative flex min-h-screen flex-col justify-between"
     >
       {/* drawer */}
       <Drawer
@@ -246,131 +246,136 @@ const ShopRoute = () => {
       </Drawer>
 
       <Navbar />
-      <div className="mx-0 flex w-full flex-col">
-        {/* Header image goes here */}
-        <Carousel
-          height={400}
-          animation="slide"
-          duration={1000}
-          interval={3000}
-        >
-          {caroImages.map((item) => (
-            <div className="h-[400px] w-full" key={item.id}>
-              {item.content}
-            </div>
-          ))}
-        </Carousel>
-
-        {/* Main page content goes here */}
-        <div className="flex flex-col-reverse items-start py-4 lg:flex-row">
-          <ShopLeftSidebar
-            search={search}
-            setSearch={setSearch}
-            handleSearch={handleSearch}
-            currentFood={currentFood}
-            setCurrentFood={setCurrentFood}
-            recentProducts={burgers?.slice(0, 4)}
-          />
-
-          {/* container of layout-sort bar and foods */}
-          <div
-            ref={sortBarRef}
-            className="grid w-full basis-3/4 grid-cols-1 gap-6 gap-x-14 px-6 sm:grid-cols-2 sm:px-20 lg:mx-0 lg:grid-cols-3 lg:px-3"
+      <div className="flex-1 basis-auto bg-white">
+        <div className="mx-auto flex w-full max-w-6xl flex-col">
+          {/* Header image goes here */}
+          <Carousel
+            height={400}
+            animation="slide"
+            duration={1000}
+            interval={3000}
           >
-            {/* container of grid and sort stuff */}
-            <div className="xsmall:flex-row xsmall:space-y-0 col-span-1 flex flex-col items-center justify-between space-y-1 border-2 py-3 px-2 sm:col-span-2 sm:px-6 lg:col-span-3">
-              {/* container of two layout buttons (grid and list view) */}
-              <div className="flex items-center justify-center space-x-1">
-                <button
-                  onClick={() =>
-                    setGridLayout({
-                      ...gridLayout,
-                      grid: true,
-                      layout: false,
-                    })
-                  }
-                >
-                  <CgLayoutGridSmall
-                    className={`${
-                      gridLayout.grid && "border-[1px] border-black"
-                    }`}
-                    size="2em"
-                  />
-                </button>
-                <button
-                  onClick={() =>
-                    setGridLayout({
-                      ...gridLayout,
-                      grid: false,
-                      layout: true,
-                    })
-                  }
-                >
-                  <CgLayoutList
-                    className={`${
-                      gridLayout.layout && "border-[1px] border-black"
-                    }`}
-                    size="2em"
-                  />
-                </button>
-              </div>
-
-              {/* sort items */}
-              <Select
-                size="small"
-                value={sortType}
-                onChange={handleChangeFilter}
-                displayEmpty
-                inputProps={{ "aria-label": "Without label" }}
-              >
-                <MenuItem value={"alphabetical"}>Alphabetically, A-Z</MenuItem>
-                <MenuItem value={"priceLowToHigh"}>
-                  Sort by price: low to high
-                </MenuItem>
-                <MenuItem value={"priceHighToLow"}>
-                  Sort by price: high to low
-                </MenuItem>
-              </Select>
-            </div>
-
-            {/* products */}
-            {tempFood?.map((item) => (
-              <div
-                key={item.id}
-                className={`flex ${
-                  gridLayout.layout && "col-span-1 sm:col-span-2 lg:col-span-3"
-                } justify-center bg-gray-100`}
-              >
-                <ShopCard
-                  showType={gridLayout.grid ? "grid" : "list"}
-                  data={item}
-                />
+            {caroImages.map((item) => (
+              <div className="h-[400px] w-full" key={item.id}>
+                {item.content}
               </div>
             ))}
+          </Carousel>
 
-            <div className="col-span-1 flex items-center justify-between border-2 sm:col-span-2 lg:col-span-3">
-              <ReactPaginate
-                previousLabel={<ArrowNarrowLeft />}
-                previousClassName="px-4 text-gray-600"
-                nextLabel={<ArrowNarrowRight />}
-                nextClassName="px-4 text-gray-600"
-                pageRangeDisplayed={1}
-                marginPagesDisplayed={1}
-                pageCount={numOfPages}
-                onPageChange={onPageChange}
-                containerClassName="bg-white py-5 flex items-center"
-                pageClassName="mx-1"
-                breakClassName="mx-1"
-                breakLabel={<FaEllipsisH />}
-                activeLinkClassName="text-slate-50 bg-cyan-600 border-0 cursor-default"
-                disabledClassName="text-gray-300"
-                activeClassName=""
-                disabledLinkClassName="text-gray-300 cursor-not-allowed"
-                pageLinkClassName="w-8 border border-slate-300 aspect-square grid place-items-center bg-white rounded-full hover:text-white hover:bg-cyan-600 transition-colors duration-300 ease-in-out"
-              />
-              {/* <p className="pr-4">{`Showing ${numOfItemsVisited + 1} - ${
+          {/* Main page content goes here */}
+          <div className="flex flex-col-reverse items-start py-4 lg:flex-row">
+            <ShopLeftSidebar
+              search={search}
+              setSearch={setSearch}
+              handleSearch={handleSearch}
+              currentFood={currentFood}
+              setCurrentFood={setCurrentFood}
+              recentProducts={burgers?.slice(0, 4)}
+            />
+
+            {/* container of layout-sort bar and foods */}
+            <div
+              ref={sortBarRef}
+              className="grid w-full basis-3/4 grid-cols-1 gap-6 gap-x-14 px-6 sm:grid-cols-2 sm:px-20 lg:mx-0 lg:grid-cols-3 lg:px-3"
+            >
+              {/* container of grid and sort stuff */}
+              <div className="xsmall:flex-row xsmall:space-y-0 col-span-1 flex flex-col items-center justify-between space-y-1 border-2 py-3 px-2 sm:col-span-2 sm:px-6 lg:col-span-3">
+                {/* container of two layout buttons (grid and list view) */}
+                <div className="flex items-center justify-center space-x-1">
+                  <button
+                    onClick={() =>
+                      setGridLayout({
+                        ...gridLayout,
+                        grid: true,
+                        layout: false,
+                      })
+                    }
+                  >
+                    <CgLayoutGridSmall
+                      className={`${
+                        gridLayout.grid && "border-[1px] border-black"
+                      }`}
+                      size="2em"
+                    />
+                  </button>
+                  <button
+                    onClick={() =>
+                      setGridLayout({
+                        ...gridLayout,
+                        grid: false,
+                        layout: true,
+                      })
+                    }
+                  >
+                    <CgLayoutList
+                      className={`${
+                        gridLayout.layout && "border-[1px] border-black"
+                      }`}
+                      size="2em"
+                    />
+                  </button>
+                </div>
+
+                {/* sort items */}
+                <Select
+                  size="small"
+                  value={sortType}
+                  onChange={handleChangeFilter}
+                  displayEmpty
+                  inputProps={{ "aria-label": "Without label" }}
+                >
+                  <MenuItem value={"alphabetical"}>
+                    Alphabetically, A-Z
+                  </MenuItem>
+                  <MenuItem value={"priceLowToHigh"}>
+                    Sort by price: low to high
+                  </MenuItem>
+                  <MenuItem value={"priceHighToLow"}>
+                    Sort by price: high to low
+                  </MenuItem>
+                </Select>
+              </div>
+
+              {/* products */}
+              {tempFood?.map((item) => (
+                <div
+                  key={item.id}
+                  className={`flex ${
+                    gridLayout.layout &&
+                    "col-span-1 sm:col-span-2 lg:col-span-3"
+                  } justify-center bg-gray-100`}
+                >
+                  <ShopCard
+                    showType={gridLayout.grid ? "grid" : "list"}
+                    data={item}
+                  />
+                </div>
+              ))}
+
+              <div className="col-span-1 flex items-center justify-between border-2 sm:col-span-2 lg:col-span-3">
+                <ReactPaginate
+                  previousLabel={<ArrowNarrowLeft />}
+                  previousClassName="px-4 text-gray-600"
+                  nextLabel={<ArrowNarrowRight />}
+                  nextClassName="px-4 text-gray-600"
+                  pageRangeDisplayed={1}
+                  marginPagesDisplayed={1}
+                  pageCount={numOfPages}
+                  onPageChange={onPageChange}
+                  containerClassName="bg-white py-5 flex items-center"
+                  pageClassName="mx-1"
+                  breakClassName="mx-1"
+                  breakLabel={<FaEllipsisH />}
+                  activeLinkClassName="text-slate-50 bg-cyan-600 border-0 cursor-default"
+                  disabledClassName="text-gray-300"
+                  activeClassName=""
+                  disabledLinkClassName="text-gray-300 cursor-not-allowed"
+                  pageLinkClassName="w-8 border border-slate-300 aspect-square grid place-items-center bg-white rounded-full hover:text-white hover:bg-cyan-600 transition-colors duration-300 ease-in-out"
+                />
+                {/* <p className="pr-4">{`Showing ${numOfItemsVisited + 1} - ${
                 numOfItemsVisited + numOfItemsPerPage
               } of ${currentFood.data?.length} result`}</p> */}
+              </div>
             </div>
           </div>
         </div>

@@ -1,4 +1,10 @@
-import React, { useLayoutEffect, useState, useEffect, useRef } from "react";
+import React, {
+  useLayoutEffect,
+  useState,
+  useEffect,
+  useRef,
+  Fragment,
+} from "react";
 import { useNavigate, Link, NavLink } from "react-router-dom";
 import { logo } from "../constants/index";
 import { auth } from "../firebase";
@@ -7,7 +13,7 @@ import BasketIcon from "./icons/BasketIcon";
 import { useSelector, useDispatch } from "react-redux";
 import { openSidebar } from "../redux/app/slices/utilSlice";
 import SubmenuBasketProdectCard from "./SubmenuBasketProdectCard";
-import { Transition } from "@headlessui/react";
+import { Transition, Dialog } from "@headlessui/react";
 import UserIcon from "./icons/UserIcon";
 import ProfileHoverCard from "./ProfileHoverCard";
 import { gsap } from "gsap";
@@ -19,6 +25,7 @@ const Navbar = () => {
   const [total, setTotal] = useState(0);
   const [show, setShow] = useState(false);
   const [showSetting, setShowSetting] = useState(false);
+  const [isLogOutDialogOpen, setIsLogOutDialogOpen] = useState(false);
   const navigate = useNavigate();
   const orders = useSelector((state) => state.cart.ordered);
 
@@ -52,7 +59,7 @@ const Navbar = () => {
 
   const handleSignOut = () => {
     signOut(auth)
-      .then(() => navigate("/"))
+      .then(() => navigate("/login"))
       .catch((err) => console.log(err));
   };
 
@@ -165,7 +172,7 @@ const Navbar = () => {
               >
                 <ProfileHoverCard
                   auth={auth}
-                  signOut={handleSignOut}
+                  signOut={setIsLogOutDialogOpen}
                   setShowSetting={setShowSetting}
                 />
               </Transition>
@@ -218,6 +225,47 @@ const Navbar = () => {
           />
         </svg>
       </div>
+
+      {/* Sign-out modal */}
+      <Transition show={isLogOutDialogOpen} as={Fragment}>
+        <Dialog
+          className="fixed inset-0 z-40 grid place-items-center"
+          onClose={() => setIsLogOutDialogOpen(false)}
+          as="div"
+        >
+          <Dialog.Overlay className="fixed inset-0 bg-black opacity-70" />
+          <Transition.Child
+            as="div"
+            className="grid h-full w-full place-items-center"
+            enter="ease-out duration-300"
+            enterFrom="opacity-0 -translate-y-12"
+            enterTo="opacity-100"
+            leave="ease-in duration-200"
+            leaveFrom="opacity-100"
+            leaveTo="opacity-0 translate-y-12"
+          >
+            <div className="font-poppins z-10 flex w-11/12 flex-col space-y-12 bg-white px-4 py-3 sm:w-4/5 md:w-3/5 lg:w-2/5">
+              <p className="whitespace-nowrap text-base font-semibold sm:text-lg">
+                Are you sure you want to sign-out ?
+              </p>
+              <div className="flex items-center justify-end space-x-8">
+                <button
+                  onClick={() => setIsLogOutDialogOpen(false)}
+                  className="text-sm transition-colors duration-300 ease-in-out hover:text-red-400 sm:text-base"
+                >
+                  No
+                </button>
+                <button
+                  onClick={handleSignOut}
+                  className="text-sm transition-colors duration-300 ease-in-out hover:text-red-400 sm:text-base"
+                >
+                  Yes
+                </button>
+              </div>
+            </div>
+          </Transition.Child>
+        </Dialog>
+      </Transition>
     </div>
   );
 };
