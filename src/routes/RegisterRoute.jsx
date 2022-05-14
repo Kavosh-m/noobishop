@@ -146,146 +146,150 @@ const RegisterRoute = () => {
         // loop
         // controls={false}
       />
-      {!show ? (
-        <div className="flex w-[90%] flex-col items-center space-y-14 bg-gradient-to-bl from-emerald-200 to-sky-200 px-5 py-9 shadow-xl sm:w-[70%] md:w-[65%] md:px-10 lg:w-[55%] lg:px-20">
-          <span className="flex flex-col items-center px-6">
-            {loading ? (
-              <ImSpinner9 className="animate-spin" size={"2rem"} />
-            ) : (
-              <h1 className="font-oswald text-center text-3xl font-semibold">
-                Create Account
-              </h1>
-            )}
-            <p className="mt-3 text-center">
-              Please Register using account detail bellow
-            </p>
-          </span>
-          <form className="flex w-full flex-col space-y-6">
-            <div className="w-full">
-              {Name.empty && (
-                <p className="mb-1 text-sm text-red-500">required *</p>
+      <div className="w-full max-w-6xl bg-indigo-300/0">
+        {!show ? (
+          <div className="mx-auto flex w-[90%] flex-col items-center space-y-14 bg-gradient-to-bl from-emerald-200 to-sky-200 px-5 py-9 shadow-xl sm:w-[70%] md:w-[65%] md:px-10 lg:w-[55%] lg:px-20">
+            <span className="flex flex-col items-center px-6">
+              {loading ? (
+                <ImSpinner9 className="animate-spin" size={"2rem"} />
+              ) : (
+                <h1 className="font-oswald text-center text-3xl font-semibold">
+                  Create Account
+                </h1>
               )}
+              <p className="mt-3 text-center">
+                Please Register using account detail bellow
+              </p>
+            </span>
+            <form className="flex w-full flex-col space-y-6">
+              <div className="w-full">
+                {Name.empty && (
+                  <p className="mb-1 text-sm text-red-500">required *</p>
+                )}
+                <input
+                  value={Name.content}
+                  onChange={(e) =>
+                    setName({ ...Name, content: e.target.value })
+                  }
+                  type="text"
+                  required
+                  placeholder="Full Name..."
+                  className={`${
+                    Name.empty && "outline outline-2 outline-red-400"
+                  } w-full p-3 text-sm focus:outline focus:outline-1 focus:outline-red-400`}
+                />
+              </div>
               <input
-                value={Name.content}
-                onChange={(e) => setName({ ...Name, content: e.target.value })}
-                type="text"
-                required
-                placeholder="Full Name..."
-                className={`${
-                  Name.empty && "outline outline-2 outline-red-400"
-                } w-full p-3 text-sm focus:outline focus:outline-1 focus:outline-red-400`}
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                type="email"
+                placeholder="Email..."
+                className="w-full p-3 text-sm focus:outline focus:outline-1 focus:outline-red-400"
               />
-            </div>
-            <input
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              type="email"
-              placeholder="Email..."
-              className="w-full p-3 text-sm focus:outline focus:outline-1 focus:outline-red-400"
-            />
-            <div className="w-full">
-              {(phone.empty || phone.wrongFormat) && (
-                <p className="mb-1 text-sm text-red-500">{`${
-                  phone.empty
-                    ? "required *"
-                    : phone.wrongFormat
-                    ? "Invalid input"
-                    : ""
-                }`}</p>
-              )}
-              <input
-                value={phone.content}
-                onChange={(e) =>
-                  setPhone({ ...phone, content: e.target.value })
-                }
-                type="tel"
-                required
-                maxLength={10}
-                minLength={10}
-                placeholder="Phone (e.g. 9117778888)"
-                className={`${
-                  (phone.wrongFormat || phone.empty) &&
-                  "outline outline-2 outline-red-400"
-                } w-full p-3 text-sm focus:outline focus:outline-1 focus:outline-red-400`}
-              />
-            </div>
+              <div className="w-full">
+                {(phone.empty || phone.wrongFormat) && (
+                  <p className="mb-1 text-sm text-red-500">{`${
+                    phone.empty
+                      ? "required *"
+                      : phone.wrongFormat
+                      ? "Invalid input"
+                      : ""
+                  }`}</p>
+                )}
+                <input
+                  value={phone.content}
+                  onChange={(e) =>
+                    setPhone({ ...phone, content: e.target.value })
+                  }
+                  type="tel"
+                  required
+                  maxLength={10}
+                  minLength={10}
+                  placeholder="Phone (e.g. 9117778888)"
+                  className={`${
+                    (phone.wrongFormat || phone.empty) &&
+                    "outline outline-2 outline-red-400"
+                  } w-full p-3 text-sm focus:outline focus:outline-1 focus:outline-red-400`}
+                />
+              </div>
 
-            {!loading && (
+              {!loading && (
+                <button
+                  type="submit"
+                  onClick={handleRegister}
+                  className="w-fit rounded-3xl bg-[#e98c81] py-2 px-5 text-white transition-all duration-300 ease-in-out hover:bg-gray-300 hover:text-black"
+                >
+                  Register
+                </button>
+              )}
+              <div className="font-poppins text-sm text-gray-500">
+                Already have account?{" "}
+                <p
+                  onClick={() => navigate("/login")}
+                  className="inline-block w-fit cursor-pointer text-sm font-semibold text-blue-500 transition-colors duration-300 ease-in-out hover:text-red-300"
+                >
+                  Sign-in
+                </p>
+              </div>
+            </form>
+            <div className={googleVerifier} id="recaptcha-container"></div>
+
+            <Snackbar
+              open={openToast2}
+              anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
+              autoHideDuration={6000}
+              onClose={() => setOpenToast2(false)}
+            >
+              <Alert
+                onClose={() => setOpenToast2(false)}
+                severity="info"
+                sx={{ width: "100%" }}
+              >
+                User exists. please login
+              </Alert>
+            </Snackbar>
+          </div>
+        ) : (
+          <div className="mx-auto flex w-[90%] flex-col items-center space-y-14 bg-gradient-to-bl from-emerald-200 to-sky-200 px-5 py-9 shadow-xl sm:w-[70%] md:w-[65%] md:px-10 lg:w-[55%] lg:px-20">
+            <span className="flex flex-col items-center">
+              {confirmloading ? (
+                <ImSpinner9 className="animate-spin" size={"2rem"} />
+              ) : (
+                <h1 className="text-2xl font-semibold tracking-tighter">
+                  Confirmation
+                </h1>
+              )}
+            </span>
+            <form className="flex w-full flex-col space-y-8">
+              <div className="w-full">
+                {error.state && (
+                  <p className="mb-1 text-sm text-red-500">{error.message}</p>
+                )}
+                <input
+                  value={otp}
+                  onChange={(e) => setOtp(e.target.value)}
+                  type="text"
+                  required
+                  maxLength={6}
+                  minLength={6}
+                  placeholder="Enter code..."
+                  className={`${
+                    error.state && "outline outline-2 outline-red-400"
+                  } w-full p-3 text-sm focus:outline focus:outline-1 focus:outline-red-400`}
+                />
+              </div>
+
               <button
                 type="submit"
-                onClick={handleRegister}
-                className="w-fit rounded-3xl bg-[#e98c81] py-2 px-5 text-white transition-all duration-300 ease-in-out hover:bg-gray-300 hover:text-black"
+                onClick={handleOtp}
+                className="w-fit rounded-3xl bg-[#e98c81] px-5 py-2 text-white transition-all duration-300 ease-in-out hover:bg-gray-300 hover:text-black"
               >
-                Register
+                Confirm
               </button>
-            )}
-            <div className="font-poppins text-sm text-gray-500">
-              Already have account?{" "}
-              <p
-                onClick={() => navigate("/login")}
-                className="inline-block w-fit cursor-pointer text-sm font-semibold text-blue-500 transition-colors duration-300 ease-in-out hover:text-red-300"
-              >
-                Sign-in
-              </p>
-            </div>
-          </form>
-          <div className={googleVerifier} id="recaptcha-container"></div>
-
-          <Snackbar
-            open={openToast2}
-            anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
-            autoHideDuration={6000}
-            onClose={() => setOpenToast2(false)}
-          >
-            <Alert
-              onClose={() => setOpenToast2(false)}
-              severity="info"
-              sx={{ width: "100%" }}
-            >
-              User exists. please login
-            </Alert>
-          </Snackbar>
-        </div>
-      ) : (
-        <div className="flex w-[90%] flex-col items-center space-y-14 bg-gradient-to-bl from-emerald-200 to-sky-200 px-5 py-9 shadow-xl sm:w-[70%] md:w-[65%] md:px-10 lg:w-[55%] lg:px-20">
-          <span className="flex flex-col items-center">
-            {confirmloading ? (
-              <ImSpinner9 className="animate-spin" size={"2rem"} />
-            ) : (
-              <h1 className="text-2xl font-semibold tracking-tighter">
-                Confirmation
-              </h1>
-            )}
-          </span>
-          <form className="flex w-full flex-col space-y-8">
-            <div className="w-full">
-              {error.state && (
-                <p className="mb-1 text-sm text-red-500">{error.message}</p>
-              )}
-              <input
-                value={otp}
-                onChange={(e) => setOtp(e.target.value)}
-                type="text"
-                required
-                maxLength={6}
-                minLength={6}
-                placeholder="Enter code..."
-                className={`${
-                  error.state && "outline outline-2 outline-red-400"
-                } w-full p-3 text-sm focus:outline focus:outline-1 focus:outline-red-400`}
-              />
-            </div>
-
-            <button
-              type="submit"
-              onClick={handleOtp}
-              className="w-fit rounded-3xl bg-[#e98c81] px-5 py-2 text-white transition-all duration-300 ease-in-out hover:bg-gray-300 hover:text-black"
-            >
-              Confirm
-            </button>
-          </form>
-        </div>
-      )}
+            </form>
+          </div>
+        )}
+      </div>
     </div>
   );
 };

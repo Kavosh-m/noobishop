@@ -5,8 +5,8 @@ import { logo } from "../constants/index";
 const Footer = () => {
   const navigate = useNavigate();
   return (
-    <footer className="mx-0 bg-black">
-      <div className="grid grid-cols-1 gap-2 bg-gray-900 p-10 text-gray-300 sm:grid-cols-2 md:grid-cols-5 md:p-16">
+    <footer className="bg-gray-900">
+      <div className="mx-auto grid max-w-6xl grid-cols-1 gap-2 bg-gray-900 py-10 px-6 text-gray-300 sm:grid-cols-2 sm:px-20 md:grid-cols-5 md:px-16 lg:px-4">
         <div className="flex flex-col sm:col-span-2 md:col-span-1">
           <Link to="/" className="mb-4 aspect-auto w-9/12">
             <img src={logo} alt="" className="h-full w-full object-fill" />
@@ -145,7 +145,7 @@ const Footer = () => {
           </ul>
         </div>
       </div>
-      <div className="flex items-center justify-center bg-black py-4">
+      <div className="mx-auto flex max-w-6xl items-center justify-center bg-black py-4">
         <p className="font-normal text-white">
           Copyright © 2020 KMG | Built with React by Kavosh
         </p>

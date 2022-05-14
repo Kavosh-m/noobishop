@@ -290,8 +290,8 @@ const ProductDetailsRoute = () => {
         />
       </div>
 
-      <div className="flex-1 basis-auto">
-        <div className="mx-2 my-20 bg-white sm:mx-5 md:mx-10 lg:mx-20">
+      <div className="flex flex-1 basis-auto justify-center">
+        <div className="mx-2 my-20 max-w-6xl bg-white sm:mx-5 md:mx-10 lg:mx-20">
           <div className="grid w-full grid-cols-2 gap-8">
             <div className="relative col-span-full flex flex-col bg-lime-400/0 lg:col-span-1">
               <img

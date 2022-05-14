@@ -1,20 +1,20 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import Footer from "../components/Footer";
-import { shopHeader } from "../constants";
+// import { shopHeader } from "../constants";
 
 const NotFoundRoute = () => {
   return (
     <div className="relative flex min-h-screen flex-col justify-between">
-      <div className="h-[375px] w-full bg-gray-300">
+      {/* <div className="h-[375px] w-full bg-gray-300">
         <img
           src={shopHeader}
           alt=""
           className="h-full w-full object-cover brightness-50"
         />
-      </div>
+      </div> */}
       <div className="flex-1 basis-auto bg-white">
-        <div className="mx-auto my-8 flex max-w-full flex-col items-center space-y-6 bg-white sm:max-w-[80%] md:max-w-[70%] lg:max-w-[45%]">
+        <div className="mx-auto my-8 flex max-w-6xl flex-col items-center space-y-6 bg-white">
           <h1 className="font-oswald text-center text-6xl font-bold text-red-400 sm:text-9xl">
             404
           </h1>

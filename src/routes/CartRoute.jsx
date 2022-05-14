@@ -113,7 +113,11 @@ const CartRoute = () => {
   };
 
   return (
-    <div ref={mainView} onWheel={handleWheel} className="relative min-h-screen">
+    <div
+      ref={mainView}
+      onWheel={handleWheel}
+      className="relative flex min-h-screen flex-col justify-between"
+    >
       {/* drawer */}
       <Drawer
         anchor="left"
@@ -130,103 +134,113 @@ const CartRoute = () => {
           className="h-full w-full object-cover brightness-50"
         />
       </div>
-      {orders.length > 0 ? (
-        <div className="mx-4 my-10 overflow-x-auto sm:mx-20">
-          <table className="font-poppins w-full border-collapse border-0 font-medium">
-            <thead>
-              <tr className="">
-                <th className="border border-gray-400 px-5 py-4">Image</th>
-                <th className="border border-gray-400 px-5 py-4">Product</th>
-                <th className="border border-gray-400 px-5 py-4">Price</th>
-                <th className="border border-gray-400 px-5 py-4">Quantity</th>
-                <th className="border border-gray-400 px-5 py-4">Total</th>
-                <th className="border border-gray-400 px-5 py-4">Remove</th>
-              </tr>
-            </thead>
-            <tbody className="">
-              {orders?.map((order) => (
-                <tr className="" key={order.id}>
-                  <td className="h-36 w-36 min-w-[144px] border border-gray-400 p-4">
-                    <img
-                      className="h-full w-full object-fill"
-                      src={order.picurl}
-                    />
-                  </td>
-                  <td className="h-36 min-w-[144px] border border-gray-400 px-5 text-center">
-                    {order.name}
-                  </td>
-                  <td className="h-36 min-w-[144px] border border-gray-400 px-5 text-center">
-                    <p>${order.price}</p>
-                  </td>
-                  <td className="h-36 min-w-[200px] border border-gray-400 px-5">
-                    <Counter
-                      order={order}
-                      handleIncrement={handleIncrement}
-                      handleDecrement={handleDecrement}
-                    />
-                  </td>
-                  <td className="h-36 min-w-[144px] border border-gray-400 px-5 text-center">
-                    <p className="text-center">${order.count * order.price}</p>
-                  </td>
-                  <td className="h-36 min-w-[144px] border border-gray-400 px-5 text-center">
-                    <button
-                      onClick={() => dispatch(removeItem({ id: order.id }))}
-                      className=""
-                    >
-                      <TrashIcon className="h-9 w-9 cursor-pointer transition duration-500 ease-in-out hover:text-red-400" />
-                    </button>
-                  </td>
-                </tr>
-              ))}
+      <div className="flex flex-1 basis-auto justify-center bg-white">
+        <div className="w-full max-w-6xl bg-white">
+          {orders.length > 0 ? (
+            <div className="mx-4 my-10 overflow-x-auto sm:mx-20">
+              <table className="font-poppins w-full border-collapse border-0 font-medium">
+                <thead>
+                  <tr className="">
+                    <th className="border border-gray-400 px-5 py-4">Image</th>
+                    <th className="border border-gray-400 px-5 py-4">
+                      Product
+                    </th>
+                    <th className="border border-gray-400 px-5 py-4">Price</th>
+                    <th className="border border-gray-400 px-5 py-4">
+                      Quantity
+                    </th>
+                    <th className="border border-gray-400 px-5 py-4">Total</th>
+                    <th className="border border-gray-400 px-5 py-4">Remove</th>
+                  </tr>
+                </thead>
+                <tbody className="">
+                  {orders?.map((order) => (
+                    <tr className="" key={order.id}>
+                      <td className="h-36 w-36 min-w-[144px] border border-gray-400 p-4">
+                        <img
+                          className="h-full w-full object-fill"
+                          src={order.picurl}
+                        />
+                      </td>
+                      <td className="h-36 min-w-[144px] border border-gray-400 px-5 text-center">
+                        {order.name}
+                      </td>
+                      <td className="h-36 min-w-[144px] border border-gray-400 px-5 text-center">
+                        <p>${order.price}</p>
+                      </td>
+                      <td className="h-36 min-w-[200px] border border-gray-400 px-5">
+                        <Counter
+                          order={order}
+                          handleIncrement={handleIncrement}
+                          handleDecrement={handleDecrement}
+                        />
+                      </td>
+                      <td className="h-36 min-w-[144px] border border-gray-400 px-5 text-center">
+                        <p className="text-center">
+                          ${order.count * order.price}
+                        </p>
+                      </td>
+                      <td className="h-36 min-w-[144px] border border-gray-400 px-5 text-center">
+                        <button
+                          onClick={() => dispatch(removeItem({ id: order.id }))}
+                          className=""
+                        >
+                          <TrashIcon className="h-9 w-9 cursor-pointer transition duration-500 ease-in-out hover:text-red-400" />
+                        </button>
+                      </td>
+                    </tr>
+                  ))}
 
-              {/* Last row */}
+                  {/* Last row */}
 
-              <tr className="border border-slate-400 bg-gradient-to-r from-pink-200 to-indigo-200">
-                <td className="h-12 min-w-[144px] text-center">Total</td>
-                <td></td>
-                <td></td>
-                <td className="h-12 min-w-[144px] text-center">
-                  {totalNumberOfItems()}
-                </td>
-                <td className="h-12 min-w-[144px] text-center">
-                  {`$${totalPrice()}`}
-                </td>
-                <td></td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      ) : (
-        <div className="relative my-20 flex flex-col items-center bg-cyan-400/0">
-          <img
-            src={emptyCart}
-            alt=""
-            className="aspect-auto w-1/3 object-cover"
-          />
-          <p className="font-poppins mt-5 text-2xl font-semibold text-slate-400">
-            Your cart is empty !
-          </p>
-        </div>
-      )}
-
-      {/* total price card */}
-      {orders.length > 0 && (
-        <div className="font-oswald mx-4 mb-16 flex items-center justify-end bg-blue-300/0 sm:mx-20">
-          {zarinPalLoading ? (
-            <AiOutlineLoading3Quarters
-              className="mr-16 animate-spin"
-              size="2rem"
-            />
+                  <tr className="border border-slate-400 bg-gradient-to-r from-pink-200 to-indigo-200">
+                    <td className="h-12 min-w-[144px] text-center">Total</td>
+                    <td></td>
+                    <td></td>
+                    <td className="h-12 min-w-[144px] text-center">
+                      {totalNumberOfItems()}
+                    </td>
+                    <td className="h-12 min-w-[144px] text-center">
+                      {`$${totalPrice()}`}
+                    </td>
+                    <td></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
           ) : (
-            <button
-              onClick={zarinpalGate}
-              className="bg-red-400 p-3 px-5 text-center font-bold text-white transition duration-300 ease-in-out hover:bg-gray-300 hover:text-black"
-            >
-              PROCEED CHECKOUT
-            </button>
+            <div className="relative my-20 flex flex-col items-center bg-cyan-400/0">
+              <img
+                src={emptyCart}
+                alt=""
+                className="aspect-auto w-1/3 object-cover"
+              />
+              <p className="font-poppins mt-5 text-2xl font-semibold text-slate-400">
+                Your cart is empty !
+              </p>
+            </div>
+          )}
+
+          {/* total price card */}
+          {orders.length > 0 && (
+            <div className="font-oswald mx-4 mb-16 flex items-center justify-end bg-blue-300/0 sm:mx-20">
+              {zarinPalLoading ? (
+                <AiOutlineLoading3Quarters
+                  className="mr-16 animate-spin"
+                  size="2rem"
+                />
+              ) : (
+                <button
+                  onClick={zarinpalGate}
+                  className="bg-red-400 p-3 px-5 text-center font-bold text-white transition duration-300 ease-in-out hover:bg-gray-300 hover:text-black"
+                >
+                  PROCEED CHECKOUT
+                </button>
+              )}
+            </div>
           )}
         </div>
-      )}
+      </div>
       <Footer />
       <ScrollToTopButton
         showBackToTopButton={showBackToTopButton}

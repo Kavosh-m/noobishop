@@ -251,15 +251,8 @@ const MyAccountRoute = () => {
         <Sidebar />
       </Drawer>
       <Navbar />
-      {/* <div className="h-[375px] w-full bg-gray-300">
-        <img
-          src={shopHeader}
-          alt=""
-          className="h-full w-full object-cover brightness-50"
-        />
-      </div> */}
-      <div className="my-20 block flex-1 basis-auto bg-white">
-        <div className="mdADetail:px-4 mx-auto grid w-full grid-cols-12 gap-x-8 bg-white px-3 sm:px-20 xl:max-w-[90%] 2xl:max-w-[90%]">
+      <div className="my-20 flex flex-1 basis-auto justify-center bg-white">
+        <div className="mdADetail:px-4 mx-auto grid w-full max-w-6xl grid-cols-12 gap-x-8 bg-white px-3 sm:px-20">
           {/* Item section */}
           <div className="mdADetail:col-span-3 col-span-full flex w-full flex-col items-start">
             {data.map((item) => (

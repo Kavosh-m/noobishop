@@ -159,62 +159,57 @@ const Contact = () => {
         <Sidebar />
       </Drawer>
       <Navbar />
-      {/* <div className="h-[375px] w-full bg-gray-300">
-        <img
-          src={shopHeader}
-          alt=""
-          className="h-full w-full object-cover brightness-50"
-        />
-      </div> */}
-      <div className="flex-1 basis-auto bg-white">
-        {/* Three square */}
-        <div className="small:mx-24 mx-4 mt-20 grid grid-cols-2 bg-white">
-          <ul className="col-span-full grid gap-6 md:grid-cols-2 lg:grid-cols-3 lg:grid-rows-1">
-            {data.map((item) => (
-              <li
-                key={item.title}
-                className="group flex flex-1 items-center justify-center border border-gray-300 bg-white py-10 md:aspect-square md:py-0 last:md:col-span-2 md:last:aspect-auto last:md:py-10 last:lg:col-span-1 last:lg:py-0"
-              >
-                <ContactCard data={item} />
-              </li>
-            ))}
-          </ul>
-        </div>
+      <div className="flex flex-1 basis-auto justify-center bg-white">
+        <div className="w-full max-w-6xl bg-white">
+          {/* Three square */}
+          <div className="small:mx-24 mx-4 mt-20 grid grid-cols-2 bg-white">
+            <ul className="col-span-full grid gap-6 md:grid-cols-2 lg:grid-cols-3 lg:grid-rows-1">
+              {data.map((item) => (
+                <li
+                  key={item.title}
+                  className="group flex flex-1 items-center justify-center border border-gray-300 bg-white py-10 md:aspect-square md:py-0 last:md:col-span-2 md:last:aspect-auto last:md:py-10 last:lg:col-span-1 last:lg:py-0"
+                >
+                  <ContactCard data={item} />
+                </li>
+              ))}
+            </ul>
+          </div>
 
-        {/* Form */}
-        <div className="font-poppins small:mx-24 mx-4 grid grid-cols-1 grid-rows-6 gap-6 md:grid-cols-2">
-          <p className="font-oswald col-span-full flex items-end justify-start text-xl font-bold">
-            GET IN TOUCH
-          </p>
-          <input
-            className="border border-gray-300 p-3 outline-0 focus:border-red-300"
-            placeholder="Name"
-            type="text"
-          />
-          <input
-            className="border border-gray-300 p-3 outline-0 focus:border-red-300"
-            placeholder="Email"
-            type="email"
-          />
-          <input
-            className="col-span-full border border-gray-300 p-3 outline-0 focus:border-red-300"
-            placeholder="Subject"
-            type="text"
-          />
-          <textarea
-            className="col-span-full row-span-3 border border-gray-300 p-3 outline-0 focus:border-red-300"
-            placeholder="Message"
-          />
-        </div>
-        <button className="font-oswald small:ml-24 ml-4 mt-10 w-fit whitespace-nowrap bg-red-400 px-7 py-3 text-center text-lg font-semibold text-white transition-colors duration-300 ease-in-out hover:bg-gray-300 hover:text-black">
-          SEND A MESSAGE
-        </button>
+          {/* Form */}
+          <div className="font-poppins small:mx-24 mx-4 grid grid-cols-1 grid-rows-6 gap-6 md:grid-cols-2">
+            <p className="font-oswald col-span-full flex items-end justify-start text-xl font-bold">
+              GET IN TOUCH
+            </p>
+            <input
+              className="border border-gray-300 p-3 outline-0 focus:border-red-300"
+              placeholder="Name"
+              type="text"
+            />
+            <input
+              className="border border-gray-300 p-3 outline-0 focus:border-red-300"
+              placeholder="Email"
+              type="email"
+            />
+            <input
+              className="col-span-full border border-gray-300 p-3 outline-0 focus:border-red-300"
+              placeholder="Subject"
+              type="text"
+            />
+            <textarea
+              className="col-span-full row-span-3 border border-gray-300 p-3 outline-0 focus:border-red-300"
+              placeholder="Message"
+            />
+          </div>
+          <button className="font-oswald small:ml-24 ml-4 mt-10 w-fit whitespace-nowrap bg-red-400 px-7 py-3 text-center text-lg font-semibold text-white transition-colors duration-300 ease-in-out hover:bg-gray-300 hover:text-black">
+            SEND A MESSAGE
+          </button>
 
-        {/* Map */}
-        <div
-          ref={mapContainer}
-          className="mt-32 mb-20 h-[560px] bg-cyan-200"
-        ></div>
+          {/* Map */}
+          <div
+            ref={mapContainer}
+            className="mt-32 mb-20 h-[560px] bg-cyan-200"
+          ></div>
+        </div>
       </div>
       <Footer />
       <ScrollToTopButton
