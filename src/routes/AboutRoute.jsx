@@ -15,6 +15,7 @@ import Sidebar from "../components/Sidebar";
 import Drawer from "@mui/material/Drawer";
 import { closeSidebar } from "../redux/app/slices/utilSlice";
 import { useSelector, useDispatch } from "react-redux";
+import ScrollToTop from "../components/ScrollToTop";
 
 const AboutRoute = () => {
   // const caroImages = [
@@ -123,12 +124,13 @@ const AboutRoute = () => {
         </div>
       </div>
       <Footer />
-      <ScrollToTopButton
+      <ScrollToTop />
+      {/* <ScrollToTopButton
         showBackToTopButton={showBackToTopButton}
         wheelUpTimes={wheelUpTimes}
         setWheelUpTimes={setWheelUpTimes}
         target={mainView}
-      />
+      /> */}
     </div>
   );
 };

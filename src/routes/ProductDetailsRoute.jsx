@@ -36,6 +36,7 @@ import {
 import { auth, db } from "../firebase";
 import ShopCard from "../components/shop/ShopCard";
 import LoadingIndicator from "../components/LoadingIndicator";
+import ScrollToTop from "../components/ScrollToTop";
 
 const ProductDetailsRoute = () => {
   const location = useLocation();
@@ -472,12 +473,13 @@ const ProductDetailsRoute = () => {
         </div>
       </div>
       <Footer />
-      <ScrollToTopButton
+      <ScrollToTop/>
+      {/* <ScrollToTopButton
         showBackToTopButton={showBackToTopButton}
         wheelUpTimes={wheelUpTimes}
         setWheelUpTimes={setWheelUpTimes}
         target={mainView}
-      />
+      /> */}
       <CustomAlert
         alertType="success"
         message="Added to cart"

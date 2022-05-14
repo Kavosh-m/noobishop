@@ -22,6 +22,7 @@ import { auth, db } from "../firebase";
 import { doc, setDoc } from "firebase/firestore";
 import Carousel from "react-material-ui-carousel";
 import { caroImages } from "../constants";
+import ScrollToTop from "../components/ScrollToTop";
 // import { gsap } from "gsap";
 
 const ShopRoute = () => {
@@ -381,12 +382,13 @@ const ShopRoute = () => {
         </div>
       </div>
       <Footer />
-      <ScrollToTopButton
+      <ScrollToTop />
+      {/* <ScrollToTopButton
         showBackToTopButton={showBackToTopButton}
         wheelUpTimes={wheelUpTimes}
         setWheelUpTimes={setWheelUpTimes}
         target={mainView}
-      />
+      /> */}
     </div>
   );
 };

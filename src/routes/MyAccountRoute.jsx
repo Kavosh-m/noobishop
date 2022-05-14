@@ -17,6 +17,7 @@ import { Transition, Dialog } from "@headlessui/react";
 import AddressDetails from "../components/AddressDetails";
 import { doc, getDoc, updateDoc } from "firebase/firestore";
 import OrdersDetails from "../components/OrdersDetails";
+import ScrollToTop from "../components/ScrollToTop";
 
 const MyAccountRoute = () => {
   const [address, setAddress] = useState("");
@@ -325,12 +326,13 @@ const MyAccountRoute = () => {
         </div>
       </div>
       <Footer />
-      <ScrollToTopButton
+      <ScrollToTop/>
+      {/* <ScrollToTopButton
         showBackToTopButton={showBackToTopButton}
         wheelUpTimes={wheelUpTimes}
         setWheelUpTimes={setWheelUpTimes}
         target={mainView}
-      />
+      /> */}
     </div>
   );
 };

@@ -14,6 +14,7 @@ import { closeSidebar } from "../redux/app/slices/utilSlice";
 import ScrollToTopButton from "../components/ScrollToTopButton";
 import emptyCart from "../assets/images/empty-cart.png";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
+import ScrollToTop from "../components/ScrollToTop";
 
 const CartRoute = () => {
   const orders = useSelector((state) => state.cart.ordered);
@@ -242,12 +243,13 @@ const CartRoute = () => {
         </div>
       </div>
       <Footer />
-      <ScrollToTopButton
+      <ScrollToTop />
+      {/* <ScrollToTopButton
         showBackToTopButton={showBackToTopButton}
         wheelUpTimes={wheelUpTimes}
         setWheelUpTimes={setWheelUpTimes}
         target={mainView}
-      />
+      /> */}
     </div>
   );
 };

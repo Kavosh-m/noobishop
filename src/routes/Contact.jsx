@@ -9,6 +9,7 @@ import Sidebar from "../components/Sidebar";
 import Drawer from "@mui/material/Drawer";
 import { closeSidebar } from "../redux/app/slices/utilSlice";
 import { useDispatch, useSelector } from "react-redux";
+import ScrollToTop from "../components/ScrollToTop";
 
 mapboxgl.accessToken = process.env.REACT_APP_MAPBOX_TOKEN;
 
@@ -212,12 +213,13 @@ const Contact = () => {
         </div>
       </div>
       <Footer />
-      <ScrollToTopButton
+      <ScrollToTop />
+      {/* <ScrollToTopButton
         showBackToTopButton={showBackToTopButton}
         wheelUpTimes={wheelUpTimes}
         setWheelUpTimes={setWheelUpTimes}
         target={mainView}
-      />
+      /> */}
     </div>
   );
 };

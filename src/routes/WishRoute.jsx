@@ -12,6 +12,7 @@ import Navbar from "../components/Navbar";
 import ScrollToTopButton from "../components/ScrollToTopButton";
 import CustomAlert from "../components/CustomAlert";
 import { ImSad2 } from "react-icons/im";
+import ScrollToTop from "../components/ScrollToTop";
 
 const WishRoute = () => {
   const favorites = useSelector((state) => state.wish.wishlist);
@@ -132,12 +133,13 @@ const WishRoute = () => {
         )}
       </div>
       <Footer />
-      <ScrollToTopButton
+      <ScrollToTop/>
+      {/* <ScrollToTopButton
         showBackToTopButton={showBackToTopButton}
         wheelUpTimes={wheelUpTimes}
         setWheelUpTimes={setWheelUpTimes}
         target={mainView}
-      />
+      /> */}
       <CustomAlert
         alertType="success"
         message="Added to cart"
