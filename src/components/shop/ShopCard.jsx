@@ -183,7 +183,7 @@ const ShopCard = ({ data, showType }) => {
         </div>
         <Transition show={isDialogOpen} as={Fragment}>
           <Dialog
-            className="fixed inset-0 z-40 grid place-items-center"
+            className="fixed inset-0 z-40 grid place-items-center overflow-y-auto"
             onClose={() => setIsDialogOpen(false)}
             as="div"
           >
@@ -319,7 +319,7 @@ const ShopCard = ({ data, showType }) => {
       </div>
       <Transition show={isDialogOpen} as={Fragment}>
         <Dialog
-          className="fixed inset-0 z-40 grid place-items-center"
+          className="fixed inset-0 z-40 grid place-items-center overflow-y-auto"
           onClose={() => setIsDialogOpen(false)}
           as="div"
         >

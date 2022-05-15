@@ -19,14 +19,16 @@ const QuickViewItem = ({
   const [openToastWishlist, setOpenToastWishlist] = useState(false);
 
   return (
-    <div className="relative z-10 grid w-9/12 grid-cols-2 gap-4 rounded-lg bg-white p-3">
-      <div className="aspect-square w-full  bg-lime-300">
+    <div className="relative z-10 grid w-9/12 max-w-6xl grid-cols-1 gap-4 rounded-lg bg-white p-3 md:grid-cols-2">
+      <div className="aspect-square w-full bg-lime-300/0 p-5 sm:p-3 md:p-0">
         <img className="h-full w-full object-fill" src={data.picurl} alt="" />
       </div>
-      <div className="flex flex-col justify-between bg-white">
-        <div className="flex flex-col space-y-1 pb-3">
-          <p className="text-2xl">{data.name}</p>
-          <div className="flex items-center justify-start space-x-3">
+      <div className="flex flex-col justify-between bg-white p-5 md:px-3 md:py-0">
+        <div className="font-poppins flex flex-col space-y-1 pb-3">
+          <p className="font-oswald text-xl font-bold md:text-2xl">
+            {data.name}
+          </p>
+          <div className="flex items-center justify-start space-x-3 text-lg md:text-xl">
             <p className="text-lg">${(data.price * 0.8).toFixed(2)}</p>
             <p className="text-gray-500 line-through">
               ${data.price.toFixed(2)}
@@ -41,12 +43,13 @@ const QuickViewItem = ({
             precision={0.5}
             style={{ color: "#E98C81" }}
           />
+          <p className="font-poppins py-4 text-sm sm:text-base">
+            {
+              "Burger King is an American multinational chain of hamburger fast food restaurants. Headquartered in Miami-Dade County, Florida, the company was founded in 1953 as Insta-Burger King, a Jacksonville, Florida-based restaurant chain."
+            }
+          </p>
         </div>
-        <p className="font-poppins border-t pt-3 pb-4">
-          {
-            "Burger King is an American multinational chain of hamburger fast food restaurants. Headquartered in Miami-Dade County, Florida, the company was founded in 1953 as Insta-Burger King, a Jacksonville, Florida-based restaurant chain."
-          }
-        </p>
+
         <div className="font-poppins grid grid-cols-1 gap-3 lg:grid-cols-2 xl:grid-cols-3">
           <div className="flex w-full items-center text-sm">
             <button

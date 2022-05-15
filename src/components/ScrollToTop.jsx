@@ -27,10 +27,6 @@ const ScrollToTop = () => {
     };
   }, []);
 
-  //   if (!isVisible) {
-  //     return null;
-  //   }
-
   return (
     <Transition
       appear={true}
