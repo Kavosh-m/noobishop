@@ -5,13 +5,13 @@ import { saveOrders } from "../redux/app/slices/cartSlice";
 import { saveToWishlist } from "../redux/app/slices/wishSlice";
 import shopHeader from "../assets/images/banner1.jpg";
 import Rating from "@mui/material/Rating";
-import NotFoundRoute from "./NotFoundRoute";
+// import NotFoundRoute from "./NotFoundRoute";
 import Navbar from "../components/Navbar";
 import Sidebar from "../components/Sidebar";
 import Drawer from "@mui/material/Drawer";
 import { closeSidebar } from "../redux/app/slices/utilSlice";
 import Footer from "../components/Footer";
-import ScrollToTopButton from "../components/ScrollToTopButton";
+// import ScrollToTopButton from "../components/ScrollToTopButton";
 import CustomAlert from "../components/CustomAlert";
 import { FaFacebookSquare } from "react-icons/fa";
 import { FaTwitterSquare } from "react-icons/fa";
@@ -37,6 +37,10 @@ import { auth, db } from "../firebase";
 import ShopCard from "../components/shop/ShopCard";
 import LoadingIndicator from "../components/LoadingIndicator";
 import ScrollToTop from "../components/ScrollToTop";
+import { Swiper, SwiperSlide } from "swiper/react";
+
+// Import Swiper styles
+import "swiper/css";
 
 const ProductDetailsRoute = () => {
   const location = useLocation();
@@ -294,27 +298,26 @@ const ProductDetailsRoute = () => {
       <div className="flex flex-1 basis-auto justify-center">
         <div className="mx-2 my-20 max-w-6xl bg-white sm:mx-5 md:mx-10 lg:mx-20">
           <div className="grid w-full grid-cols-2 gap-8">
-            <div className="relative col-span-full flex flex-col bg-lime-400/0 lg:col-span-1">
+            <div className="relative col-span-full bg-lime-400/0 lg:col-span-1">
               <img
                 src={currentCaro.link}
                 className="aspect-video w-full object-cover"
                 alt=""
               />
-              <div className="mt-8 grid grid-cols-6 gap-x-3 overflow-x-auto">
+              <Swiper spaceBetween={12} slidesPerView={4} className="mt-3 p-2">
                 {allCaro?.map((item, index) => (
-                  <div
-                    className="aspect-square cursor-pointer"
+                  <SwiperSlide
                     key={item.id}
                     onClick={() => setCurrentCaro(allCaro[index])}
                   >
                     <img
                       src={item.link}
                       alt=""
-                      className="h-full w-full object-fill transition-all duration-300 ease-in-out hover:opacity-30"
+                      className={`aspect-square w-full cursor-pointer object-fill transition-all duration-300 ease-in-out hover:opacity-30`}
                     />
-                  </div>
+                  </SwiperSlide>
                 ))}
-              </div>
+              </Swiper>
             </div>
             <div className="col-span-full flex flex-col space-y-10 lg:col-span-1">
               <div className="font-poppins flex flex-col space-y-1 pt-10 lg:pt-0">
@@ -473,13 +476,7 @@ const ProductDetailsRoute = () => {
         </div>
       </div>
       <Footer />
-      <ScrollToTop/>
-      {/* <ScrollToTopButton
-        showBackToTopButton={showBackToTopButton}
-        wheelUpTimes={wheelUpTimes}
-        setWheelUpTimes={setWheelUpTimes}
-        target={mainView}
-      /> */}
+      <ScrollToTop />
       <CustomAlert
         alertType="success"
         message="Added to cart"
