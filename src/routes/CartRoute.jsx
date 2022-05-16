@@ -49,56 +49,33 @@ const CartRoute = () => {
 
   const params = {
     merchant_id: process.env.REACT_APP_ZARINPAL_MERCHANT_CODE,
-    amount: 10000,
+    amount: 990000,
     description: "Payment bill for Noobishop",
-    callback_url: "return://zarinpal",
+    callback_url: "https://happy-restaurant-59ae8.web.app",
   };
 
-  const zarinpalGate = () => {
+  const zarinpalGate = (e) => {
+    e.preventDefault();
+
     setZarinPalLoading(true);
-    axios({
-      url: "https://api.zarinpal.com/pg/v4/payment/request.json",
-      method: "POST",
-      data: params,
-      headers: {
-        accept: "application/json",
-        "Content-Type": "application/json",
-        "Access-Control-Allow-Origin": "*",
-        "Access-Control-Allow-Headers":
-          "Origin, X-Requested-With, Content-Type, Accept",
-      },
-    })
+    axios
+      .post("https://noobiserver.herokuapp.com/", {
+        ...params,
+        amount: totalPrice() * 1000,
+      })
       .then((response) => {
-        console.log("Zarinpal response ===> ", response.data);
-        const url = `https://www.zarinpal.com/pg/StartPay/Authority=${response.data.data.authority}`;
+        // console.log("Zarinpal response ===> ", response.data.data);
+        const { authority, code } = response.data.data.data;
+        const url = `https://www.zarinpal.com/pg/StartPay/Authority=${authority}`;
         // console.log("URL => ", url);
         setZarinPalLoading(false);
-        navigate(url);
+        window.open(url, "_blank");
       })
       .catch((error) => {
         console.log("zarinpal. error happened ===> ", error);
         setZarinPalLoading(false);
       });
   };
-
-  // const zarinpalGate = () => {
-  //   fetch(
-  //     "https://cors-anywhere.herokuapp.com/https://api.zarinpal.com/pg/v4/payment/request.json",
-  //     {
-  //       method: "POST",
-  //       // headers: {
-  //       //   Accept: "application/json",
-  //       //   "Content-Type": "application/json",
-  //       //   "Access-Control-Allow-Origin": "*",
-  //       //   Vary: "Origin",
-  //       // },
-  //       body: JSON.stringify(params),
-  //     }
-  //   )
-  //     .then((res) => res.json())
-  //     .then((data) => console.log(data))
-  //     .catch((error) => console.log(error));
-  // };
 
   const mainView = useRef();
   const [showBackToTopButton, setShowBackToTopButton] = useState(false);

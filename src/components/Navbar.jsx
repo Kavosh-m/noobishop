@@ -81,7 +81,7 @@ const Navbar = () => {
     <div
       className={`${
         scrollPosition >= 350 ? "animate-dropDown sticky top-0" : "relative"
-      }  font-poppins z-40 mx-auto flex w-full max-w-6xl items-center justify-between bg-white px-4 py-6 text-base shadow-md`}
+      }  font-poppins z-40 mx-auto flex w-full max-w-6xl items-center justify-between bg-white px-4 py-6 text-base`}
     >
       {/* Left section of Navbar */}
       <Link className="aspect-auto w-32" to="/">
