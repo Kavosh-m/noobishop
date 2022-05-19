@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
-import { auth } from "./firebase";
+import { auth, db } from "./firebase";
 import { onAuthStateChanged } from "firebase/auth";
+import { doc, getDoc, setDoc } from "firebase/firestore";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 // import { Provider } from "react-redux";
@@ -30,6 +31,7 @@ import NotFoundRoute from "./routes/NotFoundRoute";
 import MyAccountRoute from "./routes/MyAccountRoute";
 
 import LoadingIndicator from "./components/LoadingIndicator";
+import SearchRoute from "./routes/SearchRoute";
 
 // const store = createStore(rootReducers, applyMiddleware(thunkMiddleware));
 
@@ -55,10 +57,27 @@ export default function App() {
   // console.log(isLoggedIn);
 
   useEffect(() => {
-    onAuthStateChanged(auth, (user) => {
+    onAuthStateChanged(auth, async (user) => {
       if (user) {
-        setIsLoggedIn(true);
-        // console.log(user);
+        let providerid = user.providerData[0].providerId;
+        // console.log(user.providerData[0].providerId);
+        //check if user exist in database
+        const docRef = doc(db, "users", user.uid);
+        const docSnap = await getDoc(docRef);
+        if (docSnap.exists()) {
+          // console.log("user exist in database");
+          setIsLoggedIn(true);
+        } else {
+          // console.log("new user");
+          if (providerid !== "phone") {
+            await setDoc(docRef, {
+              name: user.displayName,
+              email: user.email,
+              phonenumber: "",
+            });
+          }
+          setIsLoggedIn(true);
+        }
       } else {
         setIsLoggedIn(false);
       }
@@ -85,6 +104,7 @@ export default function App() {
         <Route path="/about" element={<AboutRoute />} />
         <Route path="/contact" element={<Contact />} />
         <Route path="/products/:id" element={<ProductDetailsRoute />} />
+        <Route path="/search/:q" element={<SearchRoute />} />
         <Route path="/cart" element={<CartRoute />} />
         <Route path="/wish" element={<WishRoute />} />
         {isLoggedIn && <Route path="/profile" element={<MyAccountRoute />} />}

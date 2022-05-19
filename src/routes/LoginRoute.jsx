@@ -1,6 +1,14 @@
 import React, { forwardRef, useEffect, useState } from "react";
 import { auth, db } from "../firebase";
-import { collection, query, where, getDocs } from "firebase/firestore";
+import {
+  collection,
+  query,
+  where,
+  getDocs,
+  doc,
+  getDoc,
+  setDoc,
+} from "firebase/firestore";
 import {
   RecaptchaVerifier,
   signInWithPhoneNumber,
@@ -67,15 +75,30 @@ export default function LoginRoute() {
 
     setLoading(true);
     signInWithPopup(auth, provider)
-      .then((result) => {
+      .then(async (result) => {
         // This gives you a Google Access Token. You can use it to access the Google API.
         // The signed-in user info.
         const user = result.user;
-        console.log(
-          `User successfully signed-in with google account.\nUser object:\n${user}`
-        );
         setLoading(false);
         navigate("/");
+
+        //check if user exist in firestore or not
+        // const docRef = doc(db, "users", user.uid);
+        // const docSnap = await getDoc(docRef);
+        // if (docSnap.exists()) {
+        //   console.log("user exist in database");
+        //   setLoading(false);
+        //   navigate("/");
+        // } else {
+        //   console.log("new user");
+        //   await setDoc(docRef, {
+        //     name: user.displayName,
+        //     email: user.email,
+        //     phonenumber: "",
+        //   });
+        //   setLoading(false);
+        //   navigate("/");
+        // }
       })
       .catch((error) => {
         // Handle Errors here.

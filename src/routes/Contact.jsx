@@ -177,7 +177,7 @@ const Contact = () => {
           </div>
 
           {/* Form */}
-          <div className="font-poppins small:mx-24 mx-4 grid grid-cols-1 grid-rows-6 gap-6 md:grid-cols-2">
+          <div className="font-poppins small:mx-24 mx-4 mt-6 grid grid-cols-1 gap-6 md:grid-cols-2">
             <p className="font-oswald col-span-full flex items-end justify-start text-xl font-bold">
               GET IN TOUCH
             </p>
@@ -197,7 +197,7 @@ const Contact = () => {
               type="text"
             />
             <textarea
-              className="col-span-full row-span-3 border border-gray-300 p-3 outline-0 focus:border-red-300"
+              className="col-span-full row-span-3 min-h-[80px] border border-gray-300 p-3 outline-0 focus:border-red-300"
               placeholder="Message"
             />
           </div>
@@ -214,12 +214,6 @@ const Contact = () => {
       </div>
       <Footer />
       <ScrollToTop />
-      {/* <ScrollToTopButton
-        showBackToTopButton={showBackToTopButton}
-        wheelUpTimes={wheelUpTimes}
-        setWheelUpTimes={setWheelUpTimes}
-        target={mainView}
-      /> */}
     </div>
   );
 };

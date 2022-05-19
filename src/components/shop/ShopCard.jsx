@@ -290,32 +290,34 @@ const ShopCard = ({ data, showType }) => {
           )}
         </div>
 
-        {entered && (
-          <div className="flex items-center justify-start space-x-3">
-            <button
-              onClick={() => handleWishlist(data)}
-              title={
-                wishlistIDs?.includes(data.id)
-                  ? "Remove from Wishlist"
-                  : "Add to wishlist"
-              }
-              className="animate-leftToRight invisible hover:text-red-600"
-            >
-              {wishlistIDs?.includes(data.id) ? (
-                <HeartIcon />
-              ) : (
-                <HeartIconOutlined />
-              )}
-            </button>
-            <button
-              title="Quick View"
-              onClick={() => setIsDialogOpen(true)}
-              className="animate-leftToRight animation-delay-200 invisible"
-            >
-              <EyeIcon />
-            </button>
-          </div>
-        )}
+        <div className="flex items-center justify-start space-x-3">
+          <button
+            onClick={() => handleWishlist(data)}
+            title={
+              wishlistIDs?.includes(data.id)
+                ? "Remove from Wishlist"
+                : "Add to wishlist"
+            }
+            className={`${
+              entered && "animate-leftToRight"
+            } invisible hover:text-red-600`}
+          >
+            {wishlistIDs?.includes(data.id) ? (
+              <HeartIcon />
+            ) : (
+              <HeartIconOutlined />
+            )}
+          </button>
+          <button
+            title="Quick View"
+            onClick={() => setIsDialogOpen(true)}
+            className={`${
+              entered && "animate-leftToRight animation-delay-200"
+            }  invisible`}
+          >
+            <EyeIcon />
+          </button>
+        </div>
       </div>
       <Transition show={isDialogOpen} as={Fragment}>
         <Dialog

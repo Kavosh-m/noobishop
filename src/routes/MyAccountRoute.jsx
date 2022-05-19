@@ -67,7 +67,7 @@ const MyAccountRoute = () => {
             });
         }
       })
-      .catch((err) => console.log(err));
+      .catch((err) => console.log("i am here ===> ", err));
   }, []);
 
   const orders = useSelector((state) => state.cart.ordered);
@@ -292,7 +292,7 @@ const MyAccountRoute = () => {
               >
                 <div className="font-poppins z-10 flex w-11/12 flex-col space-y-12 bg-white px-4 py-3 sm:w-4/5 md:w-3/5 lg:w-2/5">
                   <p className="whitespace-nowrap text-base font-semibold sm:text-lg">
-                    Are you sure you want to sign-out ?
+                    Are you sure, do you want to sign-out ?
                   </p>
                   <div className="flex items-center justify-end space-x-8">
                     <button
@@ -326,7 +326,7 @@ const MyAccountRoute = () => {
         </div>
       </div>
       <Footer />
-      <ScrollToTop/>
+      <ScrollToTop />
       {/* <ScrollToTopButton
         showBackToTopButton={showBackToTopButton}
         wheelUpTimes={wheelUpTimes}

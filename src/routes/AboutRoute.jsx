@@ -16,6 +16,7 @@ import Drawer from "@mui/material/Drawer";
 import { closeSidebar } from "../redux/app/slices/utilSlice";
 import { useSelector, useDispatch } from "react-redux";
 import ScrollToTop from "../components/ScrollToTop";
+import caroImages from "../assets/carousel.json";
 
 const AboutRoute = () => {
   // const caroImages = [
@@ -55,7 +56,7 @@ const AboutRoute = () => {
     });
   };
 
-  const addCategoryFieldTofoods = async (categ) => {
+  const addGalleryFieldTofoods = async (categ) => {
     const querySnapshot = await getDocs(
       collection(db, "foods", categ, "items")
     );
@@ -63,7 +64,7 @@ const AboutRoute = () => {
       // console.log(doc.id, " => ", doc.data());
 
       await updateDoc(doc(db, "foods", categ, "items", docc.id), {
-        category: categ,
+        gallery: [docc.data().picurl, ...caroImages.map((item) => item.link)],
       });
     });
     console.log("done!");
@@ -80,6 +81,11 @@ const AboutRoute = () => {
       setWheelUpTimes((prevState) => prevState + 1);
       // console.log(wheelUpTimes);
     }
+  };
+
+  const openGoogle = () => {
+    document.getElementById("goo").setAttribute("href", "https://www.sho.com/");
+    document.getElementById("goo").click();
   };
 
   return (
@@ -101,6 +107,7 @@ const AboutRoute = () => {
       <div className="flex flex-1 basis-auto justify-center bg-white">
         <div className="max-w-6xl">
           <svg
+            onClick={openGoogle}
             xmlns="http://www.w3.org/2000/svg"
             className="mx-auto mt-10 h-5 w-5 text-yellow-500 sm:h-8 sm:w-8 md:h-12 md:w-12 lg:h-16 lg:w-16"
             viewBox="0 0 20 20"
@@ -115,12 +122,21 @@ const AboutRoute = () => {
           <p className="font-poppins mt-4 text-xl">
             This page is under development
           </p>
+          <a
+            className="hidden"
+            id="goo"
+            // onClick={openGoogle}
+            href="https://www.google.com"
+            target="_blank"
+          >
+            Open Google
+          </a>
           {/* <button
-          onClick={() => addCategoryFieldTofoods("pizza")}
-          className="bg-red-200 px-10 py-3"
-        >
-          ACTION
-        </button> */}
+            onClick={() => addGalleryFieldTofoods("pizza")}
+            className="bg-red-200 px-10 py-3"
+          >
+            ACTION
+          </button> */}
         </div>
       </div>
       <Footer />

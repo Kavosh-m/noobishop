@@ -6,7 +6,7 @@ import { IoLogoTwitter } from "react-icons/io";
 import { TiSocialLinkedin } from "react-icons/ti";
 import { ImYoutube2 } from "react-icons/im";
 import { FaVimeoV } from "react-icons/fa";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { auth } from "../firebase";
 
 const socials = [
@@ -20,6 +20,15 @@ const socials = [
 const Sidebar = () => {
   const [search, setSearch] = useState("");
   const [links, setLinks] = useState([]);
+
+  const navigate = useNavigate();
+
+  const onSearch = (e) => {
+    e.preventDefault();
+    if (search !== "") {
+      navigate(`/search/${search}`);
+    }
+  };
 
   useEffect(() => {
     if (auth.currentUser) {
@@ -51,7 +60,7 @@ const Sidebar = () => {
           placeholder="Search products..."
           value={search}
           onChange={(e) => setSearch(e.target.value)}
-          className="h-full flex-1 bg-rose-300/0 text-sm outline-0 focus:outline-0"
+          className="h-full flex-1 bg-rose-300/0 text-sm outline-none outline-0 focus:outline-none focus:outline-0"
         />
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -60,6 +69,7 @@ const Sidebar = () => {
           viewBox="0 0 24 24"
           stroke="currentColor"
           strokeWidth={2}
+          onClick={onSearch}
         >
           <path
             strokeLinecap="round"

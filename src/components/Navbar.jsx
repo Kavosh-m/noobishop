@@ -245,12 +245,12 @@ const Navbar = () => {
           >
             <div className="font-poppins z-10 flex w-11/12 flex-col space-y-12 bg-white px-4 py-3 sm:w-4/5 md:w-3/5 lg:w-2/5">
               <p className="whitespace-nowrap text-base font-semibold sm:text-lg">
-                Are you sure you want to sign-out ?
+                Are you sure, do you want to sign-out ?
               </p>
               <div className="flex items-center justify-end space-x-8">
                 <button
                   onClick={() => setIsLogOutDialogOpen(false)}
-                  className="text-sm transition-colors duration-300 ease-in-out hover:text-red-400 sm:text-base"
+                  className="text-sm transition-colors duration-300 ease-in-out hover:text-red-400 focus:outline-0 sm:text-base"
                 >
                   No
                 </button>

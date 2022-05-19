@@ -38,9 +38,13 @@ import ShopCard from "../components/shop/ShopCard";
 import LoadingIndicator from "../components/LoadingIndicator";
 import ScrollToTop from "../components/ScrollToTop";
 import { Swiper, SwiperSlide } from "swiper/react";
+import { Navigation } from "swiper";
 
 // Import Swiper styles
 import "swiper/css";
+import "swiper/css/navigation";
+
+// SwiperCore.use([Navigation]);
 
 const ProductDetailsRoute = () => {
   const location = useLocation();
@@ -67,14 +71,13 @@ const ProductDetailsRoute = () => {
 
   const [data, setData] = useState(null);
 
-  const [allCaro, setAllCaro] = useState(
-    [{ id: "uwbcvfgrt4r5", link: location.state.picurl }].concat(caroImages)
-  );
-  const [currentCaro, setCurrentCaro] = useState(allCaro[0]);
+  // const [allCaro, setAllCaro] = useState(location.state.gallery);
+  const [currentCaro, setCurrentCaro] = useState(location.state.gallery[0]);
 
-  const selectedTabClass = "w-full h-full bg-red-400 text-white";
+  const selectedTabClass =
+    "w-full h-full bg-red-400 outline-none focus:outline-none text-white";
   const unselectedTabClass =
-    "w-full h-full bg-slate-900 text-white hover:bg-red-400 transition-colors duration-300 ease-in-out";
+    "w-full h-full bg-slate-900 text-white outline-none focus:outline-none hover:bg-red-400 transition-colors duration-300 ease-in-out";
 
   const sidebarStatus = useSelector((state) => state.util.sidebar);
   const orders = useSelector((state) => state.cart.ordered);
@@ -103,11 +106,13 @@ const ProductDetailsRoute = () => {
   };
 
   useEffect(() => {
+    dispatch(closeSidebar());
+  }, []);
+
+  useEffect(() => {
     setData(location.state);
-    setAllCaro(
-      [{ id: "uwbcvfgrt4r5", link: location.state.picurl }].concat(caroImages)
-    );
-    setCurrentCaro(allCaro[0]);
+    // setAllCaro(location.state.gallery);
+    setCurrentCaro(location.state.gallery[0]);
     console.log(location.state);
   }, [location.state]);
 
@@ -261,6 +266,42 @@ const ProductDetailsRoute = () => {
   //   console.log(location.state);
   // }, [location.state]);
 
+  //Countdown function
+  // const countDown = () => {
+  //   // Set the date we're counting down to
+  //   var countDownDate = new Date("Jan 5, 2024 15:37:25").getTime();
+
+  //   // Update the count down every 1 second
+  //   var x = setInterval(function () {
+  //     // Get today's date and time
+  //     var now = new Date().getTime();
+
+  //     // Find the distance between now and the count down date
+  //     var distance = countDownDate - now;
+
+  //     // Time calculations for days, hours, minutes and seconds
+  //     var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+  //     var hours = Math.floor(
+  //       (distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
+  //     );
+  //     var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+  //     var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+  //     // Output the result in an element with id="demo"
+  //     document.getElementById("demo").innerHTML =
+  //       days + "d " + hours + "h " + minutes + "m " + seconds + "s ";
+
+  //     // If the count down is over, write some text
+  //     if (distance < 0) {
+  //       clearInterval(x);
+  //       return "EXPIRED";
+  //     } else {
+  //       return days + "d " + hours + "h " + minutes + "m " + seconds + "s ";
+  //     }
+  //   }, 1000);
+  //   return x;
+  // };
+
   if (data === null) {
     return (
       <div className="grid h-screen w-screen place-items-center">
@@ -300,20 +341,32 @@ const ProductDetailsRoute = () => {
           <div className="grid w-full grid-cols-2 gap-8">
             <div className="relative col-span-full bg-lime-400/0 lg:col-span-1">
               <img
-                src={currentCaro.link}
+                src={currentCaro}
                 className="aspect-video w-full object-cover"
                 alt=""
               />
-              <Swiper spaceBetween={12} slidesPerView={4} className="mt-3 p-2">
-                {allCaro?.map((item, index) => (
+              <Swiper
+                modules={[Navigation]}
+                navigation
+                spaceBetween={12}
+                slidesPerView={4}
+                className="mt-3"
+              >
+                {location.state.gallery?.map((item, index) => (
                   <SwiperSlide
-                    key={item.id}
-                    onClick={() => setCurrentCaro(allCaro[index])}
+                    key={item}
+                    onClick={() =>
+                      setCurrentCaro(location.state.gallery[index])
+                    }
+                    className={`py-2`}
                   >
                     <img
-                      src={item.link}
+                      src={item}
                       alt=""
-                      className={`aspect-square w-full cursor-pointer object-fill transition-all duration-300 ease-in-out hover:opacity-30`}
+                      className={`${
+                        index === location.state.gallery.indexOf(currentCaro) &&
+                        "border-4 border-sky-300"
+                      } aspect-square w-full cursor-pointer object-fill transition-all duration-300 ease-in-out hover:opacity-30`}
                     />
                   </SwiperSlide>
                 ))}
@@ -345,6 +398,7 @@ const ProductDetailsRoute = () => {
                 of the great explorer of the truth, the master-builder of human
                 happiness.
               </p>
+              {/* <p id="demo">{countDown()}</p> */}
 
               <div className="font-poppins flex flex-col space-y-3 sm:flex-row sm:items-center sm:space-y-0 sm:space-x-3">
                 <div className="flex items-center text-base font-semibold">
@@ -418,7 +472,7 @@ const ProductDetailsRoute = () => {
           {/* 4 tab section */}
           <div className="mt-20 w-full bg-indigo-300/0">
             <Tab.Group>
-              <Tab.List className="font-poppins flex h-12 bg-blue-900/20 text-xs font-bold uppercase sm:text-sm md:text-base">
+              <Tab.List className="font-poppins flex h-12 bg-blue-900/20 text-xs font-bold uppercase outline-none focus:outline-none sm:text-sm md:text-base">
                 {tabularData.map((item) => (
                   <Tab
                     key={item.title}

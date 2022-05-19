@@ -15,6 +15,7 @@ import ScrollToTopButton from "../components/ScrollToTopButton";
 import emptyCart from "../assets/images/empty-cart.png";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
 import ScrollToTop from "../components/ScrollToTop";
+import { auth } from "../firebase";
 
 const CartRoute = () => {
   const orders = useSelector((state) => state.cart.ordered);
@@ -54,27 +55,36 @@ const CartRoute = () => {
     callback_url: "https://happy-restaurant-59ae8.web.app",
   };
 
+  // useEffect(() => {
+  //   console.log("user ===> ", auth.currentUser);
+  // }, []);
+
   const zarinpalGate = (e) => {
     e.preventDefault();
 
-    setZarinPalLoading(true);
-    axios
-      .post("https://noobiserver.herokuapp.com/", {
-        ...params,
-        amount: totalPrice() * 1000,
-      })
-      .then((response) => {
-        // console.log("Zarinpal response ===> ", response.data.data);
-        const { authority, code } = response.data.data.data;
-        const url = `https://www.zarinpal.com/pg/StartPay/Authority=${authority}`;
-        // console.log("URL => ", url);
-        setZarinPalLoading(false);
-        window.open(url, "_blank");
-      })
-      .catch((error) => {
-        console.log("zarinpal. error happened ===> ", error);
-        setZarinPalLoading(false);
-      });
+    if (!auth.currentUser) {
+      navigate("/login");
+    } else {
+      setZarinPalLoading(true);
+      axios
+        .post("https://noobiserver.herokuapp.com/", {
+          ...params,
+          amount: totalPrice() * 1000,
+        })
+        .then((response) => {
+          // console.log("Zarinpal response ===> ", response.data.data);
+          const { authority, code } = response.data.data.data;
+          console.log("zarin code ===> ", code);
+          const url = `https://www.zarinpal.com/pg/StartPay/Authority=${authority}`;
+          // console.log("URL => ", url);
+          setZarinPalLoading(false);
+          let w = window.open(url, "zarinpal");
+        })
+        .catch((error) => {
+          console.log("zarinpal. error happened ===> ", error);
+          setZarinPalLoading(false);
+        });
+    }
   };
 
   const mainView = useRef();
