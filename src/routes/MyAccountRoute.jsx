@@ -2,7 +2,6 @@ import React, { useState, useRef, useEffect, Fragment } from "react";
 // import { shopHeader } from "../constants";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
-import ScrollToTopButton from "../components/ScrollToTopButton";
 import AccountDetails from "../components/AccountDetails";
 import { signOut } from "firebase/auth";
 import { useNavigate } from "react-router-dom";

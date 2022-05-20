@@ -112,16 +112,6 @@ const Navbar = () => {
         </li>
         <li className="cursor-pointer">
           <NavLink
-            to="/about"
-            className={({ isActive }) =>
-              isActive ? activeClassName : inactiveClassName
-            }
-          >
-            About
-          </NavLink>
-        </li>
-        <li className="cursor-pointer">
-          <NavLink
             to="/contact"
             className={({ isActive }) =>
               isActive ? activeClassName : inactiveClassName

@@ -7,6 +7,7 @@ import registerBg from "../assets/images/foodRegister.jpg";
 import { ImSpinner9 } from "react-icons/im";
 import { Snackbar } from "@mui/material";
 import MuiAlert from "@mui/material/Alert";
+import axios from "axios";
 
 const usersRef = collection(db, "users");
 
@@ -22,6 +23,8 @@ const RegisterRoute = () => {
     empty: false,
     wrongFormat: false,
   });
+  const [countryCode, setCountryCode] = useState("");
+  const [country3LetterName, setCountry3LetterName] = useState("");
   const [final, setFinal] = useState();
   const [show, setShow] = useState(false);
   const [otp, setOtp] = useState("");
@@ -33,6 +36,25 @@ const RegisterRoute = () => {
   const [openToast2, setOpenToast2] = useState(false);
 
   const navigate = useNavigate();
+
+  //Get country code
+  const getGeoInfo = () => {
+    axios
+      .get("https://ipapi.co/json/")
+      .then((response) => {
+        let data = response.data;
+        // console.log("data Country ====> ", data);
+        setCountryCode(data.country_calling_code);
+        setCountry3LetterName(data.country_code_iso3);
+      })
+      .catch((error) => {
+        console.log("Country code error =====> ", error);
+      });
+  };
+
+  useEffect(() => {
+    getGeoInfo();
+  }, []);
 
   const handleRegister = async (e) => {
     e.preventDefault();
@@ -68,7 +90,7 @@ const RegisterRoute = () => {
     if (querySnapshot.empty) {
       setGoogleVerifier("block");
       let verify = new RecaptchaVerifier("recaptcha-container", {}, auth);
-      signInWithPhoneNumber(auth, "+98" + phone.content, verify)
+      signInWithPhoneNumber(auth, countryCode + phone.content, verify)
         .then((result) => {
           setFinal(result);
           console.log("code sent successfully");
@@ -196,21 +218,45 @@ const RegisterRoute = () => {
                       : ""
                   }`}</p>
                 )}
-                <input
-                  value={phone.content}
-                  onChange={(e) =>
-                    setPhone({ ...phone, content: e.target.value })
-                  }
-                  type="tel"
-                  required
-                  maxLength={10}
-                  minLength={10}
-                  placeholder="Phone (e.g. 9117778888)"
-                  className={`${
-                    (phone.wrongFormat || phone.empty) &&
-                    "outline outline-2 outline-red-400"
-                  } w-full p-3 text-sm focus:outline focus:outline-1 focus:outline-red-400`}
-                />
+
+                <div className="flex items-center">
+                  {/* internationa code */}
+
+                  <div className="relative">
+                    <img
+                      src={
+                        countryCode !== "+98"
+                          ? `https://countryflagsapi.com/png/${country3LetterName}`
+                          : `https://countryflagsapi.com/png/IRN`
+                      }
+                      className="absolute top-0 left-2 z-10 aspect-video w-5 -translate-y-1/2"
+                      alt=""
+                    />
+                    <input
+                      className="relative w-[60px] p-3 text-sm focus:outline focus:outline-blue-400"
+                      value={countryCode}
+                      onChange={(e) => setCountryCode(e.target.value)}
+                    />
+                  </div>
+
+                  {/* internationa code end */}
+
+                  <input
+                    value={phone.content}
+                    onChange={(e) =>
+                      setPhone({ ...phone, content: e.target.value })
+                    }
+                    type="tel"
+                    required
+                    maxLength={10}
+                    minLength={10}
+                    placeholder="Phone..."
+                    className={`${
+                      (phone.wrongFormat || phone.empty) &&
+                      "outline outline-2 outline-red-400"
+                    } ml-3 w-full p-3 text-sm focus:outline focus:outline-1 focus:outline-red-400`}
+                  />
+                </div>
               </div>
 
               {!loading && (

@@ -85,7 +85,7 @@ const ReviewsDetails = ({
                 <p>Name *</p>
                 <input
                   placeholder=""
-                  className="w-full p-3 outline-0"
+                  className="w-full p-3 outline-none"
                   value={name}
                   onChange={(e) => setName(e.target.value)}
                 />
@@ -94,7 +94,7 @@ const ReviewsDetails = ({
                 <p>Email *</p>
                 <input
                   placeholder=""
-                  className="w-full p-3 outline-0"
+                  className="w-full p-3 outline-none"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                 />
@@ -104,7 +104,7 @@ const ReviewsDetails = ({
           <div className="space-y-2">
             <p>Comment</p>
             <textarea
-              className="w-full p-3 outline-0"
+              className="w-full p-3 outline-none"
               value={comment}
               onChange={(e) => setComment(e.target.value)}
             />

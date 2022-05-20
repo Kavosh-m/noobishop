@@ -383,12 +383,6 @@ const ShopRoute = () => {
       </div>
       <Footer />
       <ScrollToTop />
-      {/* <ScrollToTopButton
-        showBackToTopButton={showBackToTopButton}
-        wheelUpTimes={wheelUpTimes}
-        setWheelUpTimes={setWheelUpTimes}
-        target={mainView}
-      /> */}
     </div>
   );
 };

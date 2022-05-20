@@ -182,22 +182,22 @@ const Contact = () => {
               GET IN TOUCH
             </p>
             <input
-              className="border border-gray-300 p-3 outline-0 focus:border-red-300"
+              className="border border-gray-300 p-3 outline-none focus:border-red-300"
               placeholder="Name"
               type="text"
             />
             <input
-              className="border border-gray-300 p-3 outline-0 focus:border-red-300"
+              className="border border-gray-300 p-3 outline-none focus:border-red-300"
               placeholder="Email"
               type="email"
             />
             <input
-              className="col-span-full border border-gray-300 p-3 outline-0 focus:border-red-300"
+              className="col-span-full border border-gray-300 p-3 outline-none focus:border-red-300"
               placeholder="Subject"
               type="text"
             />
             <textarea
-              className="col-span-full row-span-3 min-h-[80px] border border-gray-300 p-3 outline-0 focus:border-red-300"
+              className="col-span-full row-span-3 min-h-[80px] border border-gray-300 p-3 outline-none focus:border-red-300"
               placeholder="Message"
             />
           </div>

@@ -35,7 +35,6 @@ const Sidebar = () => {
       setLinks([
         { routeName: "Home", path: "/" },
         { routeName: "Wishlist", path: "/wish" },
-        { routeName: "About", path: "/about" },
         { routeName: "Contact", path: "/contact" },
         { routeName: "My account", path: "/profile" },
       ]);
@@ -43,7 +42,6 @@ const Sidebar = () => {
       setLinks([
         { routeName: "Home", path: "/" },
         { routeName: "Wishlist", path: "/wish" },
-        { routeName: "About", path: "/about" },
         { routeName: "Contact", path: "/contact" },
       ]);
     }

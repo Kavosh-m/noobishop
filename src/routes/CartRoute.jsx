@@ -59,13 +59,17 @@ const CartRoute = () => {
   //   console.log("user ===> ", auth.currentUser);
   // }, []);
 
-  const zarinpalGate = (e) => {
-    e.preventDefault();
+  const zarinpalGate = () => {
+    // e.preventDefault();
 
     if (!auth.currentUser) {
       navigate("/login");
     } else {
       setZarinPalLoading(true);
+
+      // open an empty window
+      const tab = window.open("about:blank");
+
       axios
         .post("https://noobiserver.herokuapp.com/", {
           ...params,
@@ -78,9 +82,11 @@ const CartRoute = () => {
           const url = `https://www.zarinpal.com/pg/StartPay/Authority=${authority}`;
           // console.log("URL => ", url);
           setZarinPalLoading(false);
-          let w = window.open(url, "zarinpal");
+          tab.location = url;
+          tab.focus();
         })
         .catch((error) => {
+          tab.close();
           console.log("zarinpal. error happened ===> ", error);
           setZarinPalLoading(false);
         });

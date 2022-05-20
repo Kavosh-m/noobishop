@@ -302,6 +302,26 @@ const ProductDetailsRoute = () => {
   //   return x;
   // };
 
+  // const [sPerView, setSPerView] = useState(4);
+  // const [mediaMd, setMediaMd] = useState(
+  //   window.matchMedia("(min-width: 768px)")
+  // );
+
+  // const autoSlider = (x) => {
+  //   if (x.matches) {
+  //     // If media query matche
+  //     console.log("grater than 768");
+  //     document.getElementById("related").setAttribute("slidesPerView", 2);
+  //   } else {
+  //     console.log("less than 768");
+  //     document.getElementById("related").setAttribute("slidesPerView", 3);
+  //   }
+  // };
+
+  // useEffect(() => {
+  //   autoSlider(mediaMd);
+  // }, [mediaMd.matches]);
+
   if (data === null) {
     return (
       <div className="grid h-screen w-screen place-items-center">
