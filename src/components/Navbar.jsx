@@ -1,10 +1,4 @@
-import React, {
-  useLayoutEffect,
-  useState,
-  useEffect,
-  useRef,
-  Fragment,
-} from "react";
+import React, { useLayoutEffect, useState, useRef, Fragment } from "react";
 import { useNavigate, Link, NavLink } from "react-router-dom";
 import { logo } from "../constants/index";
 import { auth } from "../firebase";
@@ -12,18 +6,16 @@ import { signOut } from "firebase/auth";
 import BasketIcon from "./icons/BasketIcon";
 import { useSelector, useDispatch } from "react-redux";
 import { openSidebar } from "../redux/app/slices/utilSlice";
-import SubmenuBasketProdectCard from "./SubmenuBasketProdectCard";
 import { Transition, Dialog } from "@headlessui/react";
 import UserIcon from "./icons/UserIcon";
 import ProfileHoverCard from "./ProfileHoverCard";
 import { gsap } from "gsap";
-import emptyCart from "../assets/images/empty-cart.png";
 import BasketHoverCard from "./BasketHoverCard";
 import Badge from "@mui/material/Badge";
 
 const Navbar = () => {
   const [scrollPosition, setPosition] = useState(0);
-  const [total, setTotal] = useState(0);
+  // const [total, setTotal] = useState(0);
   const [show, setShow] = useState(false);
   const [showSetting, setShowSetting] = useState(false);
   const [isLogOutDialogOpen, setIsLogOutDialogOpen] = useState(false);
@@ -36,17 +28,17 @@ const Navbar = () => {
   const inactiveClassName =
     "hover:text-red-300 transition-colors duration-300 ease-in-out";
 
-  useEffect(() => {
-    let t =
-      orders.length > 0
-        ? orders.reduce(
-            (previousValue, currentValue) =>
-              previousValue + currentValue.price * currentValue.count,
-            0
-          )
-        : 0;
-    setTotal(t);
-  }, [orders]);
+  // useEffect(() => {
+  //   let t =
+  //     orders.length > 0
+  //       ? orders.reduce(
+  //           (previousValue, currentValue) =>
+  //             previousValue + currentValue.price * currentValue.count,
+  //           0
+  //         )
+  //       : 0;
+  //   setTotal(t);
+  // }, [orders]);
 
   useLayoutEffect(() => {
     function updatePosition() {
@@ -61,7 +53,9 @@ const Navbar = () => {
   const handleSignOut = () => {
     signOut(auth)
       .then(() => navigate("/login"))
-      .catch((err) => console.log(err));
+      .catch((err) => {
+        // console.log(err)
+      });
   };
 
   const numberOfOrdersRef = useRef();
@@ -77,7 +71,6 @@ const Navbar = () => {
   }, [orders?.length]);
 
   return (
-    // <div className="flex justify-center bg-white">
     <div
       className={`${
         scrollPosition >= 350 ? "animate-dropDown sticky top-0" : "relative"
@@ -256,7 +249,6 @@ const Navbar = () => {
         </Dialog>
       </Transition>
     </div>
-    // </div>
   );
 };
 

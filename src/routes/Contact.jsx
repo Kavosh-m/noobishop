@@ -1,8 +1,6 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef } from "react";
 import Footer from "../components/Footer";
 import Navbar from "../components/Navbar";
-import ScrollToTopButton from "../components/ScrollToTopButton";
-// import { shopHeader } from "../constants";
 import mapboxgl from "mapbox-gl";
 import ContactCard from "../components/ContactCard";
 import Sidebar from "../components/Sidebar";
@@ -84,9 +82,9 @@ const data = [
 const Contact = () => {
   const mapContainer = useRef(null);
   const map = useRef(null);
-  const [lng, setLng] = useState(2.37);
-  const [lat, setLat] = useState(48.83);
-  const [zoom, setZoom] = useState(17);
+  const lng = 2.37;
+  const lat = 48.83;
+  const zoom = 17;
 
   const sidebarStatus = useSelector((state) => state.util.sidebar);
 
@@ -133,22 +131,21 @@ const Contact = () => {
   });
 
   const mainView = useRef();
-  const [showBackToTopButton, setShowBackToTopButton] = useState(false);
-  const [wheelUpTimes, setWheelUpTimes] = useState(0);
-  const handleWheel = (e) => {
-    if (e.deltaY > 0) {
-      setShowBackToTopButton(false);
-    } else {
-      setShowBackToTopButton(true);
-      setWheelUpTimes((prevState) => prevState + 1);
-      // console.log(wheelUpTimes);
-    }
-  };
+  // const [showBackToTopButton, setShowBackToTopButton] = useState(false);
+  // const [wheelUpTimes, setWheelUpTimes] = useState(0);
+  // const handleWheel = (e) => {
+  //   if (e.deltaY > 0) {
+  //     setShowBackToTopButton(false);
+  //   } else {
+  //     setShowBackToTopButton(true);
+  //     setWheelUpTimes((prevState) => prevState + 1);
+  //     // console.log(wheelUpTimes);
+  //   }
+  // };
 
   return (
     <div
       ref={mainView}
-      onWheel={handleWheel}
       className="relative flex min-h-screen flex-col justify-between"
     >
       {/* drawer */}

@@ -1,19 +1,14 @@
-import React, { Fragment, useEffect, useState } from "react";
-import axios from "axios";
+import React, { Fragment } from "react";
 import { Dialog, Transition } from "@headlessui/react";
-import { db, auth } from "../firebase";
-import { doc, getDoc, updateDoc } from "firebase/firestore";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
 
 const AddressDetails = ({
   address,
-  setAddress,
   tempAddress,
   setTempAddress,
   isAddressDialogOpen,
   setIsAddressDialogOpen,
   loading,
-  setLoading,
   onSave,
   onEditAddress,
 }) => {

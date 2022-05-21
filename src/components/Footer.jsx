@@ -1,9 +1,8 @@
 import React from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { logo } from "../constants/index";
 
 const Footer = () => {
-  const navigate = useNavigate();
   return (
     <footer className="bg-gray-900">
       <div className="mx-auto grid max-w-6xl grid-cols-1 gap-2 bg-gray-900 py-10 px-6 text-gray-300 sm:grid-cols-2 sm:px-20 md:grid-cols-5 md:px-16 lg:px-4">
@@ -146,8 +145,8 @@ const Footer = () => {
         </div>
       </div>
       <div className="mx-auto flex max-w-6xl items-center justify-center bg-black py-4">
-        <p className="font-normal text-white">
-          Copyright © 2020 KMG | Built with React by Kavosh
+        <p className="text-center font-normal text-white">
+          Copyright © 2020 KMG | Built with React by Kavosh Madadi
         </p>
       </div>
     </footer>

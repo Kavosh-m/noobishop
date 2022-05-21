@@ -9,7 +9,6 @@ import Sidebar from "../components/Sidebar";
 import { closeSidebar } from "../redux/app/slices/utilSlice";
 import Footer from "../components/Footer";
 import Navbar from "../components/Navbar";
-import ScrollToTopButton from "../components/ScrollToTopButton";
 import CustomAlert from "../components/CustomAlert";
 import { ImSad2 } from "react-icons/im";
 import ScrollToTop from "../components/ScrollToTop";
@@ -25,24 +24,23 @@ const WishRoute = () => {
   }, []);
 
   const mainView = useRef();
-  const [showBackToTopButton, setShowBackToTopButton] = useState(false);
-  const [wheelUpTimes, setWheelUpTimes] = useState(0);
+  // const [showBackToTopButton, setShowBackToTopButton] = useState(false);
+  // const [wheelUpTimes, setWheelUpTimes] = useState(0);
   const [openToast, setOpenToast] = useState(false);
 
-  const handleWheel = (e) => {
-    if (e.deltaY > 0) {
-      setShowBackToTopButton(false);
-    } else {
-      setShowBackToTopButton(true);
-      setWheelUpTimes((prevState) => prevState + 1);
-      // console.log(wheelUpTimes);
-    }
-  };
+  // const handleWheel = (e) => {
+  //   if (e.deltaY > 0) {
+  //     setShowBackToTopButton(false);
+  //   } else {
+  //     setShowBackToTopButton(true);
+  //     setWheelUpTimes((prevState) => prevState + 1);
+  //     // console.log(wheelUpTimes);
+  //   }
+  // };
 
   return (
     <div
       ref={mainView}
-      onWheel={handleWheel}
       className="relative flex min-h-screen flex-col justify-between"
     >
       <Navbar />
@@ -85,6 +83,7 @@ const WishRoute = () => {
                       <img
                         className="h-full w-full object-fill"
                         src={order.picurl}
+                        alt=""
                       />
                     </td>
                     <td className="h-36 min-w-[144px] border border-gray-400 px-5 text-center">
@@ -133,13 +132,7 @@ const WishRoute = () => {
         )}
       </div>
       <Footer />
-      <ScrollToTop/>
-      {/* <ScrollToTopButton
-        showBackToTopButton={showBackToTopButton}
-        wheelUpTimes={wheelUpTimes}
-        setWheelUpTimes={setWheelUpTimes}
-        target={mainView}
-      /> */}
+      <ScrollToTop />
       <CustomAlert
         alertType="success"
         message="Added to cart"

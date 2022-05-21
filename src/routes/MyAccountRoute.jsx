@@ -1,5 +1,4 @@
 import React, { useState, useRef, useEffect, Fragment } from "react";
-// import { shopHeader } from "../constants";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import AccountDetails from "../components/AccountDetails";
@@ -62,11 +61,13 @@ const MyAccountRoute = () => {
               });
             })
             .catch((error) => {
-              console.log("Country code error =====> ", error);
+              // console.log("Country code error =====> ", error);
             });
         }
       })
-      .catch((err) => console.log("i am here ===> ", err));
+      .catch((err) => {
+        // console.log("i am here ===> ", err)
+      });
   }, []);
 
   const orders = useSelector((state) => state.cart.ordered);
@@ -91,11 +92,11 @@ const MyAccountRoute = () => {
       content: (
         <AddressDetails
           address={address}
-          setAddress={setAddress}
+          // setAddress={setAddress}
           tempAddress={tempAddress}
           setTempAddress={setTempAddress}
           loading={loading}
-          setLoading={setLoading}
+          // setLoading={setLoading}
           isAddressDialogOpen={isAddressDialogOpen}
           setIsAddressDialogOpen={setIsAddressDialogOpen}
           onEditAddress={onEditAddress}
@@ -187,7 +188,9 @@ const MyAccountRoute = () => {
   const handleSigningOut = () => {
     signOut(auth)
       .then(() => navigate("/login"))
-      .catch((err) => console.log(err));
+      .catch((err) => {
+        // console.log(err)
+      });
   };
 
   const contentRef = useRef(null);
@@ -197,17 +200,17 @@ const MyAccountRoute = () => {
   }, [lever]);
 
   const mainView = useRef();
-  const [showBackToTopButton, setShowBackToTopButton] = useState(false);
-  const [wheelUpTimes, setWheelUpTimes] = useState(0);
-  const handleWheel = (e) => {
-    if (e.deltaY > 0) {
-      setShowBackToTopButton(false);
-    } else {
-      setShowBackToTopButton(true);
-      setWheelUpTimes((prevState) => prevState + 1);
-      // console.log(wheelUpTimes);
-    }
-  };
+  // const [showBackToTopButton, setShowBackToTopButton] = useState(false);
+  // const [wheelUpTimes, setWheelUpTimes] = useState(0);
+  // const handleWheel = (e) => {
+  //   if (e.deltaY > 0) {
+  //     setShowBackToTopButton(false);
+  //   } else {
+  //     setShowBackToTopButton(true);
+  //     setWheelUpTimes((prevState) => prevState + 1);
+  //     // console.log(wheelUpTimes);
+  //   }
+  // };
 
   // const fetchUserAddressUsingMapbox = (lon, lat) => {
   //   const url = `https://api.mapbox.com/geocoding/v5/mapbox.places/${lon},${lat}.json?access_token=${process.env.REACT_APP_MAPBOX_TOKEN}`;
@@ -239,7 +242,6 @@ const MyAccountRoute = () => {
   return (
     <div
       ref={mainView}
-      onWheel={handleWheel}
       className="relative flex min-h-screen flex-col justify-between"
     >
       {/* drawer */}
@@ -326,12 +328,6 @@ const MyAccountRoute = () => {
       </div>
       <Footer />
       <ScrollToTop />
-      {/* <ScrollToTopButton
-        showBackToTopButton={showBackToTopButton}
-        wheelUpTimes={wheelUpTimes}
-        setWheelUpTimes={setWheelUpTimes}
-        target={mainView}
-      /> */}
     </div>
   );
 };

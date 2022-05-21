@@ -2,7 +2,6 @@ import React, { useEffect, useState, useRef } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import ShopCard from "../components/shop/ShopCard";
 import LoadingIndicator from "../components/LoadingIndicator";
-import { shopHeader } from "../constants";
 import { CgLayoutGridSmall } from "react-icons/cg";
 import { CgLayoutList } from "react-icons/cg";
 import MenuItem from "@mui/material/MenuItem";
@@ -10,7 +9,6 @@ import Select from "@mui/material/Select";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import ShopLeftSidebar from "../components/ShopLeftSidebar";
-import ScrollToTopButton from "../components/ScrollToTopButton";
 import Sidebar from "../components/Sidebar";
 import Drawer from "@mui/material/Drawer";
 import { closeSidebar } from "../redux/app/slices/utilSlice";
@@ -18,13 +16,12 @@ import ReactPaginate from "react-paginate";
 import ArrowNarrowLeft from "../components/icons/ArrowNarrowLeft";
 import ArrowNarrowRight from "../components/icons/ArrowNarrowRight";
 import { FaEllipsisH } from "react-icons/fa";
-import { auth, db } from "../firebase";
+import { db } from "../firebase";
 import { doc, setDoc } from "firebase/firestore";
 import Carousel from "react-material-ui-carousel";
 import { caroImages } from "../constants";
 import ScrollToTop from "../components/ScrollToTop";
 import { useNavigate } from "react-router-dom";
-// import { gsap } from "gsap";
 
 const ShopRoute = () => {
   const burgers = useSelector((state) => state.food.burger);
@@ -45,15 +42,15 @@ const ShopRoute = () => {
 
   const [pageNumber, setPageNumber] = useState(0);
   const numOfItemsPerPage = 9;
-  let numOfItemsVisited = pageNumber * numOfItemsPerPage;
-  let numOfPages = Math.ceil(currentFood.data?.length / numOfItemsPerPage);
+  // let numOfItemsVisited = pageNumber * numOfItemsPerPage;
+  // let numOfPages = Math.ceil(currentFood.data?.length / numOfItemsPerPage);
 
   //////////////////////
 
   const [tempFood, setTempFood] = useState(
     currentFood.data?.slice(
-      numOfItemsVisited,
-      numOfItemsVisited + numOfItemsPerPage
+      pageNumber * numOfItemsPerPage,
+      pageNumber * numOfItemsPerPage + numOfItemsPerPage
     )
   );
 
@@ -62,8 +59,8 @@ const ShopRoute = () => {
       switchSort(
         sortType,
         currentFood.data?.slice(
-          numOfItemsVisited,
-          numOfItemsVisited + numOfItemsPerPage
+          pageNumber * numOfItemsPerPage,
+          pageNumber * numOfItemsPerPage + numOfItemsPerPage
         )
       )
     );
@@ -72,10 +69,9 @@ const ShopRoute = () => {
   const [gridLayout, setGridLayout] = useState({ grid: true, layout: false });
 
   const [sortType, setSortType] = useState("alphabetical");
-  // const [sortToggle, setSortToggle] = useState(false);
   const [search, setSearch] = useState("");
 
-  const [showBackToTopButton, setShowBackToTopButton] = useState(false);
+  // const [showBackToTopButton, setShowBackToTopButton] = useState(false);
 
   const navigate = useNavigate();
 
@@ -131,9 +127,8 @@ const ShopRoute = () => {
   useEffect(() => {
     handleChangeCategory();
     setPageNumber(0);
-    numOfItemsVisited = 0;
-    numOfPages = Math.ceil(currentFood.data?.length / numOfItemsPerPage);
-    // onPageChange();
+    // numOfItemsVisited = 0;
+    // numOfPages = Math.ceil(currentFood.data?.length / numOfItemsPerPage);
   }, [currentFood.name]);
 
   // sort by name
@@ -198,16 +193,16 @@ const ShopRoute = () => {
   const mainView = useRef();
   const sortBarRef = useRef();
 
-  const [wheelUpTimes, setWheelUpTimes] = useState(0);
-  const handleWheel = (e) => {
-    if (e.deltaY > 0) {
-      setShowBackToTopButton(false);
-    } else {
-      setShowBackToTopButton(true);
-      setWheelUpTimes((prevState) => prevState + 1);
-      // console.log(wheelUpTimes);
-    }
-  };
+  // const [wheelUpTimes, setWheelUpTimes] = useState(0);
+  // const handleWheel = (e) => {
+  //   if (e.deltaY > 0) {
+  //     setShowBackToTopButton(false);
+  //   } else {
+  //     setShowBackToTopButton(true);
+  //     setWheelUpTimes((prevState) => prevState + 1);
+  //     // console.log(wheelUpTimes);
+  //   }
+  // };
 
   // Save user credentials in firestore
   const saveInFirestore = async () => {
@@ -244,7 +239,6 @@ const ShopRoute = () => {
   return (
     <div
       ref={mainView}
-      onWheel={handleWheel}
       className="relative flex min-h-screen flex-col justify-between"
     >
       {/* drawer */}
@@ -371,7 +365,9 @@ const ShopRoute = () => {
                   nextClassName="px-4 text-gray-600"
                   pageRangeDisplayed={1}
                   marginPagesDisplayed={1}
-                  pageCount={numOfPages}
+                  pageCount={Math.ceil(
+                    currentFood.data?.length / numOfItemsPerPage
+                  )}
                   onPageChange={onPageChange}
                   containerClassName="bg-white py-5 flex items-center"
                   pageClassName="mx-1"

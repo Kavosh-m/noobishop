@@ -48,7 +48,7 @@ const RegisterRoute = () => {
         setCountry3LetterName(data.country_code_iso3);
       })
       .catch((error) => {
-        console.log("Country code error =====> ", error);
+        // console.log("Country code error =====> ", error);
       });
   };
 
@@ -93,12 +93,12 @@ const RegisterRoute = () => {
       signInWithPhoneNumber(auth, countryCode + phone.content, verify)
         .then((result) => {
           setFinal(result);
-          console.log("code sent successfully");
+          // console.log("code sent successfully");
           setShow(true);
           setLoading(false);
         })
         .catch((err) => {
-          console.log(err);
+          // console.log(err);
           setLoading(false);
           // window.location.reload();
         });
@@ -141,7 +141,7 @@ const RegisterRoute = () => {
         navigate("/");
       })
       .catch((err) => {
-        console.log("Wrong code, error ===>", err);
+        // console.log("Wrong code, error ===>", err);
         if (err.code === "auth/invalid-verification-code") {
           setError({ ...error, state: true, message: "Invalid code" });
         }
@@ -163,10 +163,7 @@ const RegisterRoute = () => {
       <img
         className="absolute -z-10 h-full w-full object-fill opacity-30"
         src={registerBg}
-        // autoPlay
-        // muted
-        // loop
-        // controls={false}
+        alt=""
       />
       <div className="w-full max-w-6xl bg-indigo-300/0">
         {!show ? (

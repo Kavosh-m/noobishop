@@ -1,14 +1,6 @@
 import React, { forwardRef, useEffect, useState } from "react";
 import { auth, db } from "../firebase";
-import {
-  collection,
-  query,
-  where,
-  getDocs,
-  doc,
-  getDoc,
-  setDoc,
-} from "firebase/firestore";
+import { collection, query, where, getDocs } from "firebase/firestore";
 import {
   RecaptchaVerifier,
   signInWithPhoneNumber,
@@ -22,7 +14,6 @@ import { FcGoogle } from "react-icons/fc";
 import { Snackbar } from "@mui/material";
 import MuiAlert from "@mui/material/Alert";
 import axios from "axios";
-import Navbar from "../components/Navbar";
 
 const usersRef = collection(db, "users");
 
@@ -62,7 +53,7 @@ export default function LoginRoute() {
         setCountry3LetterName(data.country_code_iso3);
       })
       .catch((error) => {
-        console.log("Country code error =====> ", error);
+        // console.log("Country code error =====> ", error);
       });
   };
 
@@ -78,7 +69,7 @@ export default function LoginRoute() {
       .then(async (result) => {
         // This gives you a Google Access Token. You can use it to access the Google API.
         // The signed-in user info.
-        const user = result.user;
+        // const user = result.user;
         setLoading(false);
         navigate("/");
 
@@ -102,11 +93,11 @@ export default function LoginRoute() {
       })
       .catch((error) => {
         // Handle Errors here.
-        const errorCode = error.code;
-        const errorMessage = error.message;
-        console.log(
-          `**********\nGoogle Sign-in Error:\nError code: ${errorCode}\nError message: ${errorMessage}\n***********`
-        );
+        // const errorCode = error.code;
+        // const errorMessage = error.message;
+        // console.log(
+        //   `**********\nGoogle Sign-in Error:\nError code: ${errorCode}\nError message: ${errorMessage}\n***********`
+        // );
         setLoading(false);
       });
   };
@@ -140,7 +131,7 @@ export default function LoginRoute() {
           setOpenToast(true);
         })
         .catch((err) => {
-          console.log(err);
+          // console.log(err);
           setLoading(false);
           // window.location.reload();
         });
@@ -174,7 +165,7 @@ export default function LoginRoute() {
         navigate("/");
       })
       .catch((err) => {
-        console.log("Wrong code, error ===>", err);
+        // console.log("Wrong code, error ===>", err);
         if (err.code === "auth/invalid-verification-code") {
           setError({ ...error, state: true, message: "Invalid code" });
         }
@@ -188,7 +179,6 @@ export default function LoginRoute() {
 
   return (
     <div className="font-poppins relative flex min-h-screen w-screen items-center justify-center">
-      {/* <Navbar /> */}
       {networkError && (
         <p className="fixed top-0 right-0 left-0 bg-red-400 py-3 text-center text-sm text-white">
           network request failed. check your connection!
@@ -197,10 +187,7 @@ export default function LoginRoute() {
       <img
         className="absolute -z-10 h-full w-full object-fill opacity-30"
         src={loginBg}
-        // autoPlay
-        // muted
-        // loop
-        // controls={false}
+        alt=""
       />
       <div className="w-full max-w-6xl bg-indigo-300/0">
         {!show ? (

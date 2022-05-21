@@ -5,20 +5,17 @@ import { saveOrders } from "../redux/app/slices/cartSlice";
 import { saveToWishlist } from "../redux/app/slices/wishSlice";
 import shopHeader from "../assets/images/banner1.jpg";
 import Rating from "@mui/material/Rating";
-// import NotFoundRoute from "./NotFoundRoute";
 import Navbar from "../components/Navbar";
 import Sidebar from "../components/Sidebar";
 import Drawer from "@mui/material/Drawer";
 import { closeSidebar } from "../redux/app/slices/utilSlice";
 import Footer from "../components/Footer";
-// import ScrollToTopButton from "../components/ScrollToTopButton";
 import CustomAlert from "../components/CustomAlert";
 import { FaFacebookSquare } from "react-icons/fa";
 import { FaTwitterSquare } from "react-icons/fa";
 import { FaLinkedin } from "react-icons/fa";
 import { FaPinterestSquare } from "react-icons/fa";
 import creditCards from "../assets/images/img-payment.png";
-import caroImages from "../assets/carousel.json";
 import { Tab } from "@headlessui/react";
 import ShippingPolicy from "../components/ShippingPolicy";
 import ReviewsDetails from "../components/ReviewsDetails";
@@ -71,7 +68,6 @@ const ProductDetailsRoute = () => {
 
   const [data, setData] = useState(null);
 
-  // const [allCaro, setAllCaro] = useState(location.state.gallery);
   const [currentCaro, setCurrentCaro] = useState(location.state.gallery[0]);
 
   const selectedTabClass =
@@ -111,23 +107,22 @@ const ProductDetailsRoute = () => {
 
   useEffect(() => {
     setData(location.state);
-    // setAllCaro(location.state.gallery);
     setCurrentCaro(location.state.gallery[0]);
-    console.log(location.state);
+    // console.log(location.state);
   }, [location.state]);
 
   const mainView = useRef();
-  const [showBackToTopButton, setShowBackToTopButton] = useState(false);
-  const [wheelUpTimes, setWheelUpTimes] = useState(0);
-  const handleWheel = (e) => {
-    if (e.deltaY > 0) {
-      setShowBackToTopButton(false);
-    } else {
-      setShowBackToTopButton(true);
-      setWheelUpTimes((prevState) => prevState + 1);
-      // console.log(wheelUpTimes);
-    }
-  };
+  // const [showBackToTopButton, setShowBackToTopButton] = useState(false);
+  // const [wheelUpTimes, setWheelUpTimes] = useState(0);
+  // const handleWheel = (e) => {
+  //   if (e.deltaY > 0) {
+  //     setShowBackToTopButton(false);
+  //   } else {
+  //     setShowBackToTopButton(true);
+  //     setWheelUpTimes((prevState) => prevState + 1);
+  //     // console.log(wheelUpTimes);
+  //   }
+  // };
 
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -173,12 +168,12 @@ const ProductDetailsRoute = () => {
         setCommentSubmitionSuccessful(Math.random().toString(36));
       } else {
         setComment("");
-        console.log("No user found!");
+        // console.log("No user found!");
         setCommentLoading(false);
       }
     } else {
       setCommentLoading(true);
-      console.log("User is not registered");
+      // console.log("User is not registered");
 
       // Add comment from user that not registered
       await addDoc(
@@ -333,7 +328,6 @@ const ProductDetailsRoute = () => {
   return (
     <div
       ref={mainView}
-      onWheel={handleWheel}
       className="relative flex min-h-screen flex-col justify-between"
     >
       {/* drawer */}

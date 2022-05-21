@@ -11,7 +11,6 @@ import Counter from "../components/Counter";
 import Sidebar from "../components/Sidebar";
 import Drawer from "@mui/material/Drawer";
 import { closeSidebar } from "../redux/app/slices/utilSlice";
-import ScrollToTopButton from "../components/ScrollToTopButton";
 import emptyCart from "../assets/images/empty-cart.png";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
 import ScrollToTop from "../components/ScrollToTop";
@@ -78,8 +77,8 @@ const CartRoute = () => {
         })
         .then((response) => {
           // console.log("Zarinpal response ===> ", response.data.data);
-          const { authority, code } = response.data.data.data;
-          console.log("zarin code ===> ", code);
+          const { authority } = response.data.data.data;
+          // console.log("zarin code ===> ", code);
           const url = `https://www.zarinpal.com/pg/StartPay/Authority=${authority}`;
           // console.log("URL => ", url);
           setZarinPalLoading(false);
@@ -90,7 +89,7 @@ const CartRoute = () => {
           tab.document.write("<p>Something went wrong. try again!</p>");
           setTimeout(() => {
             tab.close();
-            console.log("zarinpal. error happened ===> ", error);
+            // console.log("zarinpal. error happened ===> ", error);
             setZarinPalLoading(false);
           }, 4000);
         });
@@ -98,22 +97,21 @@ const CartRoute = () => {
   };
 
   const mainView = useRef();
-  const [showBackToTopButton, setShowBackToTopButton] = useState(false);
-  const [wheelUpTimes, setWheelUpTimes] = useState(0);
-  const handleWheel = (e) => {
-    if (e.deltaY > 0) {
-      setShowBackToTopButton(false);
-    } else {
-      setShowBackToTopButton(true);
-      setWheelUpTimes((prevState) => prevState + 1);
-      // console.log(wheelUpTimes);
-    }
-  };
+  // const [showBackToTopButton, setShowBackToTopButton] = useState(false);
+  // const [wheelUpTimes, setWheelUpTimes] = useState(0);
+  // const handleWheel = (e) => {
+  //   if (e.deltaY > 0) {
+  //     setShowBackToTopButton(false);
+  //   } else {
+  //     setShowBackToTopButton(true);
+  //     setWheelUpTimes((prevState) => prevState + 1);
+  //   }
+  // };
 
   return (
     <div
       ref={mainView}
-      onWheel={handleWheel}
+      // onWheel={handleWheel}
       className="relative flex min-h-screen flex-col justify-between"
     >
       {/* drawer */}
@@ -158,6 +156,7 @@ const CartRoute = () => {
                         <img
                           className="h-full w-full object-fill"
                           src={order.picurl}
+                          alt=""
                         />
                       </td>
                       <td className="h-36 min-w-[144px] border border-gray-400 px-5 text-center">
@@ -241,12 +240,6 @@ const CartRoute = () => {
       </div>
       <Footer />
       <ScrollToTop />
-      {/* <ScrollToTopButton
-        showBackToTopButton={showBackToTopButton}
-        wheelUpTimes={wheelUpTimes}
-        setWheelUpTimes={setWheelUpTimes}
-        target={mainView}
-      /> */}
     </div>
   );
 };
