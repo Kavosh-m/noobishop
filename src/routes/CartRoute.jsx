@@ -69,6 +69,7 @@ const CartRoute = () => {
 
       // open an empty window
       const tab = window.open("about:blank");
+      tab.document.write("<p>Wait for ZARINPAL payment gate...</p>");
 
       axios
         .post("https://noobiserver.herokuapp.com/", {
@@ -86,9 +87,12 @@ const CartRoute = () => {
           tab.focus();
         })
         .catch((error) => {
-          tab.close();
-          console.log("zarinpal. error happened ===> ", error);
-          setZarinPalLoading(false);
+          tab.document.write("<p>Something went wrong. try again!</p>");
+          setTimeout(() => {
+            tab.close();
+            console.log("zarinpal. error happened ===> ", error);
+            setZarinPalLoading(false);
+          }, 4000);
         });
     }
   };

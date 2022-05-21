@@ -216,6 +216,7 @@ const SearchRoute = () => {
                 activeClassName=""
                 disabledLinkClassName="text-gray-300 cursor-not-allowed"
                 pageLinkClassName="w-8 border border-slate-300 aspect-square grid place-items-center bg-white rounded-full hover:text-white hover:bg-cyan-600 transition-colors duration-300 ease-in-out"
+                forcePage={pageNumber}
               />
             </div>
           </div>

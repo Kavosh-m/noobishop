@@ -1,7 +1,7 @@
 import React from "react";
 import SearchIcon from "./icons/SearchIcon";
 import Rating from "@mui/material/Rating";
-import { Link} from "react-router-dom";
+import { Link } from "react-router-dom";
 
 const ShopLeftSidebar = ({
   search,
@@ -11,8 +11,6 @@ const ShopLeftSidebar = ({
   setCurrentFood,
   recentProducts,
 }) => {
-  
-
   return (
     <div className="font-oswald flex w-full basis-1/4 flex-col px-6 sm:mt-16 sm:px-20 lg:mx-0 lg:mt-0 lg:w-fit lg:px-4">
       <div className="w-2/3 border-b border-black pb-[2px]">
@@ -20,6 +18,7 @@ const ShopLeftSidebar = ({
       </div>
       <div className="mt-8 flex w-4/5 items-center justify-start">
         <input
+          id="searchinput"
           className="basis-11/12 rounded-tl-md rounded-bl-md border border-gray-400 p-[0.83rem] text-sm outline-none focus:border-red-400 lg:basis-5/6"
           type="text"
           placeholder="Search..."

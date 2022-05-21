@@ -23,6 +23,7 @@ import { doc, setDoc } from "firebase/firestore";
 import Carousel from "react-material-ui-carousel";
 import { caroImages } from "../constants";
 import ScrollToTop from "../components/ScrollToTop";
+import { useNavigate } from "react-router-dom";
 // import { gsap } from "gsap";
 
 const ShopRoute = () => {
@@ -76,18 +77,27 @@ const ShopRoute = () => {
 
   const [showBackToTopButton, setShowBackToTopButton] = useState(false);
 
-  const handleSearch = () => {
-    if (search.length > 0) {
-      let allFoods = burgers.concat(pizzas, pastas, drinks);
+  const navigate = useNavigate();
 
-      let res = allFoods.filter((item) =>
-        item.name.toLowerCase().includes(search.toLowerCase())
-      );
-
-      setCurrentFood({ ...currentFood, data: res });
+  const handleSearch = (e) => {
+    e.preventDefault();
+    if (search !== "") {
+      navigate(`/search/${search}`);
     } else {
-      setCurrentFood({ ...currentFood, data: burgers, name: "burger" });
+      document.getElementById("searchinput").focus();
     }
+
+    // if (search.length > 0) {
+    //   let allFoods = burgers.concat(pizzas, pastas, drinks);
+
+    //   let res = allFoods.filter((item) =>
+    //     item.name.toLowerCase().includes(search.toLowerCase())
+    //   );
+
+    //   setCurrentFood({ ...currentFood, data: res });
+    // } else {
+    //   setCurrentFood({ ...currentFood, data: burgers, name: "burger" });
+    // }
   };
 
   const handleChangeFilter = (event) => {
@@ -372,10 +382,8 @@ const ShopRoute = () => {
                   activeClassName=""
                   disabledLinkClassName="text-gray-300 cursor-not-allowed"
                   pageLinkClassName="w-8 border border-slate-300 aspect-square grid place-items-center bg-white rounded-full hover:text-white hover:bg-cyan-600 transition-colors duration-300 ease-in-out"
+                  forcePage={pageNumber}
                 />
-                {/* <p className="pr-4">{`Showing ${numOfItemsVisited + 1} - ${
-                numOfItemsVisited + numOfItemsPerPage
-              } of ${currentFood.data?.length} result`}</p> */}
               </div>
             </div>
           </div>
