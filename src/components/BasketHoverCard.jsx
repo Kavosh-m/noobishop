@@ -1,7 +1,8 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import emptyCart from "../assets/images/empty-cart.png";
 import SubmenuBasketProdectCard from "./SubmenuBasketProdectCard";
+import LottieWrapper from "./LottieWrapper";
+import lottieEmptyCart from "../assets/lottie/89832-empty-list.json";
 
 const BasketHoverCard = ({ orders, setShow }) => {
   const total = () => {
@@ -24,10 +25,9 @@ const BasketHoverCard = ({ orders, setShow }) => {
 
       {orders.length < 1 ? (
         <>
-          <img
-            src={emptyCart}
-            alt=""
-            className="aspect-auto w-2/3 self-center object-cover"
+          <LottieWrapper
+            jsonData={lottieEmptyCart}
+            className="w-2/3 self-center"
           />
           <p className="font-poppins my-5 self-center text-center text-xl font-bold text-slate-300">
             Cart is empty !

@@ -11,10 +11,11 @@ import Counter from "../components/Counter";
 import Sidebar from "../components/Sidebar";
 import Drawer from "@mui/material/Drawer";
 import { closeSidebar } from "../redux/app/slices/utilSlice";
-import emptyCart from "../assets/images/empty-cart.png";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
 import ScrollToTop from "../components/ScrollToTop";
 import { auth } from "../firebase";
+import LottieWrapper from "../components/LottieWrapper";
+import lottieEmptyList from "../assets/lottie/89832-empty-list.json";
 
 const CartRoute = () => {
   const orders = useSelector((state) => state.cart.ordered);
@@ -37,7 +38,7 @@ const CartRoute = () => {
 
   useEffect(() => {
     dispatch(closeSidebar());
-  }, []);
+  }, [dispatch]);
 
   const handleIncrement = (id) => {
     dispatch(changeNumberOfItem({ id: id, operation: "addition" }));
@@ -207,11 +208,7 @@ const CartRoute = () => {
             </div>
           ) : (
             <div className="relative my-20 flex flex-col items-center bg-cyan-400/0">
-              <img
-                src={emptyCart}
-                alt=""
-                className="aspect-auto w-1/3 object-cover"
-              />
+              <LottieWrapper jsonData={lottieEmptyList} className="w-1/3" />
               <p className="font-poppins mt-5 text-2xl font-semibold text-slate-400">
                 Your cart is empty !
               </p>

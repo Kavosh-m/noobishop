@@ -3,7 +3,6 @@ import { useNavigate, useParams } from "react-router-dom";
 import { collectionGroup, getDocs, orderBy, query } from "firebase/firestore";
 import MenuItem from "@mui/material/MenuItem";
 import Backdrop from "@mui/material/Backdrop";
-import CircularProgress from "@mui/material/CircularProgress";
 import Select from "@mui/material/Select";
 import ShopCard from "../components/shop/ShopCard";
 import { db } from "../firebase";
@@ -11,8 +10,10 @@ import ArrowNarrowLeft from "../components/icons/ArrowNarrowLeft";
 import ArrowNarrowRight from "../components/icons/ArrowNarrowRight";
 import { FaEllipsisH } from "react-icons/fa";
 import ReactPaginate from "react-paginate";
-import { ImSad2 } from "react-icons/im";
 import ScrollToTop from "../components/ScrollToTop";
+import LottieWrapper from "../components/LottieWrapper";
+import lottieNotFound from "../assets/lottie/68758-search.json";
+import lottieSearchLoading from "../assets/lottie/46559-search.json";
 
 const SearchRoute = () => {
   let params = useParams();
@@ -20,7 +21,7 @@ const SearchRoute = () => {
   const navigate = useNavigate();
 
   const [search, setSearch] = useState(params.q);
-  const [result, setResult] = useState([]);
+  const [result, setResult] = useState(null);
   const [sortType, setSortType] = useState("alpha");
   const [isLoaded, setIsLoaded] = useState(true);
   const [pageNumber, setPageNumber] = useState(0);
@@ -175,12 +176,11 @@ const SearchRoute = () => {
         {search.length !== 0 && (
           <div className="font-poppins bg-white text-xl font-semibold">{`Results for "${search}"`}</div>
         )}
-        {result.length === 0 ? (
+        {result?.length === 0 ? (
           <div className="space-y-3 pt-14">
-            <ImSad2
-              className="mx-auto"
-              size="4rem"
-              style={{ color: "black" }}
+            <LottieWrapper
+              className="mx-auto w-1/2"
+              jsonData={lottieNotFound}
             />
             <p className="font-poppins text-center text-xl font-bold text-slate-400">
               Nothing found!
@@ -189,35 +189,37 @@ const SearchRoute = () => {
         ) : (
           <div className="grid grid-cols-1 gap-6 bg-white sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
             {result
-              .slice(
+              ?.slice(
                 pageNumber * numOfItemsPerPage,
                 pageNumber * numOfItemsPerPage + numOfItemsPerPage
               )
               .map((food) => (
                 <ShopCard key={food.id} data={food} showType="grid" />
               ))}
-            <div className="col-span-full">
-              <ReactPaginate
-                previousLabel={<ArrowNarrowLeft />}
-                previousClassName="px-4 text-gray-600"
-                nextLabel={<ArrowNarrowRight />}
-                nextClassName="px-4 text-gray-600"
-                pageRangeDisplayed={1}
-                marginPagesDisplayed={1}
-                pageCount={Math.ceil(result.length / numOfItemsPerPage)}
-                onPageChange={onPageChange}
-                containerClassName="bg-white py-5 flex items-center"
-                pageClassName="mx-1"
-                breakClassName="mx-1"
-                breakLabel={<FaEllipsisH />}
-                activeLinkClassName="text-slate-50 bg-cyan-600 border-0 cursor-default"
-                disabledClassName="text-gray-300"
-                activeClassName=""
-                disabledLinkClassName="text-gray-300 cursor-not-allowed"
-                pageLinkClassName="w-8 border border-slate-300 aspect-square grid place-items-center bg-white rounded-full hover:text-white hover:bg-cyan-600 transition-colors duration-300 ease-in-out"
-                forcePage={pageNumber}
-              />
-            </div>
+            {result && (
+              <div className="col-span-full">
+                <ReactPaginate
+                  previousLabel={<ArrowNarrowLeft />}
+                  previousClassName="px-4 text-gray-600"
+                  nextLabel={<ArrowNarrowRight />}
+                  nextClassName="px-4 text-gray-600"
+                  pageRangeDisplayed={1}
+                  marginPagesDisplayed={1}
+                  pageCount={Math.ceil(result?.length / numOfItemsPerPage)}
+                  onPageChange={onPageChange}
+                  containerClassName="bg-white py-5 flex items-center"
+                  pageClassName="mx-1"
+                  breakClassName="mx-1"
+                  breakLabel={<FaEllipsisH />}
+                  activeLinkClassName="text-slate-50 bg-cyan-600 border-0 cursor-default"
+                  disabledClassName="text-gray-300"
+                  activeClassName=""
+                  disabledLinkClassName="text-gray-300 cursor-not-allowed"
+                  pageLinkClassName="w-8 border border-slate-300 aspect-square grid place-items-center bg-white rounded-full hover:text-white hover:bg-cyan-600 transition-colors duration-300 ease-in-out"
+                  forcePage={pageNumber}
+                />
+              </div>
+            )}
           </div>
         )}
       </div>
@@ -226,7 +228,7 @@ const SearchRoute = () => {
         open={!isLoaded}
         onClick={() => setIsLoaded(true)}
       >
-        <CircularProgress color="inherit" />
+        <LottieWrapper className="w-1/3" jsonData={lottieSearchLoading} />
       </Backdrop>
       <ScrollToTop />
     </div>

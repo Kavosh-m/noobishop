@@ -10,8 +10,9 @@ import { closeSidebar } from "../redux/app/slices/utilSlice";
 import Footer from "../components/Footer";
 import Navbar from "../components/Navbar";
 import CustomAlert from "../components/CustomAlert";
-import { ImSad2 } from "react-icons/im";
 import ScrollToTop from "../components/ScrollToTop";
+import LottieWrapper from "../components/LottieWrapper";
+import lottieEmptyList from "../assets/lottie/10468-heart-slider.json";
 
 const WishRoute = () => {
   const favorites = useSelector((state) => state.wish.wishlist);
@@ -124,7 +125,7 @@ const WishRoute = () => {
           </div>
         ) : (
           <div className="my-20 flex max-w-6xl flex-col items-center">
-            <ImSad2 size="5rem" className="text-slate-500" />
+            <LottieWrapper jsonData={lottieEmptyList} className="w-1/2" />
             <p className="font-poppins mt-10 text-center text-2xl font-semibold text-slate-400">
               Your wishlist is empty !
             </p>

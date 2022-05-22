@@ -1,6 +1,7 @@
 import React from "react";
-import emptyCartGif from "../assets/images/empty-cart-gif.gif";
 import { Link } from "react-router-dom";
+import LottieWrapper from "./LottieWrapper";
+import lottieEmptyList from "../assets/lottie/89832-empty-list.json";
 
 const OrdersDetails = ({ orders }) => {
   const totalPrice = () => {
@@ -24,11 +25,7 @@ const OrdersDetails = ({ orders }) => {
     <div className="">
       {orders.length < 1 ? (
         <>
-          <img
-            src={emptyCartGif}
-            alt=""
-            className="mx-auto aspect-auto w-1/2"
-          />
+          <LottieWrapper jsonData={lottieEmptyList} className="mx-auto w-2/5" />
           <p className="font-poppins mx-auto w-4/5 text-center text-lg font-semibold text-slate-400">
             No order!
           </p>

@@ -14,7 +14,8 @@ import { saveToWishlist } from "../../redux/app/slices/wishSlice";
 import BasketIconSolid from "../icons/BasketIconSolid";
 import QuickViewItem from "../QuickViewItem";
 import TrashIcon from "../icons/TrashIcon";
-import checkedGif from "../../assets/images/checked2-transparent.gif";
+import LottieWrapper from "../LottieWrapper";
+import lottieAddedToCart from "../../assets/lottie/91001-success.json";
 
 const ShopCard = ({ data, showType }) => {
   const wishlistIDs = useSelector((state) => state.wish.wishlistItemsID);
@@ -72,7 +73,7 @@ const ShopCard = ({ data, showType }) => {
 
       setTimeout(() => {
         setShowCheckedGif(false);
-      }, 1700);
+      }, 2200);
     }
   };
 
@@ -126,7 +127,10 @@ const ShopCard = ({ data, showType }) => {
                   {itemCount(data.id)}
                 </p>
                 {showCheckedGif && (
-                  <img src={checkedGif} alt="" className={`absolute inset-0`} />
+                  <LottieWrapper
+                    jsonData={lottieAddedToCart}
+                    className="absolute inset-0"
+                  />
                 )}
                 <TrashIcon
                   onClick={() => dispatch(removeItem({ id: data.id }))}
@@ -264,7 +268,10 @@ const ShopCard = ({ data, showType }) => {
                 {itemCount(data.id)}
               </p>
               {showCheckedGif && (
-                <img src={checkedGif} alt="" className={`absolute inset-0`} />
+                <LottieWrapper
+                  jsonData={lottieAddedToCart}
+                  className="absolute inset-0"
+                />
               )}
               <TrashIcon
                 onClick={() => dispatch(removeItem({ id: data.id }))}

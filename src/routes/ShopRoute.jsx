@@ -39,11 +39,8 @@ const ShopRoute = () => {
   });
 
   // Pagination initials
-
   const [pageNumber, setPageNumber] = useState(0);
   const numOfItemsPerPage = 9;
-  // let numOfItemsVisited = pageNumber * numOfItemsPerPage;
-  // let numOfPages = Math.ceil(currentFood.data?.length / numOfItemsPerPage);
 
   //////////////////////
 
