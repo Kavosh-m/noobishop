@@ -13,7 +13,7 @@ import ReactPaginate from "react-paginate";
 import ScrollToTop from "../components/ScrollToTop";
 import LottieWrapper from "../components/LottieWrapper";
 import lottieNotFound from "../assets/lottie/68758-search.json";
-import lottieSearchLoading from "../assets/lottie/46559-search.json";
+import lottieSearchLoading from "../assets/lottie/10358-searching.json";
 
 const SearchRoute = () => {
   let params = useParams();

@@ -12,7 +12,7 @@ import Navbar from "../components/Navbar";
 import CustomAlert from "../components/CustomAlert";
 import ScrollToTop from "../components/ScrollToTop";
 import LottieWrapper from "../components/LottieWrapper";
-import lottieEmptyList from "../assets/lottie/10468-heart-slider.json";
+import lottieEmptyList from "../assets/lottie/92302-spring-joy.json";
 
 const WishRoute = () => {
   const favorites = useSelector((state) => state.wish.wishlist);
