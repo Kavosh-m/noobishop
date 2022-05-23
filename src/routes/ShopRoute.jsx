@@ -185,7 +185,7 @@ const ShopRoute = () => {
 
   useEffect(() => {
     dispatch(closeSidebar());
-  }, []);
+  }, [dispatch]);
 
   const mainView = useRef();
   const sortBarRef = useRef();
@@ -221,7 +221,7 @@ const ShopRoute = () => {
 
   useEffect(() => {
     saveInFirestore();
-    // console.log("user object ====> ", auth.currentUser);
+    // console.log("user object ====> ", auth.currentUser)
   }, []);
 
   if (!currentFood.data) {

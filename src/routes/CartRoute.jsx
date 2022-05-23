@@ -105,7 +105,7 @@ const CartRoute = () => {
   //     setShowBackToTopButton(false);
   //   } else {
   //     setShowBackToTopButton(true);
-  //     setWheelUpTimes((prevState) => prevState + 1);
+  //     setWheelUpTimes((prevState) => prevState + 1)
   //   }
   // };
 

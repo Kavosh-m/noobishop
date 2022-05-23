@@ -22,7 +22,7 @@ const WishRoute = () => {
 
   useEffect(() => {
     dispatch(closeSidebar());
-  }, []);
+  }, [dispatch]);
 
   const mainView = useRef();
   // const [showBackToTopButton, setShowBackToTopButton] = useState(false);
@@ -31,7 +31,7 @@ const WishRoute = () => {
 
   // const handleWheel = (e) => {
   //   if (e.deltaY > 0) {
-  //     setShowBackToTopButton(false);
+  //     setShowBackToTopButton(false)
   //   } else {
   //     setShowBackToTopButton(true);
   //     setWheelUpTimes((prevState) => prevState + 1);

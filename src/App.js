@@ -40,13 +40,13 @@ export default function App() {
     dispatch(fetchPizzas());
     dispatch(fetchPastas());
     dispatch(fetchDrinks());
-  }, []);
+  }, [dispatch]);
 
   useEffect(() => {
     onAuthStateChanged(auth, async (user) => {
       if (user) {
         let providerid = user.providerData[0].providerId;
-        // console.log(user.providerData[0].providerId);
+        // console.log(user.providerData[0].providerId)
         //check if user exist in database
         const docRef = doc(db, "users", user.uid);
         const docSnap = await getDoc(docRef);
@@ -68,7 +68,7 @@ export default function App() {
         setIsLoggedIn(false);
       }
     });
-  }, [auth.currentUser]);
+  }, []);
 
   if (isLoggedIn === null || !burgers || !pizzas || !pastas || !drinks) {
     return (

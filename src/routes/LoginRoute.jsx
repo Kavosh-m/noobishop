@@ -161,7 +161,7 @@ export default function LoginRoute() {
       .confirm(otp)
       .then((result) => {
         setConfirmLoading(false);
-        // console.log("user loged-in succesfully ===> ", result);
+        // console.log("user loged-in succesfully ===> ", result)
         navigate("/");
       })
       .catch((err) => {

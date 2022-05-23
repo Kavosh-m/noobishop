@@ -141,7 +141,7 @@ const RegisterRoute = () => {
         navigate("/");
       })
       .catch((err) => {
-        // console.log("Wrong code, error ===>", err);
+        // console.log("Wrong code, error ===>", err)
         if (err.code === "auth/invalid-verification-code") {
           setError({ ...error, state: true, message: "Invalid code" });
         }

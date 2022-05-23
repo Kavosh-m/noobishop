@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useCallback } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { collectionGroup, getDocs, orderBy, query } from "firebase/firestore";
 import MenuItem from "@mui/material/MenuItem";
@@ -26,20 +26,20 @@ const SearchRoute = () => {
   const [isLoaded, setIsLoaded] = useState(true);
   const [pageNumber, setPageNumber] = useState(0);
   const numOfItemsPerPage = 9;
-  // let numOfItemsVisited = pageNumber * numOfItemsPerPage;
+  // let numOfItemsVisited = pageNumber * numOfItemsPerPage
   // let numOfPages = Math.ceil(result.length / numOfItemsPerPage);
 
   const sortBarRef = useRef();
 
-  useEffect(() => {
-    if (search.length > 0) {
-      setPageNumber(0);
-      sortByName();
-    }
-  }, [search]);
+  // useEffect(() => {
+  //   if (search.length > 0) {
+  //     setPageNumber(0);
+  //     sortByName();
+  //   }
+  // }, [search, sortByName]);
 
   //Functions
-  const sortByName = async () => {
+  const sortByName = useCallback(async () => {
     setIsLoaded(false);
     let temp = [];
     const foods = query(collectionGroup(db, "items"), orderBy("name"));
@@ -53,9 +53,9 @@ const SearchRoute = () => {
     // console.log(temp);
     setResult(temp);
     setIsLoaded(true);
-  };
+  }, [search]);
 
-  const sortByPriceAsc = async () => {
+  const sortByPriceAsc = useCallback(async () => {
     setIsLoaded(false);
     let temp = [];
     const foods = query(collectionGroup(db, "items"), orderBy("price"));
@@ -69,9 +69,9 @@ const SearchRoute = () => {
     // console.log(temp);
     setResult(temp);
     setIsLoaded(true);
-  };
+  }, [search]);
 
-  const sortByPriceDesc = async () => {
+  const sortByPriceDesc = useCallback(async () => {
     setIsLoaded(false);
     let temp = [];
     const foods = query(collectionGroup(db, "items"), orderBy("price", "desc"));
@@ -85,7 +85,25 @@ const SearchRoute = () => {
     // console.log(temp);
     setResult(temp);
     setIsLoaded(true);
-  };
+  }, [search]);
+
+  const sortBasedOnSortValue = useCallback(() => {
+    if (sortType === "alpha") {
+      sortByName();
+    } else if (sortType === "priceDesc") {
+      sortByPriceDesc();
+    } else {
+      sortByPriceAsc();
+    }
+  }, [sortType, sortByName, sortByPriceDesc, sortByPriceAsc]);
+
+  useEffect(() => {
+    if (search.length > 0) {
+      setPageNumber(0);
+      // sortByName();
+      sortBasedOnSortValue();
+    }
+  }, [search, sortBasedOnSortValue]);
 
   const handleChangeFilter = (e) => {
     let t = e.target.value;

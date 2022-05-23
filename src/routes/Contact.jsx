@@ -92,7 +92,7 @@ const Contact = () => {
 
   useEffect(() => {
     dispatch(closeSidebar());
-  }, []);
+  }, [dispatch]);
 
   useEffect(() => {
     if (map.current) return; // initialize map only once
@@ -138,7 +138,7 @@ const Contact = () => {
   //     setShowBackToTopButton(false);
   //   } else {
   //     setShowBackToTopButton(true);
-  //     setWheelUpTimes((prevState) => prevState + 1);
+  //     setWheelUpTimes((prevState) => prevState + 1)
   //     // console.log(wheelUpTimes);
   //   }
   // };

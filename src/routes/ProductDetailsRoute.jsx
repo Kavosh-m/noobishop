@@ -1,4 +1,10 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, {
+  useCallback,
+  useEffect,
+  useLayoutEffect,
+  useRef,
+  useState,
+} from "react";
 import { useLocation } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { saveOrders } from "../redux/app/slices/cartSlice";
@@ -41,7 +47,7 @@ import { Navigation } from "swiper";
 import "swiper/css";
 import "swiper/css/navigation";
 
-// SwiperCore.use([Navigation]);
+// SwiperCore.use([Navigation])
 
 const ProductDetailsRoute = () => {
   const location = useLocation();
@@ -101,9 +107,15 @@ const ProductDetailsRoute = () => {
     }
   };
 
+  useLayoutEffect(() => {
+    window.scrollTo({
+      top: 0,
+    });
+  }, [location.state]);
+
   useEffect(() => {
     dispatch(closeSidebar());
-  }, []);
+  }, [dispatch]);
 
   useEffect(() => {
     setData(location.state);
@@ -202,7 +214,7 @@ const ProductDetailsRoute = () => {
     }
   };
 
-  const fetchAllComments = async () => {
+  const fetchAllComments = useCallback(async () => {
     const q = query(
       collection(
         db,
@@ -223,12 +235,11 @@ const ProductDetailsRoute = () => {
       });
       setAllComments(posts);
     }
-  };
+  }, [location.state.category, location.state.id]);
 
   useEffect(() => {
     fetchAllComments();
-    // console.log(allComments);
-  }, [commentSubmitionSuccessful, location.state]);
+  }, [commentSubmitionSuccessful, location.state, fetchAllComments]);
 
   const tabularData = [
     {

@@ -44,7 +44,7 @@ const MyAccountRoute = () => {
   };
 
   useEffect(() => {
-    // step 1 : get address from firestore
+    // step 1 : get address from firestore;
     getDoc(doc(db, "users", auth.currentUser?.uid))
       .then((res) => {
         if (res.data().address) {
@@ -170,7 +170,7 @@ const MyAccountRoute = () => {
 
   useEffect(() => {
     dispatch(closeSidebar());
-  }, []);
+  }, [dispatch]);
 
   const activeClass =
     "group flex w-full items-center pr-2 space-x-2 border border-red-400 bg-red-400 text-white py-3 pl-3 transition-colors duration-300 ease-in-out hover:border-red-400 hover:bg-red-400 hover:text-white";
