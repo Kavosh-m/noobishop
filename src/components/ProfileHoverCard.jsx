@@ -26,6 +26,7 @@ const ProfileHoverCard = ({ auth, signOut, setShowSetting }) => {
           <div className="aspect-square w-12 rounded-full">
             <img
               src={auth.currentUser?.providerData[0].photoURL}
+              alt=""
               className="h-full w-full rounded-full object-fill"
             />
           </div>

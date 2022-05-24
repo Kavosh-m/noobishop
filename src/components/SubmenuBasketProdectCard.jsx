@@ -15,7 +15,7 @@ const SubmenuBasketProdectCard = ({ data }) => {
         state={data}
         className="aspect-square basis-[30%] cursor-pointer"
       >
-        <img src={data.picurl} className="h-full w-full object-fill" />
+        <img src={data.picurl} alt="" className="h-full w-full object-fill" />
       </Link>
       <div className="flex basis-[50%] flex-col items-start space-y-2 pl-3">
         <Link

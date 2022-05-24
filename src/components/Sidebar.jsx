@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { ImPhone } from "react-icons/im";
 import { HiMail } from "react-icons/hi";
 import { GrFacebookOption } from "react-icons/gr";
@@ -19,7 +19,18 @@ const socials = [
 
 const Sidebar = () => {
   const [search, setSearch] = useState("");
-  const [links, setLinks] = useState([]);
+  const links = auth.currentUser
+    ? [
+        { routeName: "Home", path: "/" },
+        { routeName: "Wishlist", path: "/wish" },
+        { routeName: "Contact", path: "/contact" },
+        { routeName: "My account", path: "/profile" },
+      ]
+    : [
+        { routeName: "Home", path: "/" },
+        { routeName: "Wishlist", path: "/wish" },
+        { routeName: "Contact", path: "/contact" },
+      ];
 
   const navigate = useNavigate();
 
@@ -30,22 +41,22 @@ const Sidebar = () => {
     }
   };
 
-  useEffect(() => {
-    if (auth.currentUser) {
-      setLinks([
-        { routeName: "Home", path: "/" },
-        { routeName: "Wishlist", path: "/wish" },
-        { routeName: "Contact", path: "/contact" },
-        { routeName: "My account", path: "/profile" },
-      ]);
-    } else {
-      setLinks([
-        { routeName: "Home", path: "/" },
-        { routeName: "Wishlist", path: "/wish" },
-        { routeName: "Contact", path: "/contact" },
-      ]);
-    }
-  }, [auth.currentUser]);
+  // useEffect(() => {
+  //   if (auth.currentUser) {
+  //     setLinks([
+  //       { routeName: "Home", path: "/" },
+  //       { routeName: "Wishlist", path: "/wish" },
+  //       { routeName: "Contact", path: "/contact" },
+  //       { routeName: "My account", path: "/profile" },
+  //     ]);
+  //   } else {
+  //     setLinks([
+  //       { routeName: "Home", path: "/" },
+  //       { routeName: "Wishlist", path: "/wish" },
+  //       { routeName: "Contact", path: "/contact" },
+  //     ]);
+  //   }
+  // }, []);
 
   const activeClassName = `text-red-300`;
   const inactiveClassName = `hover:text-red-300 transition-colors duration-300 ease-in-out`;
