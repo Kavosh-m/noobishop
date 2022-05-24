@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useRef } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import ShopCard from "../components/shop/ShopCard";
-import LoadingIndicator from "../components/LoadingIndicator";
+// import LoadingIndicator from "../components/LoadingIndicator";
 import { CgLayoutGridSmall } from "react-icons/cg";
 import { CgLayoutList } from "react-icons/cg";
 import MenuItem from "@mui/material/MenuItem";
@@ -22,55 +22,30 @@ import Carousel from "react-material-ui-carousel";
 import { caroImages } from "../constants";
 import ScrollToTop from "../components/ScrollToTop";
 import { useNavigate } from "react-router-dom";
+import useAsyncFoodFetch from "../utils/useAsyncFoodFetch";
+import LottieWrapper from "../components/LottieWrapper";
+import lottieLoading from "../assets/lottie/94031-loading-animation-for-food-app.json";
+import lottieError from "../assets/lottie/82559-error.json";
 
 const ShopRoute = () => {
-  const burgers = useSelector((state) => state.food.burger);
-  const pizzas = useSelector((state) => state.food.pizza);
-  const pastas = useSelector((state) => state.food.pasta);
-  const drinks = useSelector((state) => state.food.drink);
-
+  // const burgers = useSelector((state) => state.food.burger);
+  // const pizzas = useSelector((state) => state.food.pizza);
+  // const pastas = useSelector((state) => state.food.pasta);
+  // const drinks = useSelector((state) => state.food.drink);
   const sidebarStatus = useSelector((state) => state.util.sidebar);
-
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
-  const [currentFood, setCurrentFood] = useState({
-    name: "burger",
-    data: burgers,
-  });
-
-  // Pagination initials
+  const [category, setCategory] = useState("burger");
+  const [sortType, setSortType] = useState("alpha");
+  const foods = useAsyncFoodFetch(category, sortType);
+  // const [foods, setFoods] = useState();
   const [pageNumber, setPageNumber] = useState(0);
+  const [gridLayout, setGridLayout] = useState({ grid: true, layout: false });
+  const [search, setSearch] = useState("");
   const numOfItemsPerPage = 9;
 
-  //////////////////////
-
-  const [tempFood, setTempFood] = useState(
-    currentFood.data?.slice(
-      pageNumber * numOfItemsPerPage,
-      pageNumber * numOfItemsPerPage + numOfItemsPerPage
-    )
-  );
-
-  useEffect(() => {
-    setTempFood(
-      switchSort(
-        sortType,
-        currentFood.data?.slice(
-          pageNumber * numOfItemsPerPage,
-          pageNumber * numOfItemsPerPage + numOfItemsPerPage
-        )
-      )
-    );
-  }, [pageNumber, currentFood.data]);
-
-  const [gridLayout, setGridLayout] = useState({ grid: true, layout: false });
-
-  const [sortType, setSortType] = useState("alphabetical");
-  const [search, setSearch] = useState("");
-
-  // const [showBackToTopButton, setShowBackToTopButton] = useState(false);
-
-  const navigate = useNavigate();
+  const sortBarRef = useRef();
 
   const handleSearch = (e) => {
     e.preventDefault();
@@ -79,38 +54,10 @@ const ShopRoute = () => {
     } else {
       document.getElementById("searchinput").focus();
     }
-
-    // if (search.length > 0) {
-    //   let allFoods = burgers.concat(pizzas, pastas, drinks);
-
-    //   let res = allFoods.filter((item) =>
-    //     item.name.toLowerCase().includes(search.toLowerCase())
-    //   );
-
-    //   setCurrentFood({ ...currentFood, data: res });
-    // } else {
-    //   setCurrentFood({ ...currentFood, data: burgers, name: "burger" });
-    // }
   };
 
   const handleChangeFilter = (event) => {
     setSortType(event.target.value);
-  };
-
-  const handleChangeCategory = () => {
-    if (currentFood.name === "burger") {
-      setCurrentFood({ ...currentFood, data: burgers });
-      // console.log("burger");
-    } else if (currentFood.name === "pizza") {
-      setCurrentFood({ ...currentFood, data: pizzas });
-      // console.log("pizza");
-    } else if (currentFood.name === "pasta") {
-      setCurrentFood({ ...currentFood, data: pastas });
-      // console.log("pasta");
-    } else {
-      setCurrentFood({ ...currentFood, data: drinks });
-      // console.log("drinks");
-    }
   };
 
   const onPageChange = ({ selected }) => {
@@ -121,91 +68,10 @@ const ShopRoute = () => {
     });
   };
 
-  useEffect(() => {
-    handleChangeCategory();
-    setPageNumber(0);
-    // numOfItemsVisited = 0;
-    // numOfPages = Math.ceil(currentFood.data?.length / numOfItemsPerPage);
-  }, [currentFood.name]);
-
-  // sort by name
-  const sort_by_product_name = (c) => {
-    const b = [...c];
-    b?.sort((a, b) => {
-      let x = a.name.toLowerCase();
-      let y = b.name.toLowerCase();
-      if (x < y) {
-        return -1;
-      }
-      if (x > y) {
-        return 1;
-      }
-      return 0;
-    });
-    return b;
-  };
-
-  // sort by price (low to high)
-  const sort_by_product_price_low_to_high = (c) => {
-    const b = [...c];
-    b?.sort((a, b) => a.price - b.price);
-    return b;
-  };
-
-  // sort by price (high to low)
-  const sort_by_product_price_high_to_low = (c) => {
-    const b = [...c];
-    b?.sort((a, b) => b.price - a.price);
-    return b;
-  };
-
-  // Sort switch case
-  const switchSort = (st, li) => {
-    switch (st) {
-      case "priceLowToHigh":
-        return sort_by_product_price_low_to_high(li);
-      case "priceHighToLow":
-        return sort_by_product_price_high_to_low(li);
-      default:
-        return sort_by_product_name(li);
-    }
-  };
-
-  useEffect(() => {
-    if (tempFood) {
-      if (sortType === "priceLowToHigh") {
-        setTempFood(sort_by_product_price_low_to_high(tempFood));
-      } else if (sortType === "priceHighToLow") {
-        setTempFood(sort_by_product_price_high_to_low(tempFood));
-      } else {
-        setTempFood(sort_by_product_name(tempFood));
-      }
-    }
-  }, [sortType]);
-
-  useEffect(() => {
-    dispatch(closeSidebar());
-  }, [dispatch]);
-
-  const mainView = useRef();
-  const sortBarRef = useRef();
-
-  // const [wheelUpTimes, setWheelUpTimes] = useState(0);
-  // const handleWheel = (e) => {
-  //   if (e.deltaY > 0) {
-  //     setShowBackToTopButton(false);
-  //   } else {
-  //     setShowBackToTopButton(true);
-  //     setWheelUpTimes((prevState) => prevState + 1);
-  //     // console.log(wheelUpTimes);
-  //   }
-  // };
-
   // Save user credentials in firestore
   const saveInFirestore = async () => {
     const saved = localStorage.getItem("userCredentials");
     const initialValue = JSON.parse(saved);
-    // console.log("USER credentials ====> ", initialValue);
 
     if (initialValue) {
       await setDoc(doc(db, "users", initialValue.uid), {
@@ -219,25 +85,24 @@ const ShopRoute = () => {
     }
   };
 
+  // useEffect(() => {
+  //   console.log("shop route ===> ", foods);
+  // }, [foods]);
+
+  useEffect(() => {
+    setPageNumber(0);
+  }, [category]);
+
+  useEffect(() => {
+    dispatch(closeSidebar());
+  }, [dispatch]);
+
   useEffect(() => {
     saveInFirestore();
-    // console.log("user object ====> ", auth.currentUser)
   }, []);
 
-  if (!currentFood.data) {
-    return (
-      <div className="relative flex h-screen w-screen flex-col items-center justify-center">
-        <p>Shop Route</p>
-        <LoadingIndicator />
-      </div>
-    );
-  }
-
   return (
-    <div
-      ref={mainView}
-      className="relative flex min-h-screen flex-col justify-between"
-    >
+    <div className="relative flex min-h-screen flex-col justify-between">
       {/* drawer */}
       <Drawer
         anchor="left"
@@ -270,9 +135,11 @@ const ShopRoute = () => {
               search={search}
               setSearch={setSearch}
               handleSearch={handleSearch}
-              currentFood={currentFood}
-              setCurrentFood={setCurrentFood}
-              recentProducts={burgers?.slice(0, 4)}
+              category={category}
+              setCategory={setCategory}
+              // currentFood={currentFood}
+              // setCurrentFood={setCurrentFood}
+              recentProducts={foods.res?.slice(0, 4)}
             />
 
             {/* container of layout-sort bar and foods */}
@@ -326,57 +193,83 @@ const ShopRoute = () => {
                   displayEmpty
                   inputProps={{ "aria-label": "Without label" }}
                 >
-                  <MenuItem value={"alphabetical"}>
-                    Alphabetically, A-Z
-                  </MenuItem>
-                  <MenuItem value={"priceLowToHigh"}>
+                  <MenuItem value={"alpha"}>Alphabetically, A-Z</MenuItem>
+                  <MenuItem value={"priceAsc"}>
                     Sort by price: low to high
                   </MenuItem>
-                  <MenuItem value={"priceHighToLow"}>
+                  <MenuItem value={"priceDesc"}>
                     Sort by price: high to low
                   </MenuItem>
                 </Select>
               </div>
 
               {/* products */}
-              {tempFood?.map((item) => (
-                <div
-                  key={item.id}
-                  className={`flex ${
-                    gridLayout.layout &&
-                    "col-span-1 sm:col-span-2 lg:col-span-3"
-                  } justify-center bg-gray-100`}
-                >
-                  <ShopCard
-                    showType={gridLayout.grid ? "grid" : "list"}
-                    data={item}
+              {foods.status === "successfull" ? (
+                foods.res
+                  ?.slice(
+                    pageNumber * numOfItemsPerPage,
+                    pageNumber * numOfItemsPerPage + numOfItemsPerPage
+                  )
+                  .map((item) => (
+                    <div
+                      key={item.id}
+                      className={`flex ${
+                        gridLayout.layout &&
+                        "col-span-1 sm:col-span-2 lg:col-span-3"
+                      } justify-center bg-gray-100`}
+                    >
+                      <ShopCard
+                        showType={gridLayout.grid ? "grid" : "list"}
+                        data={item}
+                      />
+                    </div>
+                  ))
+              ) : foods.status === "fetching" ? (
+                <div className="col-span-full">
+                  <LottieWrapper
+                    jsonData={lottieLoading}
+                    className="mx-auto w-1/2"
                   />
                 </div>
-              ))}
+              ) : (
+                <div className="col-span-full">
+                  <LottieWrapper
+                    jsonData={lottieError}
+                    className="mx-auto w-2/5"
+                  />
+                  <p className="font-poppins mt-2 text-center text-sm text-slate-500 sm:text-lg">
+                    Something went wrong!
+                  </p>
+                </div>
+              )}
 
-              <div className="col-span-1 flex items-center justify-between border-2 sm:col-span-2 lg:col-span-3">
-                <ReactPaginate
-                  previousLabel={<ArrowNarrowLeft />}
-                  previousClassName="px-4 text-gray-600"
-                  nextLabel={<ArrowNarrowRight />}
-                  nextClassName="px-4 text-gray-600"
-                  pageRangeDisplayed={1}
-                  marginPagesDisplayed={1}
-                  pageCount={Math.ceil(
-                    currentFood.data?.length / numOfItemsPerPage
-                  )}
-                  onPageChange={onPageChange}
-                  containerClassName="bg-white py-5 flex items-center"
-                  pageClassName="mx-1"
-                  breakClassName="mx-1"
-                  breakLabel={<FaEllipsisH />}
-                  activeLinkClassName="text-slate-50 bg-cyan-600 border-0 cursor-default"
-                  disabledClassName="text-gray-300"
-                  activeClassName=""
-                  disabledLinkClassName="text-gray-300 cursor-not-allowed"
-                  pageLinkClassName="w-8 border border-slate-300 aspect-square grid place-items-center bg-white rounded-full hover:text-white hover:bg-cyan-600 transition-colors duration-300 ease-in-out"
-                  forcePage={pageNumber}
-                />
+              <div
+                className={`${
+                  !foods.res && "hidden"
+                } col-span-1 flex items-center justify-between border-2 sm:col-span-2 lg:col-span-3`}
+              >
+                {foods.res && (
+                  <ReactPaginate
+                    previousLabel={<ArrowNarrowLeft />}
+                    previousClassName="px-4 text-gray-600"
+                    nextLabel={<ArrowNarrowRight />}
+                    nextClassName="px-4 text-gray-600"
+                    pageRangeDisplayed={1}
+                    marginPagesDisplayed={1}
+                    pageCount={Math.ceil(foods.res.length / numOfItemsPerPage)}
+                    onPageChange={onPageChange}
+                    containerClassName="bg-white py-5 flex items-center"
+                    pageClassName="mx-1"
+                    breakClassName="mx-1"
+                    breakLabel={<FaEllipsisH />}
+                    activeLinkClassName="text-slate-50 bg-cyan-600 border-0 cursor-default"
+                    disabledClassName="text-gray-300"
+                    activeClassName=""
+                    disabledLinkClassName="text-gray-300 cursor-not-allowed"
+                    pageLinkClassName="w-8 border border-slate-300 aspect-square grid place-items-center bg-white rounded-full hover:text-white hover:bg-cyan-600 transition-colors duration-300 ease-in-out"
+                    forcePage={pageNumber}
+                  />
+                )}
               </div>
             </div>
           </div>

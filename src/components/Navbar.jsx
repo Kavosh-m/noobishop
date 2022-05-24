@@ -1,4 +1,4 @@
-import React, { useLayoutEffect, useState, useRef, Fragment } from "react";
+import React, { useLayoutEffect, useState, Fragment } from "react";
 import { useNavigate, Link, NavLink } from "react-router-dom";
 import { logo } from "../constants/index";
 import { auth } from "../firebase";
@@ -9,7 +9,7 @@ import { openSidebar } from "../redux/app/slices/utilSlice";
 import { Transition, Dialog } from "@headlessui/react";
 import UserIcon from "./icons/UserIcon";
 import ProfileHoverCard from "./ProfileHoverCard";
-import { gsap } from "gsap";
+// import { gsap } from "gsap";
 import BasketHoverCard from "./BasketHoverCard";
 import Badge from "@mui/material/Badge";
 
@@ -58,17 +58,17 @@ const Navbar = () => {
       });
   };
 
-  const numberOfOrdersRef = useRef();
+  // const numberOfOrdersRef = useRef();
 
-  useLayoutEffect(() => {
-    if (orders?.length > 0) {
-      gsap.from(numberOfOrdersRef.current, {
-        duration: 0.5,
-        yPercent: -100,
-        opacity: 0,
-      });
-    }
-  }, [orders?.length]);
+  // useLayoutEffect(() => {
+  //   if (orders?.length > 0) {
+  //     gsap.from(numberOfOrdersRef.current, {
+  //       duration: 0.5,
+  //       yPercent: -100,
+  //       opacity: 0,
+  //     });
+  //   }
+  // }, [orders?.length]);
 
   return (
     <div

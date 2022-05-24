@@ -7,8 +7,8 @@ const ShopLeftSidebar = ({
   search,
   setSearch,
   handleSearch,
-  currentFood,
-  setCurrentFood,
+  category,
+  setCategory,
   recentProducts,
 }) => {
   return (
@@ -38,33 +38,33 @@ const ShopLeftSidebar = ({
       </div>
       <div className="font-poppins mt-3 flex flex-col items-start space-y-2 text-sm font-medium">
         <button
-          onClick={() => setCurrentFood({ ...currentFood, name: "burger" })}
+          onClick={() => setCategory("burger")}
           className={`py-1 ${
-            currentFood.name === "burger" ? "text-red-400" : "text-[#252525]"
+            category === "burger" ? "text-red-400" : "text-[#252525]"
           } transition duration-300 ease-in-out hover:text-red-400`}
         >
           Burger
         </button>
         <button
-          onClick={() => setCurrentFood({ ...currentFood, name: "pizza" })}
+          onClick={() => setCategory("pizza")}
           className={`py-1 ${
-            currentFood.name === "pizza" ? "text-red-400" : "text-[#252525]"
+            category === "pizza" ? "text-red-400" : "text-[#252525]"
           } transition duration-300 ease-in-out hover:text-red-400`}
         >
           Pizza
         </button>
         <button
-          onClick={() => setCurrentFood({ ...currentFood, name: "pasta" })}
+          onClick={() => setCategory("pasta")}
           className={`py-1 ${
-            currentFood.name === "pasta" ? "text-red-400" : "text-[#252525]"
+            category === "pasta" ? "text-red-400" : "text-[#252525]"
           } transition duration-300 ease-in-out hover:text-red-400`}
         >
           Pasta
         </button>
         <button
-          onClick={() => setCurrentFood({ ...currentFood, name: "drink" })}
+          onClick={() => setCategory("drink")}
           className={`py-1 ${
-            currentFood.name === "drink" ? "text-red-400" : "text-[#252525]"
+            category === "drink" ? "text-red-400" : "text-[#252525]"
           } transition duration-300 ease-in-out hover:text-red-400`}
         >
           Drink
