@@ -4,11 +4,11 @@ import { useSelector, useDispatch } from "react-redux";
 import { saveOrders } from "../redux/app/slices/cartSlice";
 import { removeItemFromWishlist } from "../redux/app/slices/wishSlice";
 import TrashIcon from "../components/icons/TrashIcon";
-import Drawer from "@mui/material/Drawer";
-import Sidebar from "../components/Sidebar";
+// import Drawer from "@mui/material/Drawer";
+// import Sidebar from "../components/Sidebar";
 import { closeSidebar } from "../redux/app/slices/utilSlice";
 import Footer from "../components/Footer";
-import Navbar from "../components/Navbar";
+// import Navbar from "../components/Navbar";
 import CustomAlert from "../components/CustomAlert";
 import ScrollToTop from "../components/ScrollToTop";
 import LottieWrapper from "../components/LottieWrapper";
@@ -18,7 +18,7 @@ const WishRoute = () => {
   const favorites = useSelector((state) => state.wish.wishlist);
   const dispatch = useDispatch();
 
-  const sidebarStatus = useSelector((state) => state.util.sidebar);
+  // const sidebarStatus = useSelector((state) => state.util.sidebar);
 
   useEffect(() => {
     dispatch(closeSidebar());
@@ -44,14 +44,14 @@ const WishRoute = () => {
       ref={mainView}
       className="relative flex min-h-screen flex-col justify-between"
     >
-      <Navbar />
+      {/* <Navbar />
       <Drawer
         anchor="left"
         open={sidebarStatus}
         onClose={() => dispatch(closeSidebar())}
       >
         <Sidebar />
-      </Drawer>
+      </Drawer> */}
       <div className="h-[375px] w-full bg-gray-300">
         <img
           src={shopHeader}

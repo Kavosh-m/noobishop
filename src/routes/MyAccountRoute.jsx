@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect, Fragment } from "react";
-import Navbar from "../components/Navbar";
+// import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import AccountDetails from "../components/AccountDetails";
 import { signOut } from "firebase/auth";
@@ -7,8 +7,8 @@ import { useNavigate } from "react-router-dom";
 import { auth, db } from "../firebase";
 import { gsap } from "gsap";
 import { useSelector, useDispatch } from "react-redux";
-import Sidebar from "../components/Sidebar";
-import Drawer from "@mui/material/Drawer";
+// import Sidebar from "../components/Sidebar";
+// import Drawer from "@mui/material/Drawer";
 import { closeSidebar } from "../redux/app/slices/utilSlice";
 import axios from "axios";
 import { Transition, Dialog } from "@headlessui/react";
@@ -16,6 +16,7 @@ import AddressDetails from "../components/AddressDetails";
 import { doc, getDoc, updateDoc } from "firebase/firestore";
 import OrdersDetails from "../components/OrdersDetails";
 import ScrollToTop from "../components/ScrollToTop";
+import { ImSpinner9 } from "react-icons/im";
 
 const MyAccountRoute = () => {
   const [address, setAddress] = useState("");
@@ -160,11 +161,11 @@ const MyAccountRoute = () => {
 
   const [lever, setLever] = useState(data[0].title);
   const [isLogOutDialogOpen, setIsLogOutDialogOpen] = useState(false);
-  // const [address, setAddress] = useState("");
+  const [logOutLoading, setLogOutLoading] = useState(false);
 
   const navigate = useNavigate();
 
-  const sidebarStatus = useSelector((state) => state.util.sidebar);
+  // const sidebarStatus = useSelector((state) => state.util.sidebar);
 
   const dispatch = useDispatch();
 
@@ -186,9 +187,15 @@ const MyAccountRoute = () => {
   };
 
   const handleSigningOut = () => {
+    setLogOutLoading(true);
     signOut(auth)
-      .then(() => navigate("/login"))
+      .then(() => {
+        setLogOutLoading(false);
+        setIsLogOutDialogOpen(false);
+        navigate("/login");
+      })
       .catch((err) => {
+        setLogOutLoading(false);
         // console.log(err)
       });
   };
@@ -245,14 +252,14 @@ const MyAccountRoute = () => {
       className="relative flex min-h-screen flex-col justify-between"
     >
       {/* drawer */}
-      <Drawer
+      {/* <Drawer
         anchor="left"
         open={sidebarStatus}
         onClose={() => dispatch(closeSidebar())}
       >
         <Sidebar />
       </Drawer>
-      <Navbar />
+      <Navbar /> */}
       <div className="my-20 flex flex-1 basis-auto justify-center bg-white">
         <div className="mdADetail:px-4 mx-auto grid w-full max-w-6xl grid-cols-12 gap-x-8 bg-white px-3 sm:px-20">
           {/* Item section */}
@@ -295,20 +302,24 @@ const MyAccountRoute = () => {
                   <p className="whitespace-nowrap text-base font-semibold sm:text-lg">
                     Are you sure, do you want to sign-out ?
                   </p>
-                  <div className="flex items-center justify-end space-x-8">
-                    <button
-                      onClick={() => setIsLogOutDialogOpen(false)}
-                      className="text-sm transition-colors duration-300 ease-in-out hover:text-red-400 sm:text-base"
-                    >
-                      No
-                    </button>
-                    <button
-                      onClick={handleSigningOut}
-                      className="text-sm transition-colors duration-300 ease-in-out hover:text-red-400 sm:text-base"
-                    >
-                      Yes
-                    </button>
-                  </div>
+                  {logOutLoading ? (
+                    <ImSpinner9 className="mx-auto animate-spin" size="2rem" />
+                  ) : (
+                    <div className="flex items-center justify-end space-x-8">
+                      <button
+                        onClick={() => setIsLogOutDialogOpen(false)}
+                        className="text-sm transition-colors duration-300 ease-in-out hover:text-red-400 sm:text-base"
+                      >
+                        No
+                      </button>
+                      <button
+                        onClick={handleSigningOut}
+                        className="text-sm transition-colors duration-300 ease-in-out hover:text-red-400 sm:text-base"
+                      >
+                        Yes
+                      </button>
+                    </div>
+                  )}
                 </div>
               </Transition.Child>
             </Dialog>

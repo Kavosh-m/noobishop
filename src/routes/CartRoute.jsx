@@ -5,11 +5,11 @@ import { changeNumberOfItem, removeItem } from "../redux/app/slices/cartSlice";
 import shopHeader from "../assets/images/banner3.jpg";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import Navbar from "../components/Navbar";
+// import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import Counter from "../components/Counter";
-import Sidebar from "../components/Sidebar";
-import Drawer from "@mui/material/Drawer";
+// import Sidebar from "../components/Sidebar";
+// import Drawer from "@mui/material/Drawer";
 import { closeSidebar } from "../redux/app/slices/utilSlice";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
 import ScrollToTop from "../components/ScrollToTop";
@@ -24,7 +24,7 @@ const CartRoute = () => {
 
   const [zarinPalLoading, setZarinPalLoading] = useState(false);
 
-  const sidebarStatus = useSelector((state) => state.util.sidebar);
+  // const sidebarStatus = useSelector((state) => state.util.sidebar);
 
   const totalNumberOfItems = () => {
     let t = orders.reduce((prev, cur) => prev + cur.count, 0);
@@ -116,14 +116,14 @@ const CartRoute = () => {
       className="relative flex min-h-screen flex-col justify-between"
     >
       {/* drawer */}
-      <Drawer
+      {/* <Drawer
         anchor="left"
         open={sidebarStatus}
         onClose={() => dispatch(closeSidebar())}
       >
         <Sidebar />
       </Drawer>
-      <Navbar />
+      <Navbar /> */}
       <div className="h-[375px] w-full bg-gray-300">
         <img
           src={shopHeader}

@@ -11,9 +11,9 @@ import { saveOrders } from "../redux/app/slices/cartSlice";
 import { saveToWishlist } from "../redux/app/slices/wishSlice";
 import shopHeader from "../assets/images/banner1.jpg";
 import Rating from "@mui/material/Rating";
-import Navbar from "../components/Navbar";
-import Sidebar from "../components/Sidebar";
-import Drawer from "@mui/material/Drawer";
+// import Navbar from "../components/Navbar";
+// import Sidebar from "../components/Sidebar";
+// import Drawer from "@mui/material/Drawer";
 import { closeSidebar } from "../redux/app/slices/utilSlice";
 import Footer from "../components/Footer";
 import CustomAlert from "../components/CustomAlert";
@@ -81,7 +81,7 @@ const ProductDetailsRoute = () => {
   const unselectedTabClass =
     "w-full h-full bg-slate-900 text-white outline-none focus:outline-none hover:bg-red-400 transition-colors duration-300 ease-in-out";
 
-  const sidebarStatus = useSelector((state) => state.util.sidebar);
+  // const sidebarStatus = useSelector((state) => state.util.sidebar);
   const orders = useSelector((state) => state.cart.ordered);
 
   const [unit, setUnit] = useState(() => {
@@ -342,7 +342,7 @@ const ProductDetailsRoute = () => {
       className="relative flex min-h-screen flex-col justify-between"
     >
       {/* drawer */}
-      <Drawer
+      {/* <Drawer
         anchor="left"
         open={sidebarStatus}
         onClose={() => dispatch(closeSidebar())}
@@ -350,7 +350,7 @@ const ProductDetailsRoute = () => {
         <Sidebar />
       </Drawer>
 
-      <Navbar />
+      <Navbar /> */}
 
       {/* Header image goes here */}
       <div className="h-[375px] w-full bg-gray-300">

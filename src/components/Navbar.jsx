@@ -12,6 +12,7 @@ import ProfileHoverCard from "./ProfileHoverCard";
 // import { gsap } from "gsap";
 import BasketHoverCard from "./BasketHoverCard";
 import Badge from "@mui/material/Badge";
+import { ImSpinner9 } from "react-icons/im";
 
 const Navbar = () => {
   const [scrollPosition, setPosition] = useState(0);
@@ -19,6 +20,7 @@ const Navbar = () => {
   const [show, setShow] = useState(false);
   const [showSetting, setShowSetting] = useState(false);
   const [isLogOutDialogOpen, setIsLogOutDialogOpen] = useState(false);
+  const [logOutLoading, setLogOutLoading] = useState(false);
   const navigate = useNavigate();
   const orders = useSelector((state) => state.cart.ordered);
 
@@ -51,9 +53,15 @@ const Navbar = () => {
   }, [scrollPosition]);
 
   const handleSignOut = () => {
+    setLogOutLoading(true);
     signOut(auth)
-      .then(() => navigate("/login"))
+      .then(() => {
+        setLogOutLoading(false);
+        setIsLogOutDialogOpen(false);
+        navigate("/login");
+      })
       .catch((err) => {
+        setLogOutLoading(false);
         // console.log(err)
       });
   };
@@ -230,20 +238,24 @@ const Navbar = () => {
               <p className="whitespace-nowrap text-base font-semibold sm:text-lg">
                 Are you sure, do you want to sign-out ?
               </p>
-              <div className="flex items-center justify-end space-x-8">
-                <button
-                  onClick={() => setIsLogOutDialogOpen(false)}
-                  className="text-sm transition-colors duration-300 ease-in-out hover:text-red-400 focus:outline-0 sm:text-base"
-                >
-                  No
-                </button>
-                <button
-                  onClick={handleSignOut}
-                  className="text-sm transition-colors duration-300 ease-in-out hover:text-red-400 sm:text-base"
-                >
-                  Yes
-                </button>
-              </div>
+              {logOutLoading ? (
+                <ImSpinner9 className="mx-auto animate-spin" size="2rem" />
+              ) : (
+                <div className="flex items-center justify-end space-x-8">
+                  <button
+                    onClick={() => setIsLogOutDialogOpen(false)}
+                    className="text-sm outline-none transition-colors duration-300 ease-in-out hover:text-red-400 sm:text-base"
+                  >
+                    No
+                  </button>
+                  <button
+                    onClick={handleSignOut}
+                    className="text-sm outline-none transition-colors duration-300 ease-in-out hover:text-red-400 sm:text-base"
+                  >
+                    Yes
+                  </button>
+                </div>
+              )}
             </div>
           </Transition.Child>
         </Dialog>

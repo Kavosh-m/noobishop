@@ -24,8 +24,13 @@ import MyAccountRoute from "./routes/MyAccountRoute";
 
 import LoadingIndicator from "./components/LoadingIndicator";
 import SearchRoute from "./routes/SearchRoute";
+import { Drawer } from "@mui/material";
+import { closeSidebar } from "./redux/app/slices/utilSlice";
+import Sidebar from "./components/Sidebar";
+import Navbar from "./components/Navbar";
 
 export default function App() {
+  const sidebarStatus = useSelector((state) => state.util.sidebar);
   const dispatch = useDispatch();
 
   const burgers = useSelector((state) => state.food.burger);
@@ -79,6 +84,16 @@ export default function App() {
   }
   return (
     <BrowserRouter>
+      <Drawer
+        anchor="left"
+        open={sidebarStatus}
+        onClose={() => dispatch(closeSidebar())}
+      >
+        <Sidebar />
+      </Drawer>
+
+      <Navbar />
+
       <Routes>
         <Route path="/" element={<ShopRoute />} />
         {!isLoggedIn && (

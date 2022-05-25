@@ -1,16 +1,16 @@
 import React, { useEffect, useState, useRef } from "react";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 import ShopCard from "../components/shop/ShopCard";
 // import LoadingIndicator from "../components/LoadingIndicator";
 import { CgLayoutGridSmall } from "react-icons/cg";
 import { CgLayoutList } from "react-icons/cg";
 import MenuItem from "@mui/material/MenuItem";
 import Select from "@mui/material/Select";
-import Navbar from "../components/Navbar";
+// import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import ShopLeftSidebar from "../components/ShopLeftSidebar";
-import Sidebar from "../components/Sidebar";
-import Drawer from "@mui/material/Drawer";
+// import Sidebar from "../components/Sidebar";
+// import Drawer from "@mui/material/Drawer";
 import { closeSidebar } from "../redux/app/slices/utilSlice";
 import ReactPaginate from "react-paginate";
 import ArrowNarrowLeft from "../components/icons/ArrowNarrowLeft";
@@ -32,7 +32,7 @@ const ShopRoute = () => {
   // const pizzas = useSelector((state) => state.food.pizza);
   // const pastas = useSelector((state) => state.food.pasta);
   // const drinks = useSelector((state) => state.food.drink);
-  const sidebarStatus = useSelector((state) => state.util.sidebar);
+  // const sidebarStatus = useSelector((state) => state.util.sidebar);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -104,7 +104,7 @@ const ShopRoute = () => {
   return (
     <div className="relative flex min-h-screen flex-col justify-between">
       {/* drawer */}
-      <Drawer
+      {/* <Drawer
         anchor="left"
         open={sidebarStatus}
         onClose={() => dispatch(closeSidebar())}
@@ -112,7 +112,7 @@ const ShopRoute = () => {
         <Sidebar />
       </Drawer>
 
-      <Navbar />
+      <Navbar /> */}
       <div className="flex-1 basis-auto bg-white">
         <div className="mx-auto flex w-full max-w-6xl flex-col">
           {/* Header image goes here */}

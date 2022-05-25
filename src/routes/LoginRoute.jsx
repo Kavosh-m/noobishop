@@ -178,7 +178,7 @@ export default function LoginRoute() {
   };
 
   return (
-    <div className="font-poppins relative flex min-h-screen w-screen items-center justify-center">
+    <div className="font-poppins relative flex min-h-screen items-center justify-center">
       {networkError && (
         <p className="fixed top-0 right-0 left-0 bg-red-400 py-3 text-center text-sm text-white">
           network request failed. check your connection!

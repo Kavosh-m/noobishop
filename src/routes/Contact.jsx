@@ -1,12 +1,12 @@
 import React, { useEffect, useRef } from "react";
 import Footer from "../components/Footer";
-import Navbar from "../components/Navbar";
+// import Navbar from "../components/Navbar";
 import mapboxgl from "mapbox-gl";
 import ContactCard from "../components/ContactCard";
-import Sidebar from "../components/Sidebar";
-import Drawer from "@mui/material/Drawer";
+// import Sidebar from "../components/Sidebar";
+// import Drawer from "@mui/material/Drawer";
 import { closeSidebar } from "../redux/app/slices/utilSlice";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import ScrollToTop from "../components/ScrollToTop";
 
 mapboxgl.accessToken = process.env.REACT_APP_MAPBOX_TOKEN;
@@ -86,7 +86,7 @@ const Contact = () => {
   const lat = 48.83;
   const zoom = 17;
 
-  const sidebarStatus = useSelector((state) => state.util.sidebar);
+  // const sidebarStatus = useSelector((state) => state.util.sidebar);
 
   const dispatch = useDispatch();
 
@@ -149,14 +149,14 @@ const Contact = () => {
       className="relative flex min-h-screen flex-col justify-between"
     >
       {/* drawer */}
-      <Drawer
+      {/* <Drawer
         anchor="left"
         open={sidebarStatus}
         onClose={() => dispatch(closeSidebar())}
       >
         <Sidebar />
       </Drawer>
-      <Navbar />
+      <Navbar /> */}
       <div className="flex flex-1 basis-auto justify-center bg-white">
         <div className="w-full max-w-6xl bg-white">
           {/* Three square */}

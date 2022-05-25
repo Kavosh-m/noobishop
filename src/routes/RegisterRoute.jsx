@@ -154,7 +154,7 @@ const RegisterRoute = () => {
   };
 
   return (
-    <div className="font-poppins relative grid min-h-screen w-screen place-items-center tracking-tight">
+    <div className="font-poppins relative grid min-h-screen place-items-center tracking-tight">
       {networkError && (
         <p className="fixed top-0 right-0 left-0 bg-red-400 py-3 text-center text-sm text-white">
           network request failed. check your connection!
