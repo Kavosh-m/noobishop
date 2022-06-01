@@ -11,7 +11,7 @@ const CustomAlert = ({ isOpen, alertType, onClose, message }) => {
     <Snackbar
       open={isOpen}
       anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
-      autoHideDuration={6000}
+      autoHideDuration={3000}
       onClose={onClose}
     >
       <Alert onClose={onClose} severity={alertType} sx={{ width: "100%" }}>

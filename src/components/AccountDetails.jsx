@@ -5,6 +5,7 @@ import { ImSpinner9 } from "react-icons/im";
 import { Snackbar } from "@mui/material";
 import MuiAlert from "@mui/material/Alert";
 import EditIcon from "./icons/EditIcon";
+import ProfilePicContainer from "./ProfilePicContainer";
 
 const Alert = React.forwardRef(function Alert(props, ref) {
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
@@ -84,6 +85,7 @@ const AccountDetails = () => {
   if (auth.currentUser?.providerData[0].providerId === "phone") {
     return (
       <div className="w-full">
+        <ProfilePicContainer />
         <div>
           <p className="py-2 text-slate-400">Full Name</p>
 
@@ -194,6 +196,7 @@ const AccountDetails = () => {
 
   return (
     <div className="w-full">
+      <ProfilePicContainer />
       <div>
         <p className="py-2 text-slate-400">Full Name</p>
         <p className="font-oswald text-lg">

@@ -5,7 +5,7 @@ import AccountDetails from "../components/AccountDetails";
 import { signOut } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
 import { auth, db } from "../firebase";
-import { gsap } from "gsap";
+// import { gsap } from "gsap";
 import { useSelector, useDispatch } from "react-redux";
 // import Sidebar from "../components/Sidebar";
 // import Drawer from "@mui/material/Drawer";
@@ -200,11 +200,11 @@ const MyAccountRoute = () => {
       });
   };
 
-  const contentRef = useRef(null);
+  // const contentRef = useRef(null);
 
-  useEffect(() => {
-    gsap.from(contentRef.current, { opacity: 0, duration: 0.6 });
-  }, [lever]);
+  // useEffect(() => {
+  //   gsap.from(contentRef.current, { opacity: 0, duration: 0.6 });
+  // }, [lever]);
 
   const mainView = useRef();
   // const [showBackToTopButton, setShowBackToTopButton] = useState(false);
@@ -327,7 +327,7 @@ const MyAccountRoute = () => {
 
           {/* Content section */}
           <div
-            ref={contentRef}
+            // ref={contentRef}
             className="mdADetail:mt-0 mdADetail:col-span-9 col-span-full mt-8 border p-6"
           >
             <p className="font-oswald border-b pb-2 text-xl font-bold capitalize">
