@@ -1,10 +1,7 @@
 import React, { useEffect, useRef } from "react";
 import Footer from "../components/Footer";
-// import Navbar from "../components/Navbar";
 import mapboxgl from "mapbox-gl";
 import ContactCard from "../components/ContactCard";
-// import Sidebar from "../components/Sidebar";
-// import Drawer from "@mui/material/Drawer";
 import { closeSidebar } from "../redux/app/slices/utilSlice";
 import { useDispatch } from "react-redux";
 import ScrollToTop from "../components/ScrollToTop";
@@ -131,32 +128,12 @@ const Contact = () => {
   });
 
   const mainView = useRef();
-  // const [showBackToTopButton, setShowBackToTopButton] = useState(false);
-  // const [wheelUpTimes, setWheelUpTimes] = useState(0);
-  // const handleWheel = (e) => {
-  //   if (e.deltaY > 0) {
-  //     setShowBackToTopButton(false);
-  //   } else {
-  //     setShowBackToTopButton(true);
-  //     setWheelUpTimes((prevState) => prevState + 1)
-  //     // console.log(wheelUpTimes);
-  //   }
-  // };
 
   return (
     <div
       ref={mainView}
       className="relative flex min-h-screen flex-col justify-between"
     >
-      {/* drawer */}
-      {/* <Drawer
-        anchor="left"
-        open={sidebarStatus}
-        onClose={() => dispatch(closeSidebar())}
-      >
-        <Sidebar />
-      </Drawer>
-      <Navbar /> */}
       <div className="flex flex-1 basis-auto justify-center bg-white">
         <div className="w-full max-w-6xl bg-white">
           {/* Three square */}

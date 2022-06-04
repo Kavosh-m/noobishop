@@ -1,7 +1,16 @@
 import React, { forwardRef, useEffect, useState } from "react";
-import { auth, db } from "../firebase";
-import { RecaptchaVerifier, signInWithPhoneNumber } from "firebase/auth";
-import { collection, query, where, getDocs } from "firebase/firestore";
+import {
+  auth,
+  db,
+  collection,
+  query,
+  where,
+  getDocs,
+  RecaptchaVerifier,
+  signInWithPhoneNumber,
+} from "../firebase";
+// import { RecaptchaVerifier, signInWithPhoneNumber } from "firebase/auth";
+// import { collection, query, where, getDocs } from "firebase/firestore";
 import { useNavigate } from "react-router-dom";
 import registerBg from "../assets/images/foodRegister.jpg";
 import { ImSpinner9 } from "react-icons/im";

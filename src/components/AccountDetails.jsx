@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { doc, updateDoc, getDoc } from "firebase/firestore";
-import { db, auth } from "../firebase";
+// import { doc, updateDoc, getDoc } from "firebase/firestore";
+import { db, auth, doc, updateDoc, getDoc } from "../firebase";
 import { ImSpinner9 } from "react-icons/im";
 import { Snackbar } from "@mui/material";
 import MuiAlert from "@mui/material/Alert";

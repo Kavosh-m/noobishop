@@ -1,12 +1,23 @@
 import React, { forwardRef, useEffect, useState } from "react";
-import { auth, db } from "../firebase";
-import { collection, query, where, getDocs } from "firebase/firestore";
 import {
+  auth,
+  db,
+  collection,
+  query,
+  where,
+  getDocs,
   RecaptchaVerifier,
   signInWithPhoneNumber,
   GoogleAuthProvider,
   signInWithPopup,
-} from "firebase/auth";
+} from "../firebase";
+// import { collection, query, where, getDocs } from "firebase/firestore";
+// import {
+//   RecaptchaVerifier,
+//   signInWithPhoneNumber,
+//   GoogleAuthProvider,
+//   signInWithPopup,
+// } from "firebase/auth";
 import { Link, useNavigate } from "react-router-dom";
 import loginBg from "../assets/images/food.jpg";
 import { ImSpinner9 } from "react-icons/im";

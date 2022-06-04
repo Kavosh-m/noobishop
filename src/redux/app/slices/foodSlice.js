@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { db } from "../../../firebase";
-import { collection, getDocs } from "firebase/firestore";
+import { db, collection, getDocs } from "../../../firebase";
+// import { collection, getDocs } from "firebase/firestore";
 
 const initialState = {
   burger: null,

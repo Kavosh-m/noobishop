@@ -11,9 +11,6 @@ import { saveOrders } from "../redux/app/slices/cartSlice";
 import { saveToWishlist } from "../redux/app/slices/wishSlice";
 import shopHeader from "../assets/images/banner1.jpg";
 import Rating from "@mui/material/Rating";
-// import Navbar from "../components/Navbar";
-// import Sidebar from "../components/Sidebar";
-// import Drawer from "@mui/material/Drawer";
 import { closeSidebar } from "../redux/app/slices/utilSlice";
 import Footer from "../components/Footer";
 import CustomAlert from "../components/CustomAlert";
@@ -25,18 +22,30 @@ import creditCards from "../assets/images/img-payment.png";
 import { Tab } from "@headlessui/react";
 import ShippingPolicy from "../components/ShippingPolicy";
 import ReviewsDetails from "../components/ReviewsDetails";
+// import {
+//   doc,
+//   setDoc,
+//   getDoc,
+//   getDocs,
+//   Timestamp,
+//   collection,
+//   addDoc,
+//   query,
+//   orderBy,
+// } from "firebase/firestore";
 import {
+  auth,
+  db,
   doc,
   setDoc,
   getDoc,
   getDocs,
-  Timestamp,
   collection,
+  Timestamp,
   addDoc,
   query,
   orderBy,
-} from "firebase/firestore";
-import { auth, db } from "../firebase";
+} from "../firebase";
 import ShopCard from "../components/shop/ShopCard";
 import LoadingIndicator from "../components/LoadingIndicator";
 import ScrollToTop from "../components/ScrollToTop";

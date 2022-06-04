@@ -1,7 +1,8 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, Suspense, lazy } from "react";
 import { auth, db } from "./firebase";
-import { onAuthStateChanged } from "firebase/auth";
-import { doc, getDoc, setDoc } from "firebase/firestore";
+// import { onAuthStateChanged } from "firebase/auth";
+import { onAuthStateChanged, doc, getDoc, setDoc } from "./firebase";
+// import { doc, getDoc, setDoc } from "firebase/firestore";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 import { useDispatch, useSelector } from "react-redux";
@@ -12,22 +13,33 @@ import {
   fetchDrinks,
 } from "./redux/app/slices/foodSlice";
 
-import LoginRoute from "./routes/LoginRoute";
-import RegisterRoute from "./routes/RegisterRoute";
-import ShopRoute from "./routes/ShopRoute";
-import ProductDetailsRoute from "./routes/ProductDetailsRoute";
-import CartRoute from "./routes/CartRoute";
-import Contact from "./routes/Contact";
-import WishRoute from "./routes/WishRoute";
-import NotFoundRoute from "./routes/NotFoundRoute";
-import MyAccountRoute from "./routes/MyAccountRoute";
+// import LoginRoute from "./routes/LoginRoute";
+// import RegisterRoute from "./routes/RegisterRoute";
+// import ShopRoute from "./routes/ShopRoute";
+// import ProductDetailsRoute from "./routes/ProductDetailsRoute";
+// import CartRoute from "./routes/CartRoute";
+// import Contact from "./routes/Contact";
+// import WishRoute from "./routes/WishRoute";
+// import SearchRoute from "./routes/SearchRoute";
+// import NotFoundRoute from "./routes/NotFoundRoute";
+// import MyAccountRoute from "./routes/MyAccountRoute";
 
 import LoadingIndicator from "./components/LoadingIndicator";
-import SearchRoute from "./routes/SearchRoute";
 import { Drawer } from "@mui/material";
 import { closeSidebar } from "./redux/app/slices/utilSlice";
 import Sidebar from "./components/Sidebar";
 import Navbar from "./components/Navbar";
+
+const LoginRoute = lazy(() => import("./routes/LoginRoute"));
+const RegisterRoute = lazy(() => import("./routes/RegisterRoute"));
+const ShopRoute = lazy(() => import("./routes/ShopRoute"));
+const ProductDetailsRoute = lazy(() => import("./routes/ProductDetailsRoute"));
+const CartRoute = lazy(() => import("./routes/CartRoute"));
+const Contact = lazy(() => import("./routes/Contact"));
+const WishRoute = lazy(() => import("./routes/WishRoute"));
+const SearchRoute = lazy(() => import("./routes/SearchRoute"));
+const NotFoundRoute = lazy(() => import("./routes/NotFoundRoute"));
+const MyAccountRoute = lazy(() => import("./routes/MyAccountRoute"));
 
 export default function App() {
   const sidebarStatus = useSelector((state) => state.util.sidebar);
@@ -94,22 +106,30 @@ export default function App() {
 
       <Navbar />
 
-      <Routes>
-        <Route path="/" element={<ShopRoute />} />
-        {!isLoggedIn && (
-          <>
-            <Route path="/login" element={<LoginRoute />} />
-            <Route path="/register" element={<RegisterRoute />} />
-          </>
-        )}
-        <Route path="/contact" element={<Contact />} />
-        <Route path="/products/:id" element={<ProductDetailsRoute />} />
-        <Route path="/search/:q" element={<SearchRoute />} />
-        <Route path="/cart" element={<CartRoute />} />
-        <Route path="/wish" element={<WishRoute />} />
-        {isLoggedIn && <Route path="/profile" element={<MyAccountRoute />} />}
-        <Route path="*" element={<NotFoundRoute />} />
-      </Routes>
+      <Suspense
+        fallback={
+          <div className="relative grid min-h-screen place-items-center">
+            <LoadingIndicator />
+          </div>
+        }
+      >
+        <Routes>
+          <Route path="/" element={<ShopRoute />} />
+          {!isLoggedIn && (
+            <>
+              <Route path="/login" element={<LoginRoute />} />
+              <Route path="/register" element={<RegisterRoute />} />
+            </>
+          )}
+          <Route path="/contact" element={<Contact />} />
+          <Route path="/products/:id" element={<ProductDetailsRoute />} />
+          <Route path="/search/:q" element={<SearchRoute />} />
+          <Route path="/cart" element={<CartRoute />} />
+          <Route path="/wish" element={<WishRoute />} />
+          {isLoggedIn && <Route path="/profile" element={<MyAccountRoute />} />}
+          <Route path="*" element={<NotFoundRoute />} />
+        </Routes>
+      </Suspense>
     </BrowserRouter>
   );
 }

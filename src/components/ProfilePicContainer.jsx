@@ -1,9 +1,16 @@
 import React, { useEffect, useState } from "react";
-import { auth, storage } from "../firebase";
+import {
+  auth,
+  storage,
+  updateProfile,
+  ref,
+  getDownloadURL,
+  uploadBytesResumable,
+} from "../firebase";
 import CameraIcon from "./icons/CameraIcon";
 import ImagePlaceholder from "./icons/ImagePlaceholder";
-import { ref, getDownloadURL, uploadBytesResumable } from "firebase/storage";
-import { updateProfile } from "firebase/auth";
+// import { ref, getDownloadURL, uploadBytesResumable } from "firebase/storage";
+// import { updateProfile } from "firebase/auth";
 import { Backdrop } from "@mui/material";
 import UploadImageDialog from "./UploadImageDialog";
 import CustomAlert from "./CustomAlert";

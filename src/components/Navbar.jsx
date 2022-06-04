@@ -1,15 +1,14 @@
 import React, { useLayoutEffect, useState, Fragment } from "react";
 import { useNavigate, Link, NavLink } from "react-router-dom";
 import { logo } from "../constants/index";
-import { auth } from "../firebase";
-import { signOut } from "firebase/auth";
+import { auth, signOut } from "../firebase";
+// import { signOut } from "firebase/auth";
 import BasketIcon from "./icons/BasketIcon";
 import { useSelector, useDispatch } from "react-redux";
 import { openSidebar } from "../redux/app/slices/utilSlice";
 import { Transition, Dialog } from "@headlessui/react";
 import UserIcon from "./icons/UserIcon";
 import ProfileHoverCard from "./ProfileHoverCard";
-// import { gsap } from "gsap";
 import BasketHoverCard from "./BasketHoverCard";
 import Badge from "@mui/material/Badge";
 import { ImSpinner9 } from "react-icons/im";

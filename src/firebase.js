@@ -1,7 +1,35 @@
 import { initializeApp } from "firebase/app";
-import { getAuth } from "firebase/auth";
-import { getFirestore } from "firebase/firestore";
-import { getStorage } from "firebase/storage";
+import {
+  getAuth,
+  onAuthStateChanged,
+  RecaptchaVerifier,
+  signInWithPhoneNumber,
+  signOut,
+  GoogleAuthProvider,
+  signInWithPopup,
+  updateProfile,
+} from "firebase/auth";
+import {
+  getFirestore,
+  doc,
+  getDoc,
+  setDoc,
+  collection,
+  collectionGroup,
+  getDocs,
+  orderBy,
+  where,
+  query,
+  Timestamp,
+  addDoc,
+  updateDoc,
+} from "firebase/firestore/lite";
+import {
+  getStorage,
+  ref,
+  getDownloadURL,
+  uploadBytesResumable,
+} from "firebase/storage";
 
 const firebaseConfig = {
   apiKey: process.env.REACT_APP_API_KEY,
@@ -18,4 +46,28 @@ const app = initializeApp(firebaseConfig);
 export const auth = getAuth(app);
 export const db = getFirestore(app);
 export const storage = getStorage(app);
+export {
+  onAuthStateChanged,
+  doc,
+  getDoc,
+  setDoc,
+  addDoc,
+  collection,
+  collectionGroup,
+  getDocs,
+  orderBy,
+  where,
+  query,
+  RecaptchaVerifier,
+  GoogleAuthProvider,
+  Timestamp,
+  signInWithPhoneNumber,
+  signOut,
+  updateDoc,
+  signInWithPopup,
+  updateProfile,
+  ref,
+  getDownloadURL,
+  uploadBytesResumable,
+};
 export default app;

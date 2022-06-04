@@ -1,11 +1,11 @@
 import React, { useState, useEffect, useRef, useCallback } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { collectionGroup, getDocs, orderBy, query } from "firebase/firestore";
+// import { collectionGroup, getDocs, orderBy, query } from "firebase/firestore";
 import MenuItem from "@mui/material/MenuItem";
 import Backdrop from "@mui/material/Backdrop";
 import Select from "@mui/material/Select";
 import ShopCard from "../components/shop/ShopCard";
-import { db } from "../firebase";
+import { db, collectionGroup, getDocs, orderBy, query } from "../firebase";
 import ArrowNarrowLeft from "../components/icons/ArrowNarrowLeft";
 import ArrowNarrowRight from "../components/icons/ArrowNarrowRight";
 import { FaEllipsisH } from "react-icons/fa";

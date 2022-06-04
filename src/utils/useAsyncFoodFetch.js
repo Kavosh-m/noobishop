@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from "react";
-import { getDocs, query, orderBy, collectionGroup } from "firebase/firestore";
-import { db } from "../firebase";
+// import { getDocs, query, orderBy, collectionGroup } from "firebase/firestore";
+import { db, getDocs, query, orderBy, collectionGroup } from "../firebase";
 
 /*
 status ==> fetching/successfull/error
